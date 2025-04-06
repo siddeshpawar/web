@@ -59,3 +59,19 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         });
     });
 });
+
+// CV Download Error Handling
+document.querySelector('.download-btn').addEventListener('click', function(e) {
+    // Check if file exists
+    fetch(this.href)
+        .then(response => {
+            if (!response.ok) {
+                e.preventDefault();
+                alert('CV download is currently unavailable. Please contact me directly at siddeshvilaspawar@gmail.com for a copy.');
+            }
+        })
+        .catch(error => {
+            e.preventDefault();
+            alert('Download error: ' + error.message);
+        });
+});
