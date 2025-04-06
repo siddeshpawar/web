@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siddesh Pawar | CV</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .cv-container {
+            padding: 2rem;
+            background: white;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+            margin: 2rem auto;
+            max-width: 1000px;
+        }
+        
+        .cv-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        .cv-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-info {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .section-title {
+            color: var(--secondary-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+            margin: 2rem 0 1rem;
+        }
+        
+        .job-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.3rem;
+        }
+        
+        .company {
+            font-weight: normal;
+            color: var(--text-color);
+        }
+        
+        .date {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+        
+        .download-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        @media print {
+            header, footer {
+                display: none;
+            }
+            
+            .cv-container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">SP</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cv.html" class="active">CV</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="cv-container">
+            <div class="cv-header">
+                <h1>SIDDESH VILAS PAWAR</h1>
+                <div class="contact-info">
+                    +44 7554539805 | <a href="mailto:siddeshvilaspawar@gmail.com">siddeshvilaspawar@gmail.com</a> | CC L2/ROOM2, University of Surrey, Guildford, GU2 7JH
+                </div>
+                <a href="SiddeshVilasPawarCV_2025.pdf" class="download-btn" download>
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+            </div>
+            
+            <section>
+                <h2 class="section-title">Profile</h2>
+                <p>Dedicated and experienced Cyber Security and Network Engineer with over six plus years of expertise in network security operations and management. Skilled in deploying, managing, and troubleshooting various network and security technologies, working on post-quantum cryptographic algorithms approved by NIST. Proven track record of enhancing network performance and securing enterprise environments.</p>
+            </section>
+            
+            <!-- Include all your CV sections here following the same pattern -->
+            <!-- Education, Work Experience, Projects, Skills, etc. -->
+            
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Siddesh Vilas Pawar</h3>
+                    <p>Cyber Security and Network Engineering Specialist</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="cv.html">CV</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="mailto:siddeshvilaspawar@gmail.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Siddesh Vilas Pawar. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
