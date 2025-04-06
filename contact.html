@@ -58,6 +58,13 @@
             border-radius: 4px;
             font-family: inherit;
             font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
         }
         
         textarea {
@@ -68,6 +75,30 @@
         .submit-btn {
             grid-column: span 2;
             justify-self: center;
+        }
+        
+        .form-success {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .form-error {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            text-align: center;
+        }
+        
+        .hidden {
+            display: none;
         }
         
         @media (max-width: 768px) {
@@ -107,40 +138,60 @@
                 <p><i class="fas fa-envelope"></i> siddeshvilaspawar@gmail.com</p>
             </div>
             
-            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <div id="form-success" class="form-success">
+                <i class="fas fa-check-circle"></i> Thank you! Your message has been sent. I'll get back to you soon.
+            </div>
+            
+            <div id="form-error" class="form-error">
+                <i class="fas fa-exclamation-circle"></i> There was an error sending your message. Please try again or email me directly.
+            </div>
+            
+            <form id="contact-form" class="contact-form" action="https://formsubmit.co/siddeshvilaspawar@gmail.com" method="POST">
+                <!-- FormSubmit Configuration -->
+                <input type="hidden" name="_subject" value="New Contact Form Submission">
+                <input type="hidden" name="_next" value="https://yourusername.github.io/thank-you.html">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="text" name="_honey" style="display:none">
+                
                 <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required>
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required minlength="2">
                 </div>
                 
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">Email *</label>
                     <input type="email" id="email" name="email" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="phone">Mobile Number</label>
-                    <input type="tel" id="phone" name="phone" required>
+                    <label for="phone">Mobile Number *</label>
+                    <input type="tel" id="phone" name="phone" required pattern="[0-9]{10,15}">
+                    <small class="hint">Format: 07554539805 or +447554539805</small>
                 </div>
                 
                 <div class="form-group">
-                    <label for="country">Country</label>
+                    <label for="country">Country *</label>
                     <select id="country" name="country" required>
                         <option value="">Select Country</option>
                         <option value="UK">United Kingdom</option>
                         <option value="IN">India</option>
                         <option value="US">United States</option>
-                        <!-- Add more countries as needed -->
+                        <option value="CA">Canada</option>
+                        <option value="AU">Australia</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
                 
                 <div class="form-group full-width">
-                    <label for="query">Your Query</label>
-                    <textarea id="query" name="query" required></textarea>
+                    <label for="query">Your Query *</label>
+                    <textarea id="query" name="query" required minlength="10"></textarea>
                 </div>
                 
                 <div class="form-group full-width submit-btn">
-                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span id="submit-text">Send Message</span>
+                        <span id="submit-spinner" class="hidden"><i class="fas fa-spinner fa-spin"></i> Sending...</span>
+                    </button>
                 </div>
             </form>
         </div>
@@ -179,5 +230,62 @@
     </footer>
 
     <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contact-form');
+            const successMessage = document.getElementById('form-success');
+            const errorMessage = document.getElementById('form-error');
+            const submitText = document.getElementById('submit-text');
+            const submitSpinner = document.getElementById('submit-spinner');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                submitText.classList.add('hidden');
+                submitSpinner.classList.remove('hidden');
+                
+                // Hide any previous messages
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                // Submit form via FormSubmit
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Show success message
+                        successMessage.style.display = 'block';
+                        form.reset();
+                        
+                        // Scroll to success message
+                        successMessage.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        throw new Error('Form submission failed');
+                    }
+                })
+                .catch(error => {
+                    // Show error message
+                    errorMessage.style.display = 'block';
+                    errorMessage.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Also try mailto fallback
+                    const formData = new FormData(form);
+                    const mailtoBody = `Name: ${formData.get('name')}%0D%0AEmail: ${formData.get('email')}%0D%0APhone: ${formData.get('phone')}%0D%0ACountry: ${formData.get('country')}%0D%0AQuery: ${formData.get('query')}`;
+                    window.location.href = `mailto:siddeshvilaspawar@gmail.com?subject=Contact Form Submission&body=${mailtoBody}`;
+                })
+                .finally(() => {
+                    // Reset button state
+                    submitText.classList.remove('hidden');
+                    submitSpinner.classList.add('hidden');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
