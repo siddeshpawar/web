@@ -255,47 +255,46 @@
                     name: form.name.value,
                     email: form.email.value,
                     phone: form.phone.value,
-                    country: form.country.value,
+                    country: form.country.options[form.country.selectedIndex].text,
                     query: form.query.value
                 };
                 
-                // Simple client-side validation
-                if (!formData.name || !formData.email || !formData.phone || !formData.country || !formData.query) {
-                    showError();
-                    return;
-                }
+                // Format the email body with proper line breaks
+                const formatEmailBody = (data) => {
+                    return `Name: ${data.name}
+Email: ${data.email}
+Phone: ${data.phone}
+Country: ${data.country}
+
+Message:
+${data.query}`;
+                };
                 
-                // Simulate form submission (since we can't do server-side on GitHub Pages)
-                setTimeout(() => {
-                    // In a real implementation, this would be a fetch() to your backend
-                    // For GitHub Pages, we'll just show success and create a mailto link
-                    showSuccess();
+                const emailBody = formatEmailBody(formData);
+                const subject = 'Contact Form Submission from ' + formData.name;
+                const mailtoLink = `mailto:siddeshvilaspawar@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+                
+                // Try to send
+                try {
+                    // Open email client
+                    window.location.href = mailtoLink;
                     
-                    // Create mailto link as fallback
-                    const subject = `Contact Form Submission from ${formData.name}`;
-                    const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0APhone: ${formData.phone}%0D%0ACountry: ${formData.country}%0D%0A%0D%0AMessage:%0D%0A${formData.query}`;
-                    
-                    // Open mail client
-                    window.location.href = `mailto:siddeshvilaspawar@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                    
-                    // Reset form
+                    // Show success message
+                    successMessage.style.display = 'block';
                     form.reset();
-                }, 1500);
+                    
+                    // Scroll to success message
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                } catch (error) {
+                    // Show error message
+                    errorMessage.style.display = 'block';
+                    errorMessage.scrollIntoView({ behavior: 'smooth' });
+                } finally {
+                    // Reset button state
+                    submitText.classList.remove('hidden');
+                    submitSpinner.classList.add('hidden');
+                }
             });
-            
-            function showSuccess() {
-                successMessage.style.display = 'block';
-                submitText.classList.remove('hidden');
-                submitSpinner.classList.add('hidden');
-                successMessage.scrollIntoView({ behavior: 'smooth' });
-            }
-            
-            function showError() {
-                errorMessage.style.display = 'block';
-                submitText.classList.remove('hidden');
-                submitSpinner.classList.add('hidden');
-                errorMessage.scrollIntoView({ behavior: 'smooth' });
-            }
         });
     </script>
 </body>
