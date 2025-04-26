@@ -14,24 +14,51 @@
             background: white;
             box-shadow: var(--shadow);
             border-radius: 8px;
-            text-align: center;
         }
         
-        .protected-content {
-            background-color: #f8f9fa;
-            padding: 2rem;
+        .project-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
             border-radius: 8px;
-            margin: 2rem 0;
-            border-left: 4px solid var(--secondary-color);
-        }
-        
-        .protected-content h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .protected-content p {
             margin-bottom: 1.5rem;
+            border-left: 4px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .project-title {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .project-description {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-tech {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .project-tech span {
+            background: #e9ecef;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+        
+        .section-title {
+            color: var(--secondary-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+            margin: 2rem 0 1rem;
         }
     </style>
 </head>
@@ -66,9 +93,64 @@
             </div>
             
             <div class="public-projects">
-                <h3>Publicly Shareable Work</h3>
+                <h3 class="section-title">Publicly Shareable Work</h3>
                 <p>Here are some of my projects that I can share publicly:</p>
-                <!-- Add your public projects here when available -->
+                
+                <!-- Project 1 -->
+                <div class="project-card">
+                    <div class="project-title">AES Encryption Process</div>
+                    <div class="project-description">
+                        Implemented a secure file encryption system using Advanced Encryption Standard (AES) with 256-bit keys. The system includes key generation, encryption, and decryption modules with proper padding and initialization vectors.
+                    </div>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Cryptography</span>
+                        <span>AES-256</span>
+                        <span>PyCryptodome</span>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div class="project-title">Network Automation Scripts</div>
+                    <div class="project-description">
+                        Developed Python scripts using Netmiko and NAPALM for automating network device configurations across multiple vendors including Cisco, Juniper, and Aruba devices.
+                    </div>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Netmiko</span>
+                        <span>NAPALM</span>
+                        <span>Network Automation</span>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div class="project-title">SNMP Network Monitor</div>
+                    <div class="project-description">
+                        Created a Python-based monitoring tool that uses SNMP to collect network device statistics and sends alerts when thresholds are exceeded. Includes a web dashboard for visualization.
+                    </div>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>SNMP</span>
+                        <span>Flask</span>
+                        <span>Network Monitoring</span>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="project-card">
+                    <div class="project-title">Quantum Cryptography Exploration</div>
+                    <div class="project-description">
+                        Research project exploring post-quantum cryptographic algorithms using Qiskit SDK. Implemented and tested various quantum-resistant algorithms approved by NIST.
+                    </div>
+                    <div class="project-tech">
+                        <span>Qiskit</span>
+                        <span>Quantum Computing</span>
+                        <span>Python</span>
+                        <span>Cryptography</span>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
