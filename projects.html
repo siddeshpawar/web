@@ -60,6 +60,21 @@
             padding-bottom: 0.5rem;
             margin: 2rem 0 1rem;
         }
+        
+        .project-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn-details {
+            background-color: #17a2b8;
+            color: white;
+        }
+        
+        .btn-details:hover {
+            background-color: #138496;
+        }
     </style>
 </head>
 <body>
@@ -96,25 +111,45 @@
                 <h3 class="section-title">Publicly Shareable Work</h3>
                 <p>Here are some of my projects that I can share publicly:</p>
                 
-                <!-- Project 1 -->
-				<div class="project-card">
-					<div class="project-title">AES Encryption Process</div>
-					<div class="project-description">
-						Implemented a secure file encryption system using Advanced Encryption Standard (AES) with 256-bit keys. The system includes key generation, encryption, and decryption modules with proper padding and initialization vectors.
-					</div>
-					<div class="project-tech">
-						<span>Python</span>
-						<span>Cryptography</span>
-						<span>AES-256</span>
-						<span>PyCryptodome</span>
-					</div>
-					<a href="aes-simulation.html" class="btn btn-secondary" style="margin-top: 1rem;">
-					<i class="fas fa-laptop-code"></i> Try Simulation
-					</a>
-				</div>
-
+                <!-- AES Encryption Project -->
+                <div class="project-card">
+                    <div class="project-title">AES Encryption Process</div>
+                    <div class="project-description">
+                        Implemented a secure file encryption system using Advanced Encryption Standard (AES) with 256-bit keys. The system includes key generation, encryption, and decryption modules with proper padding and initialization vectors.
+                    </div>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Cryptography</span>
+                        <span>AES-256</span>
+                        <span>PyCryptodome</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="aes-simulation.html" class="btn btn-secondary">
+                            <i class="fas fa-laptop-code"></i> Try Simulation
+                        </a>
+                    </div>
+                </div>
                 
-                <!-- Project 2 -->
+                <!-- UDP Server Project -->
+                <div class="project-card">
+                    <div class="project-title">UDP Server for Network Monitoring</div>
+                    <div class="project-description">
+                        A Python-based UDP server designed for network traffic monitoring and analysis. This lightweight server can be used for wiretapping exercises, network debugging, and cybersecurity training.
+                    </div>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>Socket Programming</span>
+                        <span>Network Monitoring</span>
+                        <span>UDP Protocol</span>
+                    </div>
+                    <div class="project-actions">
+                        <a href="udp-server-code.html" class="btn btn-details">
+                            <i class="fas fa-info-circle"></i> Get Details
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Network Automation Project -->
                 <div class="project-card">
                     <div class="project-title">Network Automation Scripts</div>
                     <div class="project-description">
@@ -128,7 +163,7 @@
                     </div>
                 </div>
                 
-                <!-- Project 3 -->
+                <!-- SNMP Network Monitor -->
                 <div class="project-card">
                     <div class="project-title">SNMP Network Monitor</div>
                     <div class="project-description">
@@ -142,7 +177,7 @@
                     </div>
                 </div>
                 
-                <!-- Project 4 -->
+                <!-- Quantum Cryptography -->
                 <div class="project-card">
                     <div class="project-title">Quantum Cryptography Exploration</div>
                     <div class="project-description">
@@ -155,74 +190,6 @@
                         <span>Cryptography</span>
                     </div>
                 </div>
-				
-				<!-- Project 5 -->
-				
-				<!-- Add this with your other project cards -->
-				<div class="project-card">
-					<div class="project-title">UDP Server for Network Monitoring</div>
-					<div class="project-description">
-						A Python-based UDP server designed for network traffic monitoring and analysis. This lightweight server can be used for wiretapping exercises, network debugging, and cybersecurity training.
-					</div>
-					<div class="project-tech">
-						<span>Python</span>
-						<span>Socket Programming</span>
-						<span>Network Monitoring</span>
-						<span>UDP Protocol</span>
-					</div>
-					
-					<div class="project-code">
-						<pre><code class="language-python">#!/usr/bin/python3
-				import socket
-
-				IP = "0.0.0.0"
-				PORT = 9090
-
-				sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-				sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-				sock.bind((IP, PORT))
-
-				print(f"UDP server listening on {IP}:{PORT}")
-
-				try:
-					while True:
-						data, (ip, port) = sock.recvfrom(1024)
-						try:
-							decoded_data = data.decode('utf-8')
-							print(f"Sender: {ip}:{port}")
-							print(f"Received message: {decoded_data}")
-						except UnicodeDecodeError:
-							print(f"Sender: {ip}:{port}")
-							print(f"Received raw bytes: {data}")
-				except KeyboardInterrupt:
-					print("\nServer shutting down...")
-				finally:
-					sock.close()</code></pre>
-					</div>
-					
-					<div class="project-features">
-						<h4>Key Features:</h4>
-						<ul>
-							<li>Listens on all network interfaces (0.0.0.0)</li>
-							<li>Port 9090 configuration</li>
-							<li>Proper error handling and decoding</li>
-							<li>Graceful shutdown on Ctrl+C</li>
-							<li>Socket reuse option for rapid restart</li>
-						</ul>
-					</div>
-					
-					<div class="project-usage">
-						<h4>Usage:</h4>
-						<ol>
-							<li>Save as <code>udp_server.py</code></li>
-							<li>Make executable: <code>chmod +x udp_server.py</code></li>
-							<li>Run: <code>./udp_server.py</code></li>
-							<li>Test using: <code>echo "test" | nc -u localhost 9090</code></li>
-						</ol>
-					</div>
-				</div>
-
-				
             </div>
         </div>
     </main>
