@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDP Server Code | Siddesh Pawar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <style>
+        .code-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+        }
+        
+        .code-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .code-content {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        
+        .back-btn {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">SP</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="code-container">
+            <div class="code-header">
+                <h1>UDP Server Source Code</h1>
+                <p>Python implementation for network monitoring and wiretapping exercises</p>
+            </div>
+            
+            <div class="code-content">
+                <pre><code class="language-python">#!/usr/bin/python3
+import socket
+
+IP = "0.0.0.0"
+PORT = 9090
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+sock.bind((IP, PORT))
+
+print(f"UDP server listening on {IP}:{PORT}")
+
+try:
+    while True:
+        data, (ip, port) = sock.recvfrom(1024)
+        try:
+            decoded_data = data.decode('utf-8')
+            print(f"Sender: {ip}:{port}")
+            print(f"Received message: {decoded_data}")
+        except UnicodeDecodeError:
+            print(f"Sender: {ip}:{port}")
+            print(f"Received raw bytes: {data}")
+except KeyboardInterrupt:
+    print("\nServer shutting down...")
+finally:
+    sock.close()</code></pre>
+            </div>
+            
+            <div class="usage-instructions">
+                <h3>Usage Instructions</h3>
+                <ol>
+                    <li>Save the code as <code>udp_server.py</code></li>
+                    <li>Make the file executable: <code>chmod +x udp_server.py</code></li>
+                    <li>Run the server: <code>./udp_server.py</code></li>
+                    <li>Test using netcat: <code>echo "test" | nc -u localhost 9090</code></li>
+                </ol>
+            </div>
+            
+            <a href="projects.html" class="btn btn-primary back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Projects
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Siddesh Vilas Pawar</h3>
+                    <p>Cyber Security and Network Engineering Specialist</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="cv.html">CV</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="mailto:siddeshvilaspawar@gmail.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Siddesh Vilas Pawar. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
