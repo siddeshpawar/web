@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online ytbe video downloader | Siddesh Pawar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <style>
+        .code-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+        }
+        
+        .code-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .code-content {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        
+        .back-btn {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">SP</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="code-container">
+            <div class="code-header">
+			<br>
+			<br>
+			<br>
+                <h1>Online youtube video downloader</h1>
+                <p>Developed a web-based application using Flask and yt-dlp to download YouTube videos in MP4 format. Integrated client-side JavaScript for user interaction and server-side Python for processing video URLs and merging video/audio streams using ffmpeg.</p>
+            </div>
+            
+            <div class="code-content">
+<p>Great to hear it’s working now! ✅ Here's a professional summary of all the steps you followed to create and run a working <strong>YouTube MP4 video downloader</strong> web app using Flask and <code>yt-dlp</code>.</p>
+
+<hr>
+
+<h2>✅ Project Summary: YouTube MP4 Downloader (Flask + yt-dlp)</h2>
+
+<h3>🔧 1. Set Up the Project Directory</h3>
+<pre><code>youtube_video_downloader/
+├── app.py
+├── templates/
+│   └── index.html
+├── downloads/
+</code></pre>
+
+<hr>
+
+<h3>📦 2. Install Required Packages</h3>
+<p>Install Flask and yt-dlp:</p>
+<pre><code>pip install flask yt-dlp</code></pre>
+<p>Also install <code>ffmpeg</code>, required for merging video and audio streams.</p>
+
+<hr>
+
+<h3>🛠️ 3. Install & Configure <code>ffmpeg</code> on Windows</h3>
+<ul>
+  <li>Download from: <a href="https://www.gyan.dev/ffmpeg/builds/">https://www.gyan.dev/ffmpeg/builds/</a></li>
+  <li>Extract it (e.g., <code>C:\ffmpeg</code>)</li>
+  <li>Add <code>C:\ffmpeg\bin</code> to your <strong>System PATH</strong></li>
+  <li>Verify:</li>
+</ul>
+<pre><code>ffmpeg -version</code></pre>
+
+<hr>
+
+<h3>📄 4. HTML Frontend (<code>templates/index.html</code>)</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;YouTube MP4 Downloader&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Download YouTube Video (MP4)&lt;/h2&gt;
+    &lt;input type="text" id="url" placeholder="https://www.youtube.com/watch?v=..." /&gt;
+    &lt;button onclick="download()"&gt;Download&lt;/button&gt;
+
+    &lt;script&gt;
+        function download() {
+            const url = document.getElementById("url").value;
+            fetch("/download", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ url })
+            })
+            .then(response =&gt; {
+                if (!response.ok) throw new Error("Failed to download");
+                return response.blob();
+            })
+            .then(blob =&gt; {
+                const a = document.createElement("a");
+                a.href = window.URL.createObjectURL(blob);
+                a.download = "video.mp4";
+                a.click();
+            })
+            .catch(err =&gt; alert("Error: " + err.message));
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<hr>
+
+<h3>🐍 5. Flask Backend (<code>app.py</code>)</h3>
+<pre><code>from flask import Flask, request, send_file, render_template
+import yt_dlp
+import os
+import uuid
+
+app = Flask(__name__)
+
+DOWNLOAD_FOLDER = "downloads"
+os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+@app.route("/download", methods=["POST"])
+def download_video():
+    data = request.get_json()
+    url = data.get("url")
+    if not url:
+        return {"error": "No URL provided"}, 400
+
+    filename = f"{uuid.uuid4()}.mp4"
+    filepath = os.path.join(DOWNLOAD_FOLDER, filename)
+
+    ydl_opts = {
+        'outtmpl': filepath,
+        'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4',
+        'merge_output_format': 'mp4'
+    }
+
+    try:
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            ydl.download([url])
+        return send_file(filepath, as_attachment=True)
+    except Exception as e:
+        print("❌ yt-dlp Error:", e)
+        return {"error": "Download failed: " + str(e)}, 500
+
+if __name__ == "__main__":
+    app.run(debug=True)
+</code></pre>
+
+<hr>
+
+<h3>▶️ 6. Run the Flask App</h3>
+<pre><code>python app.py</code></pre>
+<p>Open your browser and navigate to:</p>
+<pre><code>http://127.0.0.1:5000</code></pre>
+
+<hr>
+
+<h3>📌 Optional Next Steps</h3>
+<ul>
+  <li>Add video title extraction</li>
+  <li>Auto-delete downloaded files after sending</li>
+  <li>Dockerize the application</li>
+  <li>Add download queue / background processing</li>
+  <li>Enforce file size limits / validation</li>
+</ul>
+
+<hr>
+
+<p>Let me know if you’d like help on any of these enhancements or packaging this into a desktop app or deploying it online.</p>
+
+            </div>
+            
+            <a href="projects.html" class="btn btn-primary back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Projects
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Siddesh Vilas Pawar</h3>
+                    <p>Cyber Security and Network Engineering Specialist</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="cv.html">CV</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="mailto:siddeshvilaspawar@gmail.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Siddesh Vilas Pawar. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>
