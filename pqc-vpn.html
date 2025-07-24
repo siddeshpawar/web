@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Guide to Post-Quantum Cryptography in IPsec</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: "Calm Harmony Neutrals" -->
+    <!-- Application Structure Plan: The application is structured into thematic, scrollable sections to guide the user logically from the foundational concepts to practical implementation details. This non-linear approach enhances usability over a simple report format. The flow is: 1. Hero/Intro (The 'Why'), 2. PQC Fundamentals (The 'What'), 3. Interactive Algorithm Explorer (The 'Which'), 4. IPsec/KDC Integration (The 'How'), 5. Migration Roadmap (The 'When'), 6. Challenges & Outlook (The 'What's Next'). This structure breaks down a complex topic into digestible, interactive modules, facilitating understanding and exploration. User flow is primarily vertical scrolling, with horizontal tabs and clickable elements within sections to dive deeper, preventing overwhelming information dumps. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: PQC Algorithm Comparison (Table 1) -> Goal: Compare -> Viz: Interactive Bar Chart (Chart.js) -> Interaction: User can select a metric (Key Size, Signature Size, Performance) to update the chart dynamically. Clicking a bar reveals detailed text. Justification: A dynamic chart is more engaging and easier to interpret than a static table. It allows for direct, visual comparison based on user interest.
+        - Report Info: IKEv2 & KDC Integration -> Goal: Organize/Explain -> Viz: HTML/CSS Flowchart Diagram -> Interaction: Clicking on a phase (e.g., Key Exchange, Authentication) highlights the component and displays a contextual explanation. Justification: A visual, interactive flowchart simplifies the complex protocol interactions and clarifies where PQC fits in, which is more intuitive than descriptive text alone.
+        - Report Info: Migration Phases -> Goal: Change/Process -> Viz: HTML/CSS Interactive Timeline -> Interaction: Clicking on a phase on the timeline reveals detailed information about that stage. Justification: A timeline visually represents the progression of the migration strategy, making the phased approach clear and easy to follow.
+        - Report Info: Performance Impact -> Goal: Compare/Inform -> Viz: Bar Chart (Chart.js) -> Interaction: Static chart with clear labels comparing Classical vs. PQC performance metrics. Justification: A direct visual comparison effectively highlights the performance overhead, a key takeaway from the report.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4; /* Warm Neutral Background */
+            color: #4A4A4A;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 9999px;
+        }
+        .nav-link.active {
+            background-color: #4A5568; /* Subtle Accent */
+            color: #FFFFFF;
+        }
+        .nav-link:hover:not(.active) {
+            background-color: #E2E8F0;
+        }
+        .card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #4A5568;
+            color: #2D3748;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        .flowchart-node {
+            border: 2px solid #CBD5E0;
+            background-color: #F7FAFC;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .flowchart-node.active, .flowchart-node:hover {
+            border-color: #4A5568;
+            background-color: #E2E8F0;
+        }
+        .timeline-item {
+            position: relative;
+            cursor: pointer;
+        }
+        .timeline-dot {
+            position: absolute;
+            top: 50%;
+            left: -8px;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #FFFFFF;
+            border: 3px solid #4A5568;
+            transition: all 0.3s ease;
+        }
+        .timeline-item.active .timeline-dot {
+            background-color: #4A5568;
+            transform: translateY(-50%) scale(1.2);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-gray-800">PQC for IPsec</h1>
+                </div>
+                <nav class="hidden md:flex items-center space-x-2">
+                    <a class="nav-link active" data-target="intro">Intro</a>
+                    <a class="nav-link" data-target="algorithms">Algorithms</a>
+                    <a class="nav-link" data-target="integration">Integration</a>
+                    <a class="nav-link" data-target="migration">Migration</a>
+                    <a class="nav-link" data-target="challenges">Challenges</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+        <!-- Section 1: Introduction -->
+        <section id="intro" class="scroll-mt-24 text-center mb-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">The Quantum Threat is Here</h2>
+            <p class="max-w-3xl mx-auto text-lg text-gray-600 mb-8">
+                The rise of quantum computers threatens to break the cryptographic standards that protect our digital world. This interactive guide explores Post-Quantum Cryptography (PQC) and its critical role in securing IPsec VPNs for the future.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-2">Harvest Now, Decrypt Later</h3>
+                    <p class="text-gray-600">Adversaries are collecting encrypted data today to decrypt once quantum computers are powerful enough. The urgency to transition to PQC is immediate.</p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-2">What is PQC?</h3>
+                    <p class="text-gray-600">Software-based algorithms designed to be secure against attacks from both classical and quantum computers, replacing vulnerable systems like RSA and ECC.</p>
+                </div>
+                <div class="card p-6">
+                    <h3 class="font-bold text-xl mb-2">Why IPsec?</h3>
+                    <p class="text-gray-600">IPsec VPNs are foundational to network security. Securing their key exchange with PQC is paramount for protecting long-term data confidentiality and integrity.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: PQC Algorithm Explorer -->
+        <section id="algorithms" class="scroll-mt-24 mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Exploring PQC Algorithms</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    NIST has standardized several PQC algorithms, each with unique trade-offs. Use the controls below to visually compare their characteristics and select an algorithm to learn more about its profile. This section helps you understand the options available for securing communications.
+                </p>
+            </div>
+            <div class="card p-6 md:p-8">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 md:mb-0">Algorithm Comparison</h3>
+                    <div class="flex items-center space-x-4">
+                        <label for="metric-select" class="font-medium text-gray-700">Compare by:</label>
+                        <select id="metric-select" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option value="keySize" selected>Public Key Size</option>
+                            <option value="sigSize">Signature/Ciphertext Size</option>
+                            <option value="performance">Relative Performance</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-container mb-6">
+                    <canvas id="pqc-chart"></canvas>
+                </div>
+                <div id="algo-details" class="p-4 bg-gray-50 rounded-lg min-h-[100px]">
+                    <p class="text-gray-600 text-center">Click on a bar in the chart to see details here.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: IPsec & KDC Integration -->
+        <section id="integration" class="scroll-mt-24 mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How PQC Integrates into IPsec</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    PQC is primarily integrated into the Internet Key Exchange (IKEv2) protocol, which establishes secure tunnels. This interactive diagram shows the key phases of IKEv2 and how PQC algorithms provide quantum resistance. Click on each component to understand its role.
+                </p>
+            </div>
+            <div class="card p-6 md:p-8">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <!-- Flowchart Diagram -->
+                    <div class="flex-grow">
+                        <h3 class="text-xl font-semibold text-center mb-6 text-gray-800">IKEv2 Phase 1 Handshake with PQC</h3>
+                        <div class="flex flex-col items-center space-y-2">
+                            <div class="font-mono text-sm text-gray-500">VPN Client</div>
+                            <div class="w-px h-6 bg-gray-300"></div>
+                            <!-- Node 1 -->
+                            <div id="flow-kem" class="flowchart-node p-4 rounded-lg w-full max-w-md text-center">
+                                <h4 class="font-bold">1. Hybrid Key Exchange</h4>
+                                <p class="text-sm text-gray-600">Combines classical (ECDH) + PQC KEM (e.g., Kyber) to establish a shared secret.</p>
+                            </div>
+                            <div class="w-px h-6 bg-gray-300"></div>
+                            <!-- Node 2 -->
+                            <div id="flow-auth" class="flowchart-node p-4 rounded-lg w-full max-w-md text-center">
+                                <h4 class="font-bold">2. Hybrid Authentication</h4>
+                                <p class="text-sm text-gray-600">Uses classical (ECDSA) + PQC Signature (e.g., Dilithium) to verify identities.</p>
+                            </div>
+                             <div class="w-px h-6 bg-gray-300"></div>
+                            <!-- Node 3 -->
+                            <div id="flow-sa" class="flowchart-node p-4 rounded-lg w-full max-w-md text-center">
+                                <h4 class="font-bold">3. Secure Channel Established</h4>
+                                <p class="text-sm text-gray-600">A quantum-resistant IKE SA is created, protecting all further communication.</p>
+                            </div>
+                            <div class="w-px h-6 bg-gray-300"></div>
+                             <div class="font-mono text-sm text-gray-500">VPN Gateway</div>
+                        </div>
+                    </div>
+                    <!-- Explanation Box -->
+                    <div class="lg:w-1/3 flex-shrink-0">
+                        <div id="flow-details" class="p-6 bg-gray-50 rounded-lg h-full">
+                            <h4 class="font-bold text-lg mb-2" id="flow-title">Click a step to learn more</h4>
+                            <p class="text-gray-700" id="flow-text">The IKEv2 handshake is updated to include PQC algorithms, ensuring that the keys used to encrypt VPN traffic are safe from quantum attacks. This is typically done in a hybrid mode.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Migration Strategy -->
+        <section id="migration" class="scroll-mt-24 mb-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">A Phased Migration to PQC</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    Transitioning to PQC is a journey, not a single event. A gradual, phased approach using hybrid cryptography is essential to manage risk and ensure service continuity. This timeline outlines the recommended steps for a successful migration.
+                </p>
+            </div>
+            <div class="card p-6 md:p-8">
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Timeline -->
+                    <div class="md:w-1/3">
+                        <div class="relative border-l-2 border-gray-300 pl-6 space-y-12">
+                            <div id="timeline-1" class="timeline-item active">
+                                <span class="timeline-dot"></span>
+                                <h4 class="font-bold text-lg">Phase 1: Plan & Monitor</h4>
+                            </div>
+                            <div id="timeline-2" class="timeline-item">
+                                <span class="timeline-dot"></span>
+                                <h4 class="font-bold text-lg">Phase 2: Pilot Deployments</h4>
+                            </div>
+                            <div id="timeline-3" class="timeline-item">
+                                <span class="timeline-dot"></span>
+                                <h4 class="font-bold text-lg">Phase 3: Gradual Rollout</h4>
+                            </div>
+                            <div id="timeline-4" class="timeline-item">
+                                <span class="timeline-dot"></span>
+                                <h4 class="font-bold text-lg">Phase 4: Full PQC Transition</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Timeline Details -->
+                    <div class="md:w-2/3">
+                        <div id="timeline-details" class="p-6 bg-gray-50 rounded-lg min-h-[200px]">
+                            <!-- Content will be injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Challenges & Outlook -->
+        <section id="challenges" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Challenges and The Road Ahead</h2>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    The transition to PQC is not without hurdles. Performance overhead is a primary concern, alongside operational complexities. Understanding these challenges is key to successful planning and implementation.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card p-6 md:p-8">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 text-center">Performance Impact Comparison</h4>
+                    <div class="chart-container h-64 max-h-[40vh]">
+                        <canvas id="performance-chart"></canvas>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-4 text-center">PQC algorithms generally have larger message sizes and higher computational costs than their classical counterparts, impacting latency and resource usage.</p>
+                </div>
+                <div class="card p-6 md:p-8">
+                     <h3 class="text-xl font-semibold text-gray-800 mb-4">Key Recommendations</h4>
+                     <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold mr-3">✓</span>
+                            <div>
+                                <h4 class="font-semibold">Embrace Hybrid Modes</h4>
+                                <p class="text-gray-600 text-sm">Combine classical and PQC algorithms to gain immediate quantum safety while mitigating risks from new PQC vulnerabilities.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold mr-3">✓</span>
+                            <div>
+                                <h4 class="font-semibold">Prioritize Crypto-Agility</h4>
+                                <p class="text-gray-600 text-sm">Build systems that can easily swap cryptographic algorithms to adapt to future standards and threats.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-blue-600 font-bold mr-3">✓</span>
+                            <div>
+                                <h4 class="font-semibold">Plan for Hardware Upgrades</h4>
+                                <p class="text-gray-600 text-sm">Account for increased CPU, memory, and bandwidth demands. Hardware acceleration may become necessary.</p>
+                            </div>
+                        </li>
+                     </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+            <p>An Interactive Guide to Post-Quantum Cryptography for IPsec VPNs.</p>
+            <p class="text-sm text-gray-400 mt-1">Content derived from the Comprehensive Analysis Report.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Data from Report ---
+            const pqcAlgorithmData = {
+                'CRYSTALS-Kyber': { family: 'Lattice-based', type: 'KEM', keySize: 60, sigSize: 60, performance: 80, details: 'Primary KEM selected by NIST. Offers a strong balance of security, performance, and key sizes, making it ideal for protocols like IPsec IKEv2.' },
+                'Classic McEliece': { family: 'Code-based', type: 'KEM', keySize: 100, sigSize: 60, performance: 90, details: 'Alternate KEM with very high security confidence from decades of analysis. Its main drawback is extremely large public key sizes.' },
+                'CRYSTALS-Dilithium': { family: 'Lattice-based', type: 'Signature', keySize: 65, sigSize: 65, performance: 75, details: 'Primary digital signature algorithm chosen by NIST. It provides a balanced profile suitable for authentication in IKEv2.' },
+                'Falcon': { family: 'Lattice-based', type: 'Signature', keySize: 60, sigSize: 40, performance: 60, details: 'A signature finalist notable for its very small signature sizes, which is beneficial in low-bandwidth environments, but it is more computationally intensive.' },
+                'SPHINCS+': { family: 'Hash-based', type: 'Signature', keySize: 40, sigSize: 100, performance: 50, details: 'A signature finalist with strong, provable security based on hash functions. It is stateless but has larger signatures and slower signing operations.' }
+            };
+
+            const timelineData = {
+                'timeline-1': { title: 'Phase 1: Monitoring and Planning', text: 'Begin by assessing your current cryptographic inventory. Identify all systems using vulnerable algorithms (RSA, ECC). Closely monitor the NIST standardization process and develop a detailed migration roadmap tailored to your organization\'s risk profile.' },
+                'timeline-2': { title: 'Phase 2: Hybrid Pilot Deployments', text: 'Implement hybrid PQC solutions in non-production or test environments. This crucial phase helps evaluate real-world performance impacts, identify compatibility issues, and understand operational challenges before a wider rollout.' },
+                'timeline-3': { title: 'Phase 3: Gradual Hybrid Rollout', text: 'Following successful pilots, gradually introduce hybrid PQC into production systems. Start with less critical applications and expand to more sensitive areas as confidence and operational experience grow. This minimizes disruption.' },
+                'timeline-4': { title: 'Phase 4: Full PQC Transition (Long-Term)', text: 'This final phase, likely years away, involves moving to PQC-only modes where feasible. This should only occur once large-scale quantum computers are a confirmed threat and PQC algorithms are fully mature and widely adopted.' }
+            };
+            
+            const flowData = {
+                'flow-kem': { title: 'Hybrid Key Exchange', text: 'To establish a shared secret, IKEv2 combines a classical key exchange (like ECDH) with a PQC Key Encapsulation Mechanism (KEM) like CRYSTALS-Kyber. The final key is derived from both, ensuring security if either one is broken.' },
+                'flow-auth': { title: 'Hybrid Authentication', text: 'To authenticate each other, VPN peers use both a classical signature (like ECDSA) and a PQC signature (like CRYSTALS-Dilithium). This proves identity in a quantum-resistant way.' },
+                'flow-sa': { title: 'Secure Channel Established', text: 'The result of the PQC-enabled handshake is a Security Association (SA) whose master key is quantum-safe. All subsequent data encryption keys for the VPN tunnel are derived from this secure foundation.' }
+            };
+
+            // --- Smooth Scrolling & Active Nav Link ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.toggle('active', link.dataset.target === entry.target.id);
+                        });
+                    }
+                });
+            }, { rootMargin: '-50% 0px -50% 0px' });
+
+            sections.forEach(section => observer.observe(section));
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = e.target.dataset.target;
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // --- PQC Algorithm Chart ---
+            const ctx = document.getElementById('pqc-chart').getContext('2d');
+            const metricSelect = document.getElementById('metric-select');
+            const algoDetails = document.getElementById('algo-details');
+            let pqcChart;
+
+            function updateChart(metric) {
+                const labels = Object.keys(pqcAlgorithmData);
+                const data = labels.map(label => pqcAlgorithmData[label][metric]);
+                const backgroundColors = labels.map(label => {
+                    const type = pqcAlgorithmData[label].type;
+                    return type === 'KEM' ? 'rgba(54, 162, 235, 0.6)' : 'rgba(255, 99, 132, 0.6)';
+                });
+                const borderColors = labels.map(label => {
+                    const type = pqcAlgorithmData[label].type;
+                    return type === 'KEM' ? 'rgba(54, 162, 235, 1)' : 'rgba(255, 99, 132, 1)';
+                });
+
+                if (pqcChart) {
+                    pqcChart.destroy();
+                }
+
+                pqcChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: metricSelect.options[metricSelect.selectedIndex].text,
+                            data: data,
+                            backgroundColor: backgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: { display: true, text: 'Relative Score (Higher is larger/more performant)' }
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    title: (tooltipItems) => {
+                                        const label = tooltipItems[0].label;
+                                        const type = pqcAlgorithmData[label].type;
+                                        return `${label} (${type})`;
+                                    }
+                                }
+                            }
+                        },
+                        onClick: (e, elements) => {
+                            if (elements.length > 0) {
+                                const index = elements[0].index;
+                                const label = pqcChart.data.labels[index];
+                                const data = pqcAlgorithmData[label];
+                                algoDetails.innerHTML = `
+                                    <h4 class="font-bold text-lg mb-2">${label}</h4>
+                                    <p class="text-sm text-gray-700"><strong class="font-semibold">Family:</strong> ${data.family}</p>
+                                    <p class="text-sm text-gray-700"><strong class="font-semibold">Type:</strong> ${data.type}</p>
+                                    <p class="mt-2 text-gray-800">${data.details}</p>
+                                `;
+                            }
+                        }
+                    }
+                });
+            }
+
+            metricSelect.addEventListener('change', (e) => updateChart(e.target.value));
+            updateChart('keySize');
+
+            // --- Integration Flowchart Interaction ---
+            const flowNodes = document.querySelectorAll('.flowchart-node');
+            const flowTitle = document.getElementById('flow-title');
+            const flowText = document.getElementById('flow-text');
+
+            flowNodes.forEach(node => {
+                node.addEventListener('click', () => {
+                    flowNodes.forEach(n => n.classList.remove('active'));
+                    node.classList.add('active');
+                    const data = flowData[node.id];
+                    flowTitle.textContent = data.title;
+                    flowText.textContent = data.text;
+                });
+            });
+
+            // --- Migration Timeline Interaction ---
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const timelineDetails = document.getElementById('timeline-details');
+
+            function updateTimelineDetails(id) {
+                timelineItems.forEach(item => item.classList.toggle('active', item.id === id));
+                const data = timelineData[id];
+                timelineDetails.innerHTML = `
+                    <h4 class="font-bold text-xl mb-3">${data.title}</h4>
+                    <p class="text-gray-700">${data.text}</p>
+                `;
+            }
+
+            timelineItems.forEach(item => {
+                item.addEventListener('click', () => updateTimelineDetails(item.id));
+            });
+            updateTimelineDetails('timeline-1');
+            
+            // --- Performance Chart ---
+            const perfCtx = document.getElementById('performance-chart').getContext('2d');
+            new Chart(perfCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Latency', 'CPU Usage', 'Bandwidth'],
+                    datasets: [
+                        {
+                            label: 'Classical (e.g., ECDH)',
+                            data: [30, 40, 20],
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'PQC (e.g., Kyber)',
+                            data: [70, 80, 65],
+                            backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Relative Overhead' }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: { mode: 'index', intersect: false }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
