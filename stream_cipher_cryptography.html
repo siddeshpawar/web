@@ -4,40 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Cipher Cryptography - Theory & Interactive Simulations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Override base styles for cryptography page */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
             color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
         }
 
-        .container {
+        /* Custom header for this page */
+        .crypto-header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .crypto-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .crypto-nav-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .crypto-nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Main content container */
+        .crypto-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        header {
+        /* Page header */
+        .page-header {
             text-align: center;
             padding: 2rem 0;
             color: white;
         }
 
-        h1 {
+        .page-header h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .subtitle {
+        .page-header .subtitle {
             font-size: 1.2rem;
             opacity: 0.9;
         }
@@ -304,25 +335,25 @@
     </style>
 </head>
 <body>
-    <header style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.2);">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+    <header class="crypto-header">
+        <div class="container">
             <div style="display: flex; align-items: center; gap: 15px;">
-                <button onclick="window.history.back()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                    ← Back
+                <button onclick="window.history.back()" class="crypto-nav-btn">
+                    <i class="fas fa-arrow-left"></i> Back
                 </button>
                 <div style="color: white; font-size: 0.9rem; opacity: 0.9;">Stream Cipher Cryptography Guide</div>
             </div>
-            <a href="index.html" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                🏠 Home
+            <a href="index.html" class="crypto-nav-btn">
+                <i class="fas fa-home"></i> Home
             </a>
         </div>
     </header>
 
-    <div class="container">
-        <header>
+    <div class="crypto-container">
+        <div class="page-header">
             <h1>🔐 Stream Cipher Cryptography</h1>
             <p class="subtitle">Interactive Theory & Protocol Simulations</p>
-        </header>
+        </div>
 
         <nav class="nav">
             <button class="nav-btn active" onclick="showContent('stream-theory')">Stream Cipher Theory</button>
@@ -951,5 +982,6 @@
         function simulateChaCha20() { stepChaCha20(); }
         function simulateRC4() { stepRC4(); }
     </script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
