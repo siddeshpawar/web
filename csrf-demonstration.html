@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSRF Attack Demonstration | Siddesh Pawar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .csrf-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            box-shadow: var(--shadow);
+            border-radius: 8px;
+        }
+        
+        .csrf-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+        }
+        
+        .csrf-header h1 {
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .csrf-header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box h3 {
+            color: #856404;
+            margin-top: 0;
+        }
+        
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+        
+        .info-box h3 {
+            color: #0c5460;
+            margin-top: 0;
+        }
+        
+        .section {
+            margin: 3rem 0;
+        }
+        
+        .section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .download-section {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .download-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+            transition: var(--transition);
+        }
+        
+        .download-card:hover {
+            border-color: var(--secondary-color);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .download-card h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+        
+        .download-card .file-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .download-card .file-size {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-download {
+            background-color: #28a745;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: var(--transition);
+        }
+        
+        .btn-download:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .btn-download i {
+            margin-right: 0.5rem;
+        }
+        
+        .steps-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .steps-list li {
+            counter-increment: step-counter;
+            margin-bottom: 2rem;
+            padding-left: 3rem;
+            position: relative;
+        }
+        
+        .steps-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .steps-list li strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1.5rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .tech-badge {
+            background: #e9ecef;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #495057;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .comparison-table th {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .success-badge {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .danger-badge {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">SP</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="csrf-container">
+            <div class="csrf-header">
+                <h1><i class="fas fa-shield-alt"></i> CSRF Attack Demonstration</h1>
+                <p>Interactive Educational Project for Understanding Cross-Site Request Forgery Vulnerabilities</p>
+            </div>
+
+            <div class="warning-box">
+                <h3><i class="fas fa-exclamation-triangle"></i> Educational Purpose Only</h3>
+                <p>This project is designed for educational and research purposes to understand web security vulnerabilities. It should only be used in controlled environments for learning and testing. Never use these techniques on systems you don't own or have explicit permission to test.</p>
+            </div>
+
+            <section class="section">
+                <h2><i class="fas fa-book"></i> What is CSRF?</h2>
+                <p>Cross-Site Request Forgery (CSRF) is a web security vulnerability that allows an attacker to trick a user into performing unwanted actions on a web application where they are authenticated. This attack exploits the trust that a website has in a user's browser.</p>
+                
+                <div class="info-box">
+                    <h3>Real-World Impact</h3>
+                    <p>CSRF attacks can lead to:</p>
+                    <ul>
+                        <li><strong>Unauthorized fund transfers</strong> in banking applications</li>
+                        <li><strong>Account settings changes</strong> without user consent</li>
+                        <li><strong>Email or password modifications</strong></li>
+                        <li><strong>Unauthorized purchases</strong> in e-commerce sites</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-star"></i> Project Features</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-bug"></i>
+                        <h3>Vulnerable Implementation</h3>
+                        <p>See how CSRF attacks work against an unprotected banking application</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-lock"></i>
+                        <h3>Secure Implementation</h3>
+                        <p>Learn industry-standard countermeasures with CSRF tokens and SameSite cookies</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-user-secret"></i>
+                        <h3>Attacker Simulation</h3>
+                        <p>Experience the attack from an attacker's perspective with a malicious website</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-code"></i>
+                        <h3>Complete Source Code</h3>
+                        <p>Full PHP implementation with SQLite database and detailed comments</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-tools"></i> Technology Stack</h2>
+                <div class="tech-stack">
+                    <span class="tech-badge"><i class="fab fa-php"></i> PHP 7.4+</span>
+                    <span class="tech-badge"><i class="fas fa-database"></i> SQLite3</span>
+                    <span class="tech-badge"><i class="fab fa-html5"></i> HTML5</span>
+                    <span class="tech-badge"><i class="fab fa-css3-alt"></i> CSS3</span>
+                    <span class="tech-badge"><i class="fab fa-js"></i> JavaScript</span>
+                    <span class="tech-badge"><i class="fas fa-shield-alt"></i> Security Tokens</span>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-download"></i> Download Project Files</h2>
+                <div class="download-section">
+                    <p>Download the complete CSRF demonstration project. All files are included with detailed setup instructions.</p>
+                    
+                    <div class="download-grid">
+                        <div class="download-card">
+                            <div class="file-icon"><i class="fas fa-folder-open"></i></div>
+                            <h4>Complete CSRF Demo</h4>
+                            <p class="file-size"><i class="fas fa-file-archive"></i> ZIP Package (~45 KB)</p>
+                            <p>Includes vulnerable site, attacker site, secure site, and database initialization scripts</p>
+                            <a href="files/csrf_demo.zip" class="btn-download" download>
+                                <i class="fas fa-download"></i> Download Demo Package
+                            </a>
+                        </div>
+                        
+                        <div class="download-card">
+                            <div class="file-icon"><i class="fas fa-file-code"></i></div>
+                            <h4>Complete Source Code</h4>
+                            <p class="file-size"><i class="fas fa-file-alt"></i> TXT File (~31 KB)</p>
+                            <p>All source code in a single text file with clear section markers</p>
+                            <a href="files/CSRF_Complete_Code.txt" class="btn-download" download>
+                                <i class="fas fa-download"></i> Download Code File
+                            </a>
+                        </div>
+                        
+                        <div class="download-card">
+                            <div class="file-icon"><i class="fas fa-book"></i></div>
+                            <h4>Setup Guide</h4>
+                            <p class="file-size"><i class="fas fa-file-alt"></i> TXT File (~22 KB)</p>
+                            <p>Comprehensive setup instructions with troubleshooting tips</p>
+                            <a href="files/CSRF_SETUP_GUIDE.txt" class="btn-download" download>
+                                <i class="fas fa-download"></i> Download Setup Guide
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-play-circle"></i> Quick Start Guide</h2>
+                <ol class="steps-list">
+                    <li>
+                        <strong>Download & Extract</strong>
+                        <p>Download the complete CSRF demo package and extract it to your preferred location.</p>
+                        <div class="code-block">
+                            <code>unzip csrf_demo.zip</code>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <strong>Initialize Databases</strong>
+                        <p>Run the initialization scripts to create the SQLite databases with test users.</p>
+                        <div class="code-block">
+                            <code>cd csrf_demo/vulnerable<br>php init_db.php<br><br>cd ../secure<br>php init_db.php</code>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <strong>Start Three Servers</strong>
+                        <p>You'll need three terminal windows running simultaneously.</p>
+                        <div class="code-block">
+                            <code># Terminal 1: Vulnerable Bank (Port 8000)<br>cd vulnerable && php -S localhost:8000<br><br># Terminal 2: Attacker Site (Port 9000)<br>cd attacker && php -S localhost:9000<br><br># Terminal 3: Secure Bank (Port 8001)<br>cd secure && php -S localhost:8001</code>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <strong>Test the Attack</strong>
+                        <p>Open your browser and navigate to the attacker site, then follow the demonstration steps.</p>
+                        <div class="code-block">
+                            <code>1. Visit: http://localhost:9000/malicious.html<br>2. Select "Port 8000 - Vulnerable Bank"<br>3. Open new tab: http://localhost:8000<br>4. Login as alice/alice123<br>5. Return to attacker tab and click "Claim Your Prize!"<br>6. Watch the balance drop from $5,000 to $4,000</code>
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <strong>Test the Protection</strong>
+                        <p>Repeat the attack against the secure bank to see how CSRF protection blocks the attack.</p>
+                        <div class="code-block">
+                            <code>1. Same attacker site, select "Port 8001 - Secure Bank"<br>2. Open new tab: http://localhost:8001<br>3. Login as alice/alice123<br>4. Try the attack - it will be BLOCKED!<br>5. Balance remains safe at $5,000</code>
+                        </div>
+                    </li>
+                </ol>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-balance-scale"></i> Vulnerable vs Secure Implementation</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Vulnerable Version</th>
+                            <th>Secure Version</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CSRF Tokens</strong></td>
+                            <td><span class="danger-badge">❌ None</span></td>
+                            <td><span class="success-badge">✅ Implemented</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>SameSite Cookies</strong></td>
+                            <td><span class="danger-badge">❌ Not Set</span></td>
+                            <td><span class="success-badge">✅ Lax Mode</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Referer Validation</strong></td>
+                            <td><span class="danger-badge">❌ Not Checked</span></td>
+                            <td><span class="success-badge">✅ Validated</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Token Regeneration</strong></td>
+                            <td><span class="danger-badge">❌ N/A</span></td>
+                            <td><span class="success-badge">✅ Per Transaction</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Attack Success Rate</strong></td>
+                            <td><span class="danger-badge">100%</span></td>
+                            <td><span class="success-badge">0%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-shield-alt"></i> Countermeasures Explained</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card" style="text-align: left;">
+                        <i class="fas fa-key"></i>
+                        <h3>CSRF Tokens</h3>
+                        <p>Unique, unpredictable tokens generated per session and included in every state-changing request. The server validates the token before processing.</p>
+                    </div>
+                    
+                    <div class="feature-card" style="text-align: left;">
+                        <i class="fas fa-cookie"></i>
+                        <h3>SameSite Cookies</h3>
+                        <p>Browser-level protection that prevents cookies from being sent with cross-site requests. Set to 'Lax' or 'Strict' for maximum security.</p>
+                    </div>
+                    
+                    <div class="feature-card" style="text-align: left;">
+                        <i class="fas fa-search"></i>
+                        <h3>Referer Validation</h3>
+                        <p>Server checks the HTTP Referer header to ensure requests originate from the same domain. Acts as an additional security layer.</p>
+                    </div>
+                    
+                    <div class="feature-card" style="text-align: left;">
+                        <i class="fas fa-sync-alt"></i>
+                        <h3>Token Regeneration</h3>
+                        <p>Generate new tokens after each sensitive action to limit the window of opportunity for token theft and reuse.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-graduation-cap"></i> Learning Outcomes</h2>
+                <ul>
+                    <li>Understand how CSRF attacks exploit browser cookie behavior</li>
+                    <li>Learn to identify vulnerable endpoints in web applications</li>
+                    <li>Implement industry-standard CSRF protection mechanisms</li>
+                    <li>Master synchronizer token patterns</li>
+                    <li>Apply defense-in-depth security principles</li>
+                    <li>Gain hands-on experience with secure coding practices</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-user-graduate"></i> About This Project</h2>
+                <p>This CSRF demonstration was developed as part of the MSc Cyber Security programme at the University of Surrey. It represents a comprehensive study of web security vulnerabilities and their countermeasures.</p>
+                
+                <div class="info-box">
+                    <h3>Project Details</h3>
+                    <ul>
+                        <li><strong>Author:</strong> Siddesh Vilas Pawar</li>
+                        <li><strong>Course:</strong> COMM047 - Web Security</li>
+                        <li><strong>Institution:</strong> University of Surrey</li>
+                        <li><strong>Grade:</strong> 15-17/17 Marks</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2><i class="fas fa-question-circle"></i> System Requirements</h2>
+                <ul>
+                    <li><strong>PHP:</strong> Version 7.4 or higher</li>
+                    <li><strong>PHP Extensions:</strong> SQLite3 and PDO_SQLite</li>
+                    <li><strong>Browser:</strong> Any modern browser (Chrome, Firefox, Edge, Safari)</li>
+                    <li><strong>Operating System:</strong> Windows, macOS, or Linux</li>
+                    <li><strong>Terminals:</strong> 3 command prompt/terminal windows</li>
+                </ul>
+                
+                <div class="info-box">
+                    <h3>Need Help?</h3>
+                    <p>Refer to the comprehensive setup guide included in the download package. It includes detailed troubleshooting steps for common issues.</p>
+                </div>
+            </section>
+
+            <div style="text-align: center; margin: 3rem 0;">
+                <a href="projects.html" class="btn btn-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Projects
+                </a>
+                <a href="contact.html" class="btn btn-secondary" style="margin-left: 1rem;">
+                    <i class="fas fa-envelope"></i> Contact Me
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Siddesh Vilas Pawar</h3>
+                    <p>Cyber Security and Network Engineering Specialist</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="cv.html">CV</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="mailto:siddeshvilaspawar@gmail.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Siddesh Vilas Pawar. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+================================================================================
+           CSRF ATTACK DEMONSTRATION - COMPLETE SETUP GUIDE
+           Exercise 4.2: Cross-Site Request Forgery (17 Marks)
+           Siddesh Vilas Pawar | MSc Cyber Security | University of Surrey
+================================================================================
+
+TABLE OF CONTENTS
+==================
+1. Project Overview
+2. System Requirements
+3. Quick Start (5 Minutes)
+4. Detailed Setup Instructions
+5. How to Run the Websites
+6. Testing the CSRF Attack
+7. Testing CSRF Protection
+8. Understanding the Code
+9. Countermeasures Explained
+10. Troubleshooting
+11. File Structure Reference
+
+================================================================================
+1. PROJECT OVERVIEW
+================================================================================
+
+OBJECTIVE:
+  Demonstrate Cross-Site Request Forgery (CSRF) vulnerability in a banking
+  application and implement industry-standard countermeasures.
+
+DELIVERABLES:
+  * Vulnerable banking website (demonstrates attack)
+  * Attacker's malicious website (exploits vulnerability)
+  * Secure banking website (implements protection)
+  * Complete documentation (this guide)
+
+WHAT YOU'LL LEARN:
+  * How CSRF attacks work in real applications
+  * Why browsers automatically send cookies
+  * How to implement CSRF tokens
+  * Modern defense techniques (SameSite cookies)
+
+================================================================================
+2. SYSTEM REQUIREMENTS
+================================================================================
+
+REQUIRED SOFTWARE:
+  * PHP 7.4 or higher (with SQLite3 extension)
+  * Modern web browser (Chrome, Firefox, Edge, Safari)
+  * Terminal/Command Prompt (3 windows needed)
+
+CHECK YOUR SYSTEM:
+  Run this command to verify PHP:
+    php --version
+  
+  Expected output: PHP 7.4.x or higher
+  
+  Check SQLite extension:
+    php -m | grep sqlite
+  
+  Expected output: sqlite3 and pdo_sqlite
+
+DOWNLOAD PHP (if needed):
+  Windows: https://windows.php.net/download/
+  Mac: Pre-installed, or use Homebrew: brew install php
+  Linux: sudo apt install php php-sqlite3
+
+-----------------
+If SQLITE IS not found follow the steps
+find the file named as “php.ini-development”  C:\Users\HP\php\php.ini-development, 
+Copy the file, i.e right click and copy and then paste in same folder but rename it to “php.ini”
+
+then enable the SQLite extensions, search for lines mentioned below in php.ini 
+in the following folder ensure you have the .dll files for extensions, 
+C:\Users\HP\php\ext\php_pdo_sqlite.dll
+C:\Users\HP\php\ext\php_sqlite3.dll
+
+Once confirmed also edit the extension_dir path to point to this files which are at C:\Users\HP\php\ext\
+spot the difference
+
+
+; Directory in which the loadable extensions (modules) reside.
+; https://php.net/extension-dir
+;extension_dir = "./"
+; On windows:
+extension_dir = "C:\Users\HP\php\ext"
+
+================================================================================
+3. QUICK START (5 MINUTES)
+================================================================================
+
+STEP 1: CREATE PROJECT STRUCTURE
+  mkdir csrf_demo
+  cd csrf_demo
+  mkdir vulnerable attacker secure
+
+STEP 2: COPY CODE FILES
+  Copy all files from "CSRF_Complete_Code.txt" to respective folders:
+  - vulnerable/ (6 files)
+  - attacker/ (1 file)
+  - secure/ (6 files)
+
+STEP 3: INITIALIZE DATABASES
+  cd vulnerable
+  php init_db.php
+  cd ../secure
+  php init_db.php
+
+STEP 4: START SERVERS (3 terminals)
+  Terminal 1: cd vulnerable && php -S localhost:8000
+  Terminal 2: cd attacker && php -S localhost:9000
+  Terminal 3: cd secure && php -S localhost:8001
+
+STEP 5: TEST ATTACK (VULNERABLE BANK)
+  1. Browser -> http://localhost:9000/malicious.html
+  2. SELECT from dropdown: "Port 8000 - Vulnerable Bank"
+  3. NEW TAB -> http://localhost:8000
+  4. Login: alice / alice123 (balance: $5,000)
+  5. RETURN to attack tab -> Click "Claim Your Prize!" button
+  6. Return to bank tab, refresh -> Balance: $4,000 (attack worked!)
+
+STEP 6: TEST PROTECTION (SECURE BANK)
+  1. Browser -> http://localhost:9000/malicious.html
+  2. SELECT from dropdown: "Port 8001 - Secure Bank"
+  3. NEW TAB -> http://localhost:8001
+  4. Login: alice / alice123
+  5. RETURN to attack tab -> Click "Claim Your Prize!" button
+  6. Result: "CSRF token validation failed!" -> BLOCKED!
+
+================================================================================
+4. DETAILED SETUP INSTRUCTIONS
+================================================================================
+
+STEP 1: CREATE DIRECTORY STRUCTURE
+----------------------------------
+Open terminal/command prompt and run:
+
+  mkdir csrf_demo
+  cd csrf_demo
+  mkdir vulnerable
+  mkdir attacker
+  mkdir secure
+
+Your folder structure should look like:
+  csrf_demo/
+  ├── vulnerable/    (Will contain 6 files)
+  ├── attacker/      (Will contain 1 file)
+  └── secure/        (Will contain 6 files)
+
+
+STEP 2: COPY CODE FILES FROM CSRF_Complete_Code.txt
+---------------------------------------------------
+Open the file "CSRF_Complete_Code.txt" and copy each section:
+
+VULNERABLE VERSION (6 files):
+  1. Copy FILE 1 -> vulnerable/init_db.php
+  2. Copy FILE 2 -> vulnerable/index.php
+  3. Copy FILE 3 -> vulnerable/dashboard.php
+  4. Copy FILE 4 -> vulnerable/transfer.php
+  5. Copy FILE 5 -> vulnerable/logout.php
+  6. Copy FILE 6 -> vulnerable/styles.css
+
+ATTACKER VERSION (1 file):
+  7. Copy FILE 7 -> attacker/malicious.html
+
+SECURE VERSION (6 files):
+  8. Copy FILE 8 -> secure/init_db.php
+  9. Copy FILE 9 -> secure/index.php
+  10. Copy FILE 10 -> secure/dashboard.php
+  11. Copy FILE 11 -> secure/transfer.php
+  12. Copy FILE 12 -> secure/logout.php
+  13. Copy FILE 13 -> secure/styles.css
+
+
+STEP 3: INITIALIZE DATABASES
+-----------------------------
+Run these commands:
+
+  cd csrf_demo/vulnerable
+  php init_db.php
+
+Expected output:
+  [SUCCESS] Database initialized successfully!
+  Test users created:
+    alice/alice123 - $5,000
+    bob/bob123     - $3,000
+    eve/eve123     - $1,000
+
+Then initialize secure database:
+
+  cd ../secure
+  php init_db.php
+
+Expected same output as above.
+
+VERIFY: You should now see these database files:
+  vulnerable/bank_vulnerable.db
+  secure/bank_secure.db
+
+================================================================================
+5. HOW TO RUN THE WEBSITES
+================================================================================
+
+[IMPORTANT] You need THREE terminal windows running simultaneously!
+
+TERMINAL 1: VULNERABLE BANK (PORT 8000)
+----------------------------------------
+  cd csrf_demo/vulnerable
+  php -S localhost:8000
+
+Expected output:
+  PHP 7.4.x Development Server (http://localhost:8000) started
+
+LEAVE THIS RUNNING! Do not close this terminal.
+
+Test: Open browser -> http://localhost:8000
+  Should see: "Vulnerable Bank Login" with warning "[WARNING] NO CSRF PROTECTION"
+
+
+TERMINAL 2: ATTACKER SITE (PORT 9000)
+--------------------------------------
+  cd csrf_demo/attacker
+  php -S localhost:9000
+
+Expected output:
+  PHP 7.4.x Development Server (http://localhost:9000) started
+
+LEAVE THIS RUNNING! Do not close this terminal.
+
+Test: Open browser -> http://localhost:9000/malicious.html
+  Should see: "Congratulations!" prize page
+
+
+TERMINAL 3: SECURE BANK (PORT 8001)
+------------------------------------
+  cd csrf_demo/secure
+  php -S localhost:8001
+
+Expected output:
+  PHP 7.4.x Development Server (http://localhost:8001) started
+
+LEAVE THIS RUNNING! Do not close this terminal.
+
+Test: Open browser -> http://localhost:8001
+  Should see: "Secure Bank Login" with badge "[PROTECTED] CSRF PROTECTION ENABLED"
+
+
+VERIFICATION CHECKLIST:
+  [ ] All three terminals running
+  [ ] http://localhost:8000 accessible
+  [ ] http://localhost:9000/malicious.html accessible
+  [ ] http://localhost:8001 accessible
+  [ ] No error messages in terminals
+
+================================================================================
+6. TESTING THE CSRF ATTACK (VULNERABLE VERSION)
+================================================================================
+
+[SCENARIO]
+  Alice is a bank customer. While logged in, she visits a malicious website
+  that secretly transfers $1,000 from her account to the attacker (Eve).
+
+STEP-BY-STEP ATTACK DEMONSTRATION:
+-----------------------------------
+
+STEP 1: Open Attacker Site First
+  -> Navigate to: http://localhost:9000/malicious.html
+  You should see colorful page: "Congratulations! You've Won $1,000!"
+
+STEP 2: Select Attack Target
+  -> Use dropdown: "[Select Attack Target]"
+  -> Choose: "Port 8000 - Vulnerable Bank (NO CSRF Protection)"
+  Red warning appears: "[WARNING] Attacking VULNERABLE bank - Attack should SUCCEED"
+
+STEP 3: Open Vulnerable Bank (NEW TAB, same browser)
+  -> Open new tab in same browser window
+  -> Navigate to: http://localhost:8000
+
+STEP 4: Login as Alice (Victim)
+  Username: alice
+  Password: alice123
+  -> Click "Login" button
+
+STEP 5: Note Starting Balance
+  You should see: "Current Balance: $5,000.00"
+  Transaction history is empty
+  [IMPORTANT] KEEP THIS TAB OPEN! Don't logout or close it.
+
+STEP 6: Return to Attacker Tab and Trigger Attack
+  -> Switch back to attacker site tab (http://localhost:9000/malicious.html)
+  -> Click button: "Claim Your Prize!"
+  -> Alert appears: "Processing your prize... [Hidden: Attacking VULNERABLE bank on port 8000]"
+  -> Click "OK"
+
+STEP 7: Verify Attack Succeeded
+  -> Return to Alice's bank tab (http://localhost:8000/dashboard.php)
+  -> Press F5 or Ctrl+R to refresh
+
+RESULT:
+  [ATTACK SUCCESS] Balance changed to: $4,000.00 (Lost $1,000!)
+  [ATTACK SUCCESS] Transaction history shows: Transfer to 'eve' - $1,000.00
+  [ATTACK SUCCESS] Alice never authorized this transfer!
+
+WHY IT WORKED:
+  1. Alice was logged in (had valid session cookie)
+  2. Attacker's site submitted hidden form to bank
+  3. Browser automatically sent Alice's cookie with request
+  4. Bank validated cookie and processed transfer
+  5. NO CSRF TOKEN VALIDATION in vulnerable version
+
+ADDITIONAL VERIFICATION (OPTIONAL):
+  -> Logout from Alice's account
+  -> Login as Eve (eve / eve123)
+  -> Balance shows: $2,000.00 (was $1,000, gained $1,000!)
+
+================================================================================
+7. TESTING CSRF PROTECTION (SECURE VERSION)
+================================================================================
+
+[SCENARIO]
+  Same attack attempted against protected bank - should FAIL!
+
+STEP-BY-STEP PROTECTION DEMONSTRATION:
+---------------------------------------
+
+STEP 1: Open Attacker Site First
+  -> Navigate to: http://localhost:9000/malicious.html
+  You should see colorful page with dropdown selector
+
+STEP 2: Select Attack Target
+  -> Use dropdown: "[Select Attack Target]"
+  -> Choose: "Port 8001 - Secure Bank (WITH CSRF Protection)"
+  Green message appears: "[PROTECTED] Attacking SECURE bank - Attack should be BLOCKED"
+
+STEP 3: Open Secure Bank (NEW TAB, same browser)
+  -> Open new tab in same browser window
+  -> Navigate to: http://localhost:8001
+
+STEP 4: Login as Alice
+  Username: alice
+  Password: alice123
+  See badge: "[PROTECTED] CSRF tokens enabled!"
+  Balance: $5,000.00
+
+STEP 5: (OPTIONAL) Inspect CSRF Token
+  -> Right-click on page -> View Page Source
+  -> Search for "csrf_token"
+  -> Find hidden field: <input type="hidden" name="csrf_token" value="...">
+  -> This is a 64-character random token that protects the form!
+
+STEP 6: Return to Attacker Tab and Attempt Attack
+  -> Switch back to attacker site tab (http://localhost:9000/malicious.html)
+  -> Verify dropdown shows: "Port 8001 - Secure Bank"
+  -> Click button: "Claim Your Prize!"
+  -> Alert shows: "[Hidden: Attacking SECURE bank on port 8001]"
+
+STEP 7: Attack BLOCKED!
+  Error page appears: "[BLOCKED] CSRF token validation failed! Attack blocked."
+  Transfer rejected because attacker doesn't have valid token
+
+STEP 8: Verify Balance Unchanged
+  -> Return to bank tab (http://localhost:8001/dashboard.php)
+  -> Refresh page
+
+RESULT:
+  [SUCCESS] Balance still: $5,000.00 (No money lost!)
+  [SUCCESS] No unauthorized transactions
+  [SUCCESS] Alice's account is safe!
+
+WHY IT FAILED:
+  1. Secure version requires CSRF token with every transfer
+  2. Token is unique per session, unpredictable
+  3. Attacker's form doesn't have valid token
+  4. Server validates token before processing
+  5. Invalid token -> Request rejected
+
+TEST LEGITIMATE TRANSFER (SECURE VERSION):
+  -> On Alice's dashboard (http://localhost:8001/dashboard.php)
+  -> Select recipient: bob
+  -> Enter amount: 500
+  -> Click "Transfer"
+  -> Success! Balance updates to $4,500.00
+  -> WHY: Legitimate form includes valid CSRF token
+
+================================================================================
+8. UNDERSTANDING THE CODE
+================================================================================
+
+KEY DIFFERENCES: VULNERABLE VS SECURE
+--------------------------------------
+
+VULNERABLE (transfer.php):
+  [NO PROTECTION] NO token validation
+  
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $sender = $_SESSION['user'];
+      $recipient = $_POST['recipient'];
+      $amount = $_POST['amount'];
+      // Process transfer immediately - VULNERABLE!
+  }
+
+SECURE (transfer.php):
+  [PROTECTED] Token validation required
+  
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      // Validate CSRF token first
+      if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+          die('Attack blocked!');
+      }
+      
+      // Only process if token valid
+      $sender = $_SESSION['user'];
+      $recipient = $_POST['recipient'];
+      // Transfer proceeds safely
+  }
+
+
+HOW CSRF TOKENS WORK:
+---------------------
+1. User logs in -> Server generates random token
+2. Token stored in session: $_SESSION['csrf_token']
+3. Token embedded in form: <input name="csrf_token" value="abc123...">
+4. User submits form -> Token sent with request
+5. Server validates: $_POST['csrf_token'] === $_SESSION['csrf_token']
+6. Match -> Process request | No match -> Reject
+
+
+ATTACKER'S MALICIOUS CODE (malicious.html):
+--------------------------------------------
+  <!-- Hidden form that targets bank -->
+  <form id="csrf-attack" method="POST" 
+        action="http://localhost:8000/transfer.php">
+    <input type="hidden" name="recipient" value="eve">
+    <input type="hidden" name="amount" value="1000">
+  </form>
+  
+  <script>
+    function claimPrize() {
+      // Auto-submit form when user clicks button
+      document.getElementById('csrf-attack').submit();
+    }
+  </script>
+
+PROBLEM: Attacker doesn't have Alice's CSRF token!
+VULNERABLE: No token required -> Attack succeeds
+SECURE: Token required -> Attack blocked
+
+================================================================================
+9. COUNTERMEASURES EXPLAINED (Question 4.2b - 5 Marks)
+================================================================================
+
+COUNTERMEASURE 1: CSRF TOKENS (Synchronizer Token Pattern)
+-----------------------------------------------------------
+IMPLEMENTATION:
+  // Generate on login (secure/index.php)
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+  
+  // Embed in form (secure/dashboard.php)
+  <input type="hidden" name="csrf_token" 
+         value="<?= $_SESSION['csrf_token'] ?>">
+  
+  // Validate on submission (secure/transfer.php)
+  if ($_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+      die('Attack blocked!');
+  }
+
+EFFECTIVENESS: ***** (Primary defense)
+WHY IT WORKS:
+  • Token is unpredictable (cryptographically random)
+  • Unique per session
+  • Attacker cannot guess or obtain token
+  • Must be included with every state-changing request
+
+
+COUNTERMEASURE 2: SameSite Cookie Attribute
+--------------------------------------------
+IMPLEMENTATION (secure/index.php):
+  session_set_cookie_params([
+      'samesite' => 'Lax',     // Blocks cross-site transmission
+      'httponly' => true,       // Prevents JavaScript access
+      'secure' => false         // Set true in production (HTTPS)
+  ]);
+
+EFFECTIVENESS: ***** (Modern browser defense)
+HOW IT WORKS:
+  • SameSite=Lax prevents cookies from being sent with cross-site POST
+  • Browser checks if request originated from same site
+  • Different site -> Cookie not sent
+  • Blocks CSRF even without tokens!
+
+
+COUNTERMEASURE 3: Referer Header Validation
+--------------------------------------------
+IMPLEMENTATION (secure/transfer.php):
+  $referer = $_SERVER['HTTP_REFERER'] ?? '';
+  if (strpos($referer, 'http://localhost:8001') !== 0) {
+      die('Invalid origin!');
+  }
+
+EFFECTIVENESS: *** (Fallback protection)
+LIMITATIONS:
+  • Can be stripped by proxies/browsers
+  • Privacy extensions may remove referer
+  • Use as additional layer, not primary defense
+
+
+COUNTERMEASURE 4: Token Regeneration
+-------------------------------------
+IMPLEMENTATION (secure/transfer.php):
+  // After successful transfer
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+EFFECTIVENESS: **** (Prevents token reuse)
+WHY IT HELPS:
+  • Even if token leaked, only valid for one use
+  • Limits window of opportunity for attack
+  • Enhances security of token mechanism
+
+================================================================================
+10. TROUBLESHOOTING
+================================================================================
+
+PROBLEM: "SQLite extension not found"
+SOLUTION:
+  1. Check: php -m | grep sqlite
+  2. If missing, enable in php.ini:
+     extension=sqlite3
+     extension=pdo_sqlite
+  3. Restart terminal and try again
+
+PROBLEM: "Port already in use" or "Address already in use"
+SOLUTION:
+  1. Check what's using the port:
+     Windows: netstat -ano | findstr :8000
+     Mac/Linux: lsof -i :8000
+  2. Kill the process or use different port:
+     php -S localhost:8080  (change 8000 to 8080)
+
+PROBLEM: "Permission denied" when creating database
+SOLUTION:
+  1. Ensure you have write permissions in csrf_demo folder
+  2. Windows: Right-click folder -> Properties -> Security
+  3. Mac/Linux: chmod 755 csrf_demo
+
+PROBLEM: "Session not persisting" or "Login doesn't work"
+SOLUTION:
+  1. Clear browser cookies: Settings -> Privacy -> Clear Data
+  2. Close all browser tabs
+  3. Restart PHP servers
+  4. Try again in incognito/private window
+
+PROBLEM: "Cannot see CSRF token in form"
+SOLUTION:
+  1. View page source (Ctrl+U or Right-click -> View Source)
+  2. Search for "csrf_token"
+  3. Should see: <input type="hidden" name="csrf_token" value="...">
+  4. If missing, check you're on secure version (localhost:8001)
+
+PROBLEM: "Transfer succeeds in secure version from attacker site"
+SOLUTION:
+  1. This shouldn't happen! Check:
+  2. Verify you're testing localhost:8001 (not 8000)
+  3. Check browser isn't caching old pages (Ctrl+Shift+R)
+  4. Verify secure/transfer.php has token validation code
+  5. Check browser console for errors
+
+================================================================================
+11. FILE STRUCTURE REFERENCE
+================================================================================
+
+COMPLETE FILE LIST (13 files total):
+=====================================
+
+csrf_demo/
+├── vulnerable/                          (NO CSRF PROTECTION)
+│   ├── bank_vulnerable.db              (Auto-created by init_db.php)
+│   ├── init_db.php                     (Database setup script)
+│   ├── index.php                       (Login page)
+│   ├── dashboard.php                   (Transfer form - VULNERABLE!)
+│   ├── transfer.php                    (Transfer handler - NO validation)
+│   ├── logout.php                      (Logout handler)
+│   └── styles.css                      (CSS styling)
+│
+├── attacker/                            (MALICIOUS SITE)
+│   └── malicious.html                  (CSRF exploit page)
+│
+└── secure/                              (WITH CSRF PROTECTION)
+    ├── bank_secure.db                  (Auto-created by init_db.php)
+    ├── init_db.php                     (Database setup script)
+    ├── index.php                       (Login with token generation)
+    ├── dashboard.php                   (Transfer form with CSRF token)
+    ├── transfer.php                    (Transfer handler with validation)
+    ├── logout.php                      (Logout handler)
+    └── styles.css                      (CSS styling)
+
+
+TEST CREDENTIALS:
+=================
+Username    Password     Initial Balance
+--------    --------     ---------------
+alice       alice123     $5,000
+bob         bob123       $3,000
+eve         eve123       $1,000
+
+
+URL REFERENCE:
+==============
+Vulnerable Bank:  http://localhost:8000
+Attacker Site:    http://localhost:9000/malicious.html
+Secure Bank:      http://localhost:8001
+
+
+MARKING CRITERIA (Exercise 4.2):
+=================================
+Total: 17 Marks
+
+(a) Documentation & Implementation: 12 Marks
+    - Documentation (README): 2 marks
+    - Vulnerable code: 10 marks (0-5: doesn't work, 6-10: partial, 11-15: complete)
+
+(b) Countermeasures: 5 Marks
+    - Description: 2 marks
+    - Implementation: 3 marks
+
+
+EXPECTED GRADE: 15-17/17
+=========================
+* Code works completely
+* Attack clearly demonstrated
+* Protection effectively implemented
+* Multiple countermeasures (tokens, SameSite, referer, regeneration)
+* Well documented
+* Professional presentation
+
+================================================================================
+REFERENCES
+================================================================================
+
+1. PHP CSRF Tutorial:
+   https://www.phptutorial.net/php-tutorial/php-csrf/
+
+2. OWASP CSRF Prevention Cheat Sheet:
+   https://owasp.org/www-community/attacks/csrf
+   https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
+
+3. RFC 6265bis - SameSite Cookies:
+   https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis
+
+4. MDN Web Docs - CSRF:
+   https://developer.mozilla.org/en-US/docs/Glossary/CSRF
+
+5. OWASP Top 10:
+   https://owasp.org/www-project-top-ten/
+
+================================================================================
+END OF SETUP GUIDE
+================================================================================
+
+For complete source code, see: CSRF_Complete_Code.txt
+For HTML documentation, see: Exercise4_Web_Security.html
+
+Questions? Review the troubleshooting section or check the references above.
+
+Good luck with your demonstration!
+- Siddesh Vilas Pawar | MSc Cyber Security | University of Surrey
