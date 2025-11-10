@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Publications | Siddesh Pawar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .news-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        
+        .news-item {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--secondary-color);
+            transition: var(--transition);
+        }
+        
+        .news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .news-badge {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .news-badge.new {
+            background: #28a745;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .news-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .news-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .news-description {
+            color: var(--text-color);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .news-tags {
+            margin: 1rem 0;
+        }
+        
+        .news-tag {
+            display: inline-block;
+            background: #e9ecef;
+            color: #495057;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .news-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-publication {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+        
+        .btn-publication:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">SP</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="news.html" class="active">News</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="news-container">
+            <div class="section-header">
+                <h1>News & Publications</h1>
+                <p>Latest research, publications, and professional updates</p>
+            </div>
+
+            <!-- Recent Publication -->
+            <div class="news-item">
+                <span class="news-badge new">NEW PUBLICATION</span>
+                <div class="news-date">
+                    <i class="far fa-calendar-alt"></i> November 2025
+                </div>
+                <h2 class="news-title">Design and Evaluation of StrongVPN: A Pure Post-Quantum VPN Architecture</h2>
+                <div class="news-description">
+                    <p>
+                        Published research paper presenting StrongVPN, a novel VPN architecture designed with pure post-quantum cryptographic algorithms. This work addresses the critical challenge of securing VPN communications against future quantum computing threats by implementing NIST-standardized post-quantum algorithms throughout the entire VPN stack.
+                    </p>
+                    <p>
+                        <strong>Key Contributions:</strong>
+                    </p>
+                    <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                        <li>Complete post-quantum VPN architecture design and implementation</li>
+                        <li>Integration of quantum-resistant key encapsulation mechanisms (KEMs) and digital signatures</li>
+                        <li>Comprehensive performance evaluation comparing classical and PQC implementations</li>
+                        <li>Security analysis demonstrating resistance to quantum attacks</li>
+                        <li>Practical deployment considerations and migration strategies</li>
+                    </ul>
+                </div>
+                <div class="news-tags">
+                    <span class="news-tag">Post-Quantum Cryptography</span>
+                    <span class="news-tag">VPN Security</span>
+                    <span class="news-tag">Quantum-Resistant</span>
+                    <span class="news-tag">Network Security</span>
+                    <span class="news-tag">NIST Standards</span>
+                    <span class="news-tag">Cryptographic Engineering</span>
+                </div>
+                <div class="news-actions">
+                    <a href="https://www.techrxiv.org/users/978467/articles/1345362-design-and-evaluation-of-strongvpn-a-pure-post-quantum-vpn-architecture" target="_blank" class="btn-publication">
+                        <i class="fas fa-file-alt"></i> Read Publication on TechRxiv
+                    </a>
+                    <a href="pqc-vpn.html" class="btn btn-secondary">
+                        <i class="fas fa-book-open"></i> Explore PQC Guide
+                    </a>
+                </div>
+            </div>
+
+            <!-- Placeholder for future news -->
+            <div class="news-item" style="opacity: 0.6;">
+                <span class="news-badge">UPCOMING</span>
+                <div class="news-date">
+                    <i class="far fa-calendar-alt"></i> Stay Tuned
+                </div>
+                <h2 class="news-title">More Research & Publications Coming Soon</h2>
+                <div class="news-description">
+                    <p>
+                        Additional research papers and publications in the areas of network security, quantum-resistant cryptography, and secure communication protocols are currently in development.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <h3>Siddesh Vilas Pawar</h3>
+                    <p>Cyber Security and Network Engineering Specialist</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="cv.html">CV</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Connect</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="mailto:siddeshvilaspawar@gmail.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Siddesh Vilas Pawar. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
