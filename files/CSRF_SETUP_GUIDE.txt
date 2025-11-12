@@ -15,8 +15,7 @@ TABLE OF CONTENTS
 7. Testing CSRF Protection
 8. Understanding the Code
 9. Countermeasures Explained
-10. Troubleshooting
-11. File Structure Reference
+10. File Structure Reference
 
 ================================================================================
 1. PROJECT OVERVIEW
@@ -26,26 +25,14 @@ OBJECTIVE:
   Demonstrate Cross-Site Request Forgery (CSRF) vulnerability in a banking
   application and implement industry-standard countermeasures.
 
-DELIVERABLES:
-  * Vulnerable banking website (demonstrates attack)
-  * Attacker's malicious website (exploits vulnerability)
-  * Secure banking website (implements protection)
-  * Complete documentation (this guide)
-
-WHAT YOU'LL LEARN:
-  * How CSRF attacks work in real applications
-  * Why browsers automatically send cookies
-  * How to implement CSRF tokens
-  * Modern defense techniques (SameSite cookies)
-
 ================================================================================
 2. SYSTEM REQUIREMENTS
 ================================================================================
 
 REQUIRED SOFTWARE:
-  * PHP 7.4 or higher (with SQLite3 extension)
-  * Modern web browser (Chrome, Firefox, Edge, Safari)
-  * Terminal/Command Prompt (3 windows needed)
+   PHP 7.4 or higher (with SQLite3 extension)
+   Modern web browser (Chrome, Firefox, Edge, Safari)
+   Terminal/Command Prompt (3 windows needed)
 
 CHECK YOUR SYSTEM:
   Run this command to verify PHP:
@@ -444,7 +431,7 @@ VULNERABLE: No token required -> Attack succeeds
 SECURE: Token required -> Attack blocked
 
 ================================================================================
-9. COUNTERMEASURES EXPLAINED (Question 4.2b - 5 Marks)
+9. COUNTERMEASURES EXPLAINED (Question 4.2b)
 ================================================================================
 
 COUNTERMEASURE 1: CSRF TOKENS (Synchronizer Token Pattern)
@@ -462,7 +449,7 @@ IMPLEMENTATION:
       die('Attack blocked!');
   }
 
-EFFECTIVENESS: ***** (Primary defense)
+EFFECTIVENESS:  (Primary defense)
 WHY IT WORKS:
   • Token is unpredictable (cryptographically random)
   • Unique per session
@@ -479,7 +466,7 @@ IMPLEMENTATION (secure/index.php):
       'secure' => false         // Set true in production (HTTPS)
   ]);
 
-EFFECTIVENESS: ***** (Modern browser defense)
+EFFECTIVENESS:  (Modern browser defense)
 HOW IT WORKS:
   • SameSite=Lax prevents cookies from being sent with cross-site POST
   • Browser checks if request originated from same site
@@ -495,7 +482,7 @@ IMPLEMENTATION (secure/transfer.php):
       die('Invalid origin!');
   }
 
-EFFECTIVENESS: *** (Fallback protection)
+EFFECTIVENESS:(Fallback protection)
 LIMITATIONS:
   • Can be stripped by proxies/browsers
   • Privacy extensions may remove referer
@@ -508,62 +495,16 @@ IMPLEMENTATION (secure/transfer.php):
   // After successful transfer
   $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 
-EFFECTIVENESS: **** (Prevents token reuse)
+EFFECTIVENESS: (Prevents token reuse)
 WHY IT HELPS:
   • Even if token leaked, only valid for one use
   • Limits window of opportunity for attack
   • Enhances security of token mechanism
 
-================================================================================
-10. TROUBLESHOOTING
-================================================================================
 
-PROBLEM: "SQLite extension not found"
-SOLUTION:
-  1. Check: php -m | grep sqlite
-  2. If missing, enable in php.ini:
-     extension=sqlite3
-     extension=pdo_sqlite
-  3. Restart terminal and try again
-
-PROBLEM: "Port already in use" or "Address already in use"
-SOLUTION:
-  1. Check what's using the port:
-     Windows: netstat -ano | findstr :8000
-     Mac/Linux: lsof -i :8000
-  2. Kill the process or use different port:
-     php -S localhost:8080  (change 8000 to 8080)
-
-PROBLEM: "Permission denied" when creating database
-SOLUTION:
-  1. Ensure you have write permissions in csrf_demo folder
-  2. Windows: Right-click folder -> Properties -> Security
-  3. Mac/Linux: chmod 755 csrf_demo
-
-PROBLEM: "Session not persisting" or "Login doesn't work"
-SOLUTION:
-  1. Clear browser cookies: Settings -> Privacy -> Clear Data
-  2. Close all browser tabs
-  3. Restart PHP servers
-  4. Try again in incognito/private window
-
-PROBLEM: "Cannot see CSRF token in form"
-SOLUTION:
-  1. View page source (Ctrl+U or Right-click -> View Source)
-  2. Search for "csrf_token"
-  3. Should see: <input type="hidden" name="csrf_token" value="...">
-  4. If missing, check you're on secure version (localhost:8001)
-
-PROBLEM: "Transfer succeeds in secure version from attacker site"
-SOLUTION:
-  1. This shouldn't happen! Check:
-  2. Verify you're testing localhost:8001 (not 8000)
-  3. Check browser isn't caching old pages (Ctrl+Shift+R)
-  4. Verify secure/transfer.php has token validation code
-  5. Check browser console for errors
 
 ================================================================================
-11. FILE STRUCTURE REFERENCE
+10. FILE STRUCTURE REFERENCE
 ================================================================================
 
 COMPLETE FILE LIST (13 files total):
@@ -608,27 +549,8 @@ Attacker Site:    http://localhost:9000/malicious.html
 Secure Bank:      http://localhost:8001
 
 
-MARKING CRITERIA (Exercise 4.2):
-=================================
-Total: 17 Marks
-
-(a) Documentation & Implementation: 12 Marks
-    - Documentation (README): 2 marks
-    - Vulnerable code: 10 marks (0-5: doesn't work, 6-10: partial, 11-15: complete)
-
-(b) Countermeasures: 5 Marks
-    - Description: 2 marks
-    - Implementation: 3 marks
 
 
-EXPECTED GRADE: 15-17/17
-=========================
-* Code works completely
-* Attack clearly demonstrated
-* Protection effectively implemented
-* Multiple countermeasures (tokens, SameSite, referer, regeneration)
-* Well documented
-* Professional presentation
 
 ================================================================================
 REFERENCES
@@ -657,7 +579,4 @@ END OF SETUP GUIDE
 For complete source code, see: CSRF_Complete_Code.txt
 For HTML documentation, see: Exercise4_Web_Security.html
 
-Questions? Review the troubleshooting section or check the references above.
 
-Good luck with your demonstration!
-- Siddesh Vilas Pawar | MSc Cyber Security | University of Surrey
