@@ -577,6 +577,6 @@ END OF SETUP GUIDE
 ================================================================================
 
 For complete source code, see: CSRF_Complete_Code.txt
-For HTML documentation, see: Exercise4_Web_Security.html
+
 
 
