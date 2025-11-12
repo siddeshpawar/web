@@ -1,14 +1,13 @@
 <?php
 session_start();
 
-// ✅ COUNTERMEASURE 1: SameSite Cookie Attribute
 session_set_cookie_params([
     'lifetime' => 3600,
     'path' => '/',
     'domain' => 'localhost',
-    'secure' => false,     // Set true in production with HTTPS
-    'httponly' => true,    // Prevent JavaScript access
-    'samesite' => 'Lax'    // Block cross-site cookie transmission
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax'
 ]);
 
 if (isset($_SESSION['user'])) {
@@ -30,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($user) {
             $_SESSION['user'] = $username;
-            // ✅ COUNTERMEASURE 2: Generate CSRF token on login
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
             header('Location: dashboard.php');
             exit;
@@ -50,8 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="container">
-        <h1>🔒 Secure Bank Login</h1>
-        <div class="success">✅ CSRF PROTECTION ENABLED</div>
+        <h1> Secure Bank Login</h1>
+        <div class="success"> CSRF PROTECTION ENABLED</div>
         
         <?php if ($error): ?>
             <div class="error"><?= htmlspecialchars($error) ?></div>

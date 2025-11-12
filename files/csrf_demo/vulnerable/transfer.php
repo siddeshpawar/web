@@ -5,9 +5,6 @@ if (!isset($_SESSION['user'])) {
     die('Not logged in');
 }
 
-// ⚠️ VULNERABLE: NO CSRF TOKEN VALIDATION!
-// This endpoint accepts ANY POST request with valid session
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sender = $_SESSION['user'];
     $recipient = $_POST['recipient'] ?? '';
@@ -21,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db = new PDO('sqlite:bank_vulnerable.db');
         $db->beginTransaction();
         
-        // Check sender balance
         $stmt = $db->prepare("SELECT balance FROM users WHERE username = ?");
         $stmt->execute([$sender]);
         $sender_balance = $stmt->fetchColumn();
@@ -30,15 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die('Insufficient funds');
         }
         
-        // Deduct from sender
         $stmt = $db->prepare("UPDATE users SET balance = balance - ? WHERE username = ?");
         $stmt->execute([$amount, $sender]);
         
-        // Add to recipient
         $stmt = $db->prepare("UPDATE users SET balance = balance + ? WHERE username = ?");
         $stmt->execute([$amount, $recipient]);
         
-        // Log transaction
         $stmt = $db->prepare("
             INSERT INTO transactions (sender, recipient, amount) VALUES (?, ?, ?)
         ");
@@ -46,7 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $db->commit();
         
-        // Success - redirect back
         header('Location: dashboard.php');
         exit;
         

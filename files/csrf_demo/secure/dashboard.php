@@ -6,7 +6,6 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-// ✅ COUNTERMEASURE 3: Generate CSRF token if not exists
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -40,14 +39,13 @@ try {
 </head>
 <body>
     <div class="container">
-        <h1>🔒 Welcome, <?= htmlspecialchars($username) ?></h1>
+        <h1>Welcome, <?= htmlspecialchars($username) ?></h1>
         <div class="balance">Current Balance: $<?= number_format($balance, 2) ?></div>
         
-        <div class="success">✅ PROTECTED: CSRF tokens enabled!</div>
+        <div class="success"> PROTECTED: CSRF tokens enabled!</div>
         
         <h2>Transfer Money</h2>
         <form method="POST" action="transfer.php">
-            <!-- ✅ CSRF Token Hidden Field -->
             <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
             
             <label>Recipient:</label>

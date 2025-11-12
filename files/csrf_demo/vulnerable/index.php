@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Redirect if already logged in
 if (isset($_SESSION['user'])) {
     header('Location: dashboard.php');
     exit;
@@ -40,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="container">
         <h1>🏦 Vulnerable Bank Login</h1>
-        <div class="warning">⚠️ NO CSRF PROTECTION</div>
+        <div class="warning"> NO CSRF PROTECTION</div>
         
         <?php if ($error): ?>
             <div class="error"><?= htmlspecialchars($error) ?></div>

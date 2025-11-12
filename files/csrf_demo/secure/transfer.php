@@ -6,15 +6,13 @@ if (!isset($_SESSION['user'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // ✅ COUNTERMEASURE 4: CSRF Token Validation
     if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die('⛔ CSRF token validation failed! Attack blocked.');
+        die(' CSRF token validation failed! Attack blocked.');
     }
     
-    // ✅ COUNTERMEASURE 5: Referer Header Validation (fallback)
     $referer = $_SERVER['HTTP_REFERER'] ?? '';
     if (strpos($referer, 'http://localhost:8001') !== 0) {
-        die('⛔ Invalid referer! Request must originate from same domain.');
+        die(' Invalid referer! Request must originate from same domain.');
     }
     
     $sender = $_SESSION['user'];
@@ -48,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $db->commit();
         
-        // ✅ COUNTERMEASURE 6: Regenerate CSRF token after use
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
         
         header('Location: dashboard.php');
