@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
     loadQuestions();
     initializeEventListeners();
     animateStats();
-    loadProgress();
     initializeSmoothScroll();
 });
 
@@ -37,8 +36,9 @@ async function loadQuestions() {
         }
     }
     
-    // Load bookmarks after questions are loaded
+    // Load bookmarks and progress after questions are loaded
     loadBookmarks();
+    loadProgress();
     showNotification('Questions loaded successfully!');
 }
 
