@@ -1,0 +1,242 @@
+[
+    {
+        "id": 1,
+        "question": "What is Cisco Identity Services Engine (ISE)?",
+        "answer": "Cisco ISE is a security policy management platform that provides secure network access control for users, devices, and applications.\\n\\nCore functions: 1) Authentication - verifies identity, 2) Authorization - grants access based on policy, 3) Accounting - tracks network activity, 4) Posture - endpoint compliance checking.\\n\\nDeployment personas: 1) Administration (PAN), 2) Monitoring (MnT), 3) Policy Service (PSN).\\n\\nKey features: 1) 802.1X authentication, 2) Guest access, 3) BYOD onboarding, 4) Device profiling, 5) TrustSec/SGT, 6) pxGrid integration.",
+        "reference": "Cisco ISE Administration Guide",
+        "difficulty": "CCNA",
+        "category": "Cisco ISE Fundamentals"
+    },
+    {
+        "id": 2,
+        "question": "Explain ISE deployment personas and their roles.",
+        "answer": "ISE nodes can be configured with different personas based on their function in the deployment.\\n\\nPersona types: 1) Policy Administration Node (PAN) - central management, configuration, 2) Monitoring Node (MnT) - logging, reporting, troubleshooting, 3) Policy Service Node (PSN) - RADIUS, profiling, posture services.\\n\\nDeployment models: 1) Standalone - all personas on one node, 2) Distributed - personas separated across nodes, 3) High Availability - redundant nodes per persona.\\n\\nScaling considerations: 1) PSN for authentication load, 2) MnT for logging volume, 3) PAN for configuration management.\\n\\nHA requirements: 1) Primary/Secondary PAN, 2) MnT with automatic failover, 3) PSN load balancing via node groups.",
+        "reference": "Cisco ISE Deployment Guide",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Architecture"
+    },
+    {
+        "id": 3,
+        "question": "How does ISE authentication policy work?",
+        "answer": "ISE authentication policy determines how to validate user/device credentials based on configurable rules.\\n\\nPolicy components: 1) Policy Sets - logical grouping of rules, 2) Authentication Rules - match conditions and identity sources, 3) Authorization Rules - access permissions.\\n\\nAuthentication flow: 1) Request received, 2) Policy set matched, 3) Authentication rule evaluated, 4) Identity source queried, 5) Result returned.\\n\\nIdentity sources: 1) Internal Users, 2) Active Directory, 3) LDAP, 4) Certificate Authentication Profile, 5) Token servers.\\n\\nAllowed protocols: 1) PAP, 2) CHAP, 3) EAP-TLS, 4) PEAP, 5) EAP-FAST, 6) EAP-TTLS.",
+        "reference": "Cisco ISE Authentication Policy",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Policies"
+    },
+    {
+        "id": 4,
+        "question": "What is ISE profiling and how does it work?",
+        "answer": "ISE profiling automatically identifies and classifies endpoints connecting to the network based on collected attributes.\\n\\nProfiling probes: 1) RADIUS - authentication attributes, 2) DHCP - fingerprinting, 3) DNS - hostname lookup, 4) HTTP - user agent, 5) SNMP - device queries, 6) NetFlow - traffic analysis, 7) NMAP - active scanning.\\n\\nProfile hierarchy: 1) Endpoint Identity Groups, 2) Profiling Policies, 3) Logical Profiles.\\n\\nProfile matching: 1) Certainty factor calculation, 2) Minimum certainty threshold, 3) Parent/child inheritance.\\n\\nUse cases: 1) Device-based authorization, 2) IoT security, 3) Network visibility, 4) Automated policy assignment.",
+        "reference": "Cisco ISE Profiling Guide",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Profiling"
+    },
+    {
+        "id": 5,
+        "question": "Explain ISE TrustSec and Security Group Tags (SGT).",
+        "answer": "TrustSec provides software-defined segmentation using Security Group Tags to classify and control traffic.\\n\\nTrustSec components: 1) SGT - security label assigned to traffic, 2) SGACL - access control based on SGT, 3) SXP - SGT Exchange Protocol for legacy devices.\\n\\nSGT assignment methods: 1) Dynamic - via 802.1X/MAB, 2) Static - port-based, 3) IP-SGT mapping - for non-TrustSec devices.\\n\\nPolicy enforcement: 1) Inline tagging - SGT in Ethernet frame, 2) SGACLs - permit/deny based on source/dest SGT, 3) Security Group Firewall - FW policy using SGT.\\n\\nBenefits: 1) Topology-independent segmentation, 2) Simplified policy management, 3) Dynamic policy updates, 4) Reduced ACL complexity.",
+        "reference": "Cisco TrustSec Configuration Guide",
+        "difficulty": "CCIE",
+        "category": "Cisco ISE TrustSec"
+    },
+    {
+        "id": 6,
+        "question": "How do you configure ISE for guest access?",
+        "answer": "ISE Guest Services provides secure temporary network access for visitors through customizable portals.\\n\\nGuest portal types: 1) Hotspot - no credentials required, 2) Self-Registered - visitor creates account, 3) Sponsored - employee approves guest, 4) Social Login - Facebook, Google auth.\\n\\nConfiguration steps: 1) Create guest portal, 2) Configure guest types, 3) Define sponsor groups, 4) Set up guest wireless SSID, 5) Create authorization rules.\\n\\nGuest account settings: 1) Account duration, 2) Access time restrictions, 3) Location restrictions, 4) Maximum devices, 5) Network access level.\\n\\nNotification options: 1) Email credentials, 2) SMS notification, 3) Print badge, 4) Sponsor notification.",
+        "reference": "Cisco ISE Guest Services",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Guest"
+    },
+    {
+        "id": 7,
+        "question": "What is ISE posture assessment?",
+        "answer": "ISE posture assessment validates endpoint compliance with security requirements before granting network access.\\n\\nPosture components: 1) Posture Agent (AnyConnect ISE module), 2) Posture Conditions - what to check, 3) Posture Requirements - pass/fail criteria, 4) Posture Policies - rule sets.\\n\\nCondition types: 1) Antivirus - installed and updated, 2) Anti-spyware, 3) Disk encryption, 4) Firewall status, 5) Patch level, 6) Application presence.\\n\\nPosture states: 1) Compliant - passes all checks, 2) Non-Compliant - fails checks, 3) Unknown - agent not installed, 4) Not Applicable.\\n\\nRemediation options: 1) Auto-remediation, 2) Manual remediation instructions, 3) Quarantine with limited access, 4) Grace period.",
+        "reference": "Cisco ISE Posture Services",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Posture"
+    },
+    {
+        "id": 8,
+        "question": "Explain ISE BYOD onboarding process.",
+        "answer": "ISE BYOD enables employees to securely onboard personal devices for corporate network access.\\n\\nOnboarding flow: 1) Connect to onboarding SSID, 2) Redirect to My Devices portal, 3) Authenticate with AD credentials, 4) Download/install certificate, 5) Configure device for secure SSID.\\n\\nSupported platforms: 1) Windows, 2) macOS, 3) iOS, 4) Android, 5) Chrome OS.\\n\\nCertificate provisioning: 1) SCEP enrollment, 2) EST protocol, 3) Internal CA or external PKI.\\n\\nMy Devices Portal features: 1) Device registration, 2) Lost device marking, 3) Device deletion, 4) Multiple device management.\\n\\nPolicy considerations: 1) Different access for BYOD vs corporate, 2) Device limit per user, 3) Certificate-based vs password auth.",
+        "reference": "Cisco ISE BYOD Configuration",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE BYOD"
+    },
+    {
+        "id": 9,
+        "question": "How does ISE integrate with Active Directory?",
+        "answer": "ISE integrates with AD for user authentication, group-based authorization, and machine authentication.\\n\\nJoin process: 1) Configure AD join point, 2) Specify domain details, 3) Join ISE to domain, 4) Verify AD groups available.\\n\\nAuthentication types: 1) User authentication - validates credentials, 2) Machine authentication - computer account, 3) EAP chaining - both user and machine.\\n\\nAD attributes for policy: 1) Group membership, 2) User attributes, 3) Computer attributes, 4) OU location.\\n\\nMulti-domain support: 1) Multiple join points, 2) Trust relationships, 3) Identity source sequences.\\n\\nTroubleshooting: 1) AD connector status, 2) Kerberos issues, 3) Time synchronization, 4) DNS resolution.",
+        "reference": "Cisco ISE Active Directory Integration",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Integration"
+    },
+    {
+        "id": 10,
+        "question": "What is pxGrid and how is it used in ISE?",
+        "answer": "pxGrid (Platform Exchange Grid) enables ISE to share context with security ecosystem partners.\\n\\npxGrid capabilities: 1) Session directory - endpoint information, 2) Adaptive Network Control - quarantine/unquarantine, 3) Security Group Tags, 4) Endpoint profiles, 5) MDM data.\\n\\nIntegration partners: 1) Firepower - identity-based firewall rules, 2) Stealthwatch - user context for analytics, 3) Rapid7 - vulnerability correlation, 4) Splunk - SIEM enrichment.\\n\\npxGrid 2.0 features: 1) WebSocket based, 2) REST API, 3) STOMP messaging, 4) Pub/sub model.\\n\\nConfiguration: 1) Enable pxGrid persona, 2) Generate certificates, 3) Approve client registrations, 4) Configure publishers/subscribers.",
+        "reference": "Cisco pxGrid Integration Guide",
+        "difficulty": "CCIE",
+        "category": "Cisco ISE pxGrid"
+    },
+    {
+        "id": 11,
+        "question": "How do you troubleshoot ISE authentication failures?",
+        "answer": "ISE provides comprehensive logging and tools for troubleshooting authentication issues.\\n\\nTroubleshooting tools: 1) Live Logs - real-time authentication events, 2) RADIUS Live Logs - detailed RADIUS transactions, 3) Reports - historical data, 4) TCP Dump - packet captures.\\n\\nCommon failure reasons: 1) Invalid credentials, 2) Certificate issues, 3) Policy mismatch, 4) EAP timeout, 5) AD connectivity.\\n\\nDiagnostic steps: 1) Check Live Logs for specific error, 2) Review authentication details, 3) Verify identity source status, 4) Check endpoint database, 5) Review policy set matching.\\n\\nDebug options: 1) Enable component debug, 2) Endpoint debug, 3) Support bundle generation.",
+        "reference": "Cisco ISE Troubleshooting Guide",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Troubleshooting"
+    },
+    {
+        "id": 12,
+        "question": "Explain ISE Change of Authorization (CoA).",
+        "answer": "CoA enables ISE to dynamically change endpoint access after initial authentication.\\n\\nCoA types: 1) Reauthenticate - force new authentication, 2) Terminate Session - disconnect endpoint, 3) Port Bounce - down/up interface, 4) Port Shutdown - administratively down.\\n\\nUse cases: 1) Posture status change, 2) Manual quarantine, 3) Policy update application, 4) Threat response, 5) Guest timeout.\\n\\nCoA configuration: 1) Enable on network device, 2) Configure shared secret, 3) Set CoA port (1700/3799), 4) Create authorization profiles with CoA.\\n\\nCoA in authorization profile: 1) Set profile with CoA action, 2) Define conditions for CoA trigger, 3) Test CoA functionality.",
+        "reference": "Cisco ISE CoA Configuration",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Advanced"
+    },
+    {
+        "id": 13,
+        "question": "What are ISE network device groups?",
+        "answer": "Network device groups organize network access devices for simplified policy management.\\n\\nGroup types: 1) Device Type - switch, WLC, router, 2) Location - building, floor, region, 3) Custom - any logical grouping.\\n\\nConfiguration: 1) Create device group hierarchy, 2) Assign devices to groups, 3) Reference groups in policies.\\n\\nPolicy usage: 1) Condition based on device group, 2) Different policies per location, 3) Device type-specific authorization.\\n\\nBest practices: 1) Use hierarchical structure, 2) Meaningful naming convention, 3) Location-based for regional policies, 4) Type-based for device-specific policies.",
+        "reference": "Cisco ISE Network Device Groups",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Administration"
+    },
+    {
+        "id": 14,
+        "question": "How do you configure ISE for TACACS+ device administration?",
+        "answer": "ISE provides TACACS+ services for centralized network device administration and command authorization.\\n\\nDevice Admin configuration: 1) Enable Device Admin service, 2) Add network devices with TACACS+ secret, 3) Configure admin identity source, 4) Create device admin policy sets.\\n\\nPolicy components: 1) Authentication Policy - identity verification, 2) Authorization Policy - privilege assignment, 3) Command Sets - permitted/denied commands.\\n\\nShell profiles: 1) Privilege level, 2) Access type, 3) Custom attributes.\\n\\nCommand authorization: 1) Define command sets, 2) Permit/deny specific commands, 3) Argument matching.\\n\\nReporting: 1) TACACS+ authentication reports, 2) Command accounting, 3) Admin access audit.",
+        "reference": "Cisco ISE Device Administration",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE TACACS+"
+    },
+    {
+        "id": 15,
+        "question": "Explain ISE licensing model.",
+        "answer": "ISE uses tiered licensing based on features and concurrent endpoint count.\\n\\nLicense tiers: 1) Essentials - basic AAA, guest, 2) Advantage - profiling, feed, BYOD, 3) Premier - posture, TrustSec, pxGrid.\\n\\nLicense types: 1) Base - basic functionality, 2) Plus - additional features, 3) Apex - full feature set, 4) Device Admin - TACACS+.\\n\\nLicensing model: 1) Concurrent endpoint count, 2) Term-based subscription, 3) Perpetual (legacy).\\n\\nSmart Licensing: 1) Cisco Smart Account, 2) Virtual Account assignment, 3) Automatic license consumption tracking.\\n\\nCapacity planning: 1) Peak concurrent sessions, 2) Feature requirements, 3) Growth projections.",
+        "reference": "Cisco ISE Licensing Guide",
+        "difficulty": "CCNA",
+        "category": "Cisco ISE Administration"
+    },
+    {
+        "id": 16,
+        "question": "What is ISE Passive Identity and how does it work?",
+        "answer": "Passive Identity allows ISE to collect user identity without requiring 802.1X authentication.\\n\\nIdentity sources: 1) AD login events - WMI/Agent, 2) Syslog from AD, 3) API providers, 4) REST API probe, 5) SPAN probe.\\n\\nPassive ID providers: 1) Active Directory - domain login monitoring, 2) API providers - third-party identity, 3) Syslog parsers - custom identity extraction.\\n\\nUse cases: 1) Identity for non-802.1X networks, 2) User-based firewall rules, 3) Network visibility without NAC, 4) Legacy network integration.\\n\\nConfiguration: 1) Enable Passive ID service, 2) Configure AD agents/WMI, 3) Define API providers, 4) Create subscriber (pxGrid clients).",
+        "reference": "Cisco ISE Passive Identity",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Advanced"
+    },
+    {
+        "id": 17,
+        "question": "How do you upgrade Cisco ISE?",
+        "answer": "ISE upgrades require careful planning and execution to minimize downtime.\\n\\nUpgrade paths: 1) Direct upgrade - supported version jumps, 2) Staged upgrade - intermediate versions required.\\n\\nPre-upgrade tasks: 1) Review release notes, 2) Check compatibility matrix, 3) Verify disk space, 4) Backup configuration, 5) Repository setup.\\n\\nUpgrade order: 1) Secondary Admin node, 2) Primary Admin node, 3) Secondary MnT, 4) Primary MnT, 5) PSN nodes.\\n\\nPost-upgrade validation: 1) Node status, 2) Replication status, 3) Service availability, 4) Test authentication, 5) Review reports.\\n\\nRollback options: 1) Restore from backup, 2) Reimaging node.",
+        "reference": "Cisco ISE Upgrade Guide",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Administration"
+    },
+    {
+        "id": 18,
+        "question": "Explain ISE authorization profiles.",
+        "answer": "Authorization profiles define what access rights and attributes to return when authentication succeeds.\\n\\nProfile components: 1) Access type - permit/deny, 2) VLAN assignment, 3) ACL/dACL, 4) Security Group Tag, 5) CoA actions.\\n\\nCommon attributes: 1) VLAN ID, 2) Downloadable ACL, 3) Filter-ID (named ACL), 4) Session timeout, 5) URL redirect.\\n\\nAdvanced options: 1) Web authentication, 2) Posture discovery, 3) Passive identity tracking, 4) Reauthentication timer.\\n\\nWeb redirect types: 1) Central Web Auth, 2) Client provisioning, 3) Native supplicant provisioning, 4) MDM enrollment.\\n\\nBest practices: 1) Least privilege access, 2) Descriptive naming, 3) Test before production, 4) Document purpose.",
+        "reference": "Cisco ISE Authorization Profiles",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Policies"
+    },
+    {
+        "id": 19,
+        "question": "What are ISE endpoint identity groups?",
+        "answer": "Endpoint identity groups classify devices for use in authorization policies.\\n\\nGroup sources: 1) Static assignment - manual, 2) Profiling - automatic based on profile, 3) BYOD registration, 4) Guest registration, 5) API assignment.\\n\\nBuilt-in groups: 1) Profiled - devices matched by profiler, 2) Blacklist - blocked devices, 3) GuestEndpoints, 4) RegisteredDevices, 5) Unknown.\\n\\nPolicy usage: 1) Authorization conditions, 2) Different access per device type, 3) IoT policy assignment.\\n\\nManagement: 1) Create custom groups, 2) Static group assignment, 3) Group hierarchy, 4) Policy association.",
+        "reference": "Cisco ISE Endpoint Identity Groups",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Configuration"
+    },
+    {
+        "id": 20,
+        "question": "How does ISE handle certificate-based authentication?",
+        "answer": "ISE supports certificate-based authentication using EAP-TLS for strong identity verification.\\n\\nCertificate types: 1) User certificates, 2) Machine certificates, 3) Both (EAP chaining).\\n\\nCertificate validation: 1) Trust chain verification, 2) Revocation checking (CRL/OCSP), 3) Date validity, 4) Key usage, 5) SAN/CN validation.\\n\\nCertificate Authentication Profile: 1) Principal username extraction, 2) Binary comparison, 3) Certificate attribute mapping.\\n\\nISE certificates: 1) Admin portal certificate, 2) EAP certificate, 3) pxGrid certificate, 4) SAML certificate.\\n\\nPKI integration: 1) Internal CA, 2) External CA trust, 3) SCEP for enrollment, 4) Certificate templates.",
+        "reference": "Cisco ISE Certificate Configuration",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Authentication"
+    },
+    {
+        "id": 21,
+        "question": "Explain ISE policy sets and their structure.",
+        "answer": "Policy sets organize authentication and authorization rules into logical groups for easier management.\\n\\nPolicy set structure: 1) Condition - when to use this policy set, 2) Allowed Protocols - EAP methods permitted, 3) Authentication Policy - identity verification rules, 4) Authorization Policy - access permission rules.\\n\\nPolicy processing: 1) Top-down evaluation, 2) First match wins, 3) Default policy at bottom.\\n\\nCondition examples: 1) Wireless vs Wired, 2) Device type, 3) Location, 4) Time-based.\\n\\nBest practices: 1) Separate policy sets by use case, 2) Specific conditions at top, 3) Generic catch-all at bottom, 4) Regular policy review.",
+        "reference": "Cisco ISE Policy Sets",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Policies"
+    },
+    {
+        "id": 22,
+        "question": "What is ISE Threat-Centric NAC?",
+        "answer": "Threat-Centric NAC integrates ISE with threat intelligence to respond to security incidents.\\n\\nThreat sources: 1) Cisco AMP - malware detection, 2) Qualys - vulnerability data, 3) Rapid7 - vulnerability scanner, 4) Custom threat feeds.\\n\\nResponse actions: 1) Quarantine infected endpoint, 2) Limit network access, 3) Trigger CoA, 4) Alert administrators.\\n\\nVulnerability assessment: 1) Query vulnerability scanner, 2) Assign Vulnerability score, 3) Policy based on CVSS score.\\n\\nAMP integration: 1) Malware detection alerts, 2) File trajectory, 3) Automatic quarantine, 4) Threat severity levels.\\n\\nConfiguration: 1) Configure threat adapter, 2) Define vulnerability policies, 3) Create authorization conditions.",
+        "reference": "Cisco ISE Threat-Centric NAC",
+        "difficulty": "CCIE",
+        "category": "Cisco ISE Security"
+    },
+    {
+        "id": 23,
+        "question": "How do you configure high availability for ISE?",
+        "answer": "ISE high availability ensures continuous operation through node redundancy and automatic failover.\\n\\nAdmin node HA: 1) Primary/Secondary configuration, 2) Automatic promotion on failure, 3) Health check monitoring.\\n\\nPSN HA: 1) Node groups for load distribution, 2) RADIUS server failover on NAD, 3) Session replication.\\n\\nMnT HA: 1) Primary/Secondary MnT, 2) Log collection failover, 3) Report availability.\\n\\nConfiguration: 1) Register secondary admin, 2) Configure node groups, 3) Set up load balancer (optional), 4) Configure NAD failover.\\n\\nFailover testing: 1) Simulate node failure, 2) Verify automatic promotion, 3) Test session continuity.",
+        "reference": "Cisco ISE High Availability",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Architecture"
+    },
+    {
+        "id": 24,
+        "question": "Explain ISE profiler feed service.",
+        "answer": "The profiler feed service provides regular updates to ISE's endpoint profiling database.\\n\\nFeed contents: 1) New device profiles, 2) Updated OUI database, 3) Profiling policy updates, 4) New device types.\\n\\nUpdate process: 1) Automatic download (Advantage license), 2) Manual import for air-gapped, 3) Scheduled updates.\\n\\nFeed sources: 1) Cisco cloud feed, 2) Offline feed packages, 3) Custom profiles.\\n\\nConfiguration: 1) Enable feed service, 2) Configure proxy (if needed), 3) Set update schedule, 4) Verify feed status.\\n\\nCustom profiling: 1) Create custom profiles, 2) Define profiling conditions, 3) Set certainty factors, 4) Test profile matching.",
+        "reference": "Cisco ISE Profiler Feed",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Profiling"
+    },
+    {
+        "id": 25,
+        "question": "What are dACLs in ISE and how do they work?",
+        "answer": "Downloadable ACLs (dACLs) are access control lists pushed from ISE to network devices during authentication.\\n\\nDACL benefits: 1) Centralized ACL management, 2) Per-user/device access control, 3) Dynamic policy application, 4) Reduced switch configuration.\\n\\nConfiguration: 1) Create dACL in ISE, 2) Reference in authorization profile, 3) Assign profile to authorization policy.\\n\\nDACL syntax: 1) Standard permit/deny statements, 2) IP-based filtering, 3) Port-based filtering, 4) Protocol filtering.\\n\\nDevice requirements: 1) RADIUS attribute support, 2) Sufficient TCAM space, 3) dACL feature enabled.\\n\\nBest practices: 1) Keep dACLs concise, 2) Use named ACLs for large policies, 3) Test before deployment, 4) Monitor TCAM usage.",
+        "reference": "Cisco ISE Downloadable ACLs",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Authorization"
+    },
+    {
+        "id": 26,
+        "question": "How do you integrate ISE with MDM solutions?",
+        "answer": "ISE integrates with Mobile Device Management solutions to enforce compliance for mobile endpoints.\\n\\nSupported MDM vendors: 1) Microsoft Intune, 2) VMware Workspace ONE, 3) MobileIron, 4) Jamf.\\n\\nIntegration methods: 1) MDM API connector, 2) Certificate-based lookup, 3) External identity source.\\n\\nMDM attributes available: 1) Compliance status, 2) Enrollment status, 3) Device ownership, 4) Jailbreak/root status, 5) Encryption status.\\n\\nPolicy usage: 1) Deny non-compliant devices, 2) Different access for managed vs unmanaged, 3) Corporate vs personal device differentiation.\\n\\nConfiguration: 1) Add MDM server, 2) Configure API credentials, 3) Create authorization conditions, 4) Test MDM query.",
+        "reference": "Cisco ISE MDM Integration",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Integration"
+    },
+    {
+        "id": 27,
+        "question": "Explain ISE backup and restore procedures.",
+        "answer": "Regular backups ensure ISE configuration and data can be recovered in case of failure.\\n\\nBackup types: 1) Configuration backup - policies, settings, 2) Operational backup - runtime data, logs, 3) Scheduled backup - automated.\\n\\nBackup contents: 1) Network devices, 2) Policies and rules, 3) Endpoint database, 4) Certificates, 5) Customizations.\\n\\nBackup repository: 1) FTP/SFTP server, 2) NFS share, 3) Local storage (not recommended).\\n\\nRestore process: 1) Select backup file, 2) Choose restore options, 3) Initiate restore, 4) Node restart, 5) Verify functionality.\\n\\nBest practices: 1) Daily scheduled backups, 2) Off-site storage, 3) Test restore procedures, 4) Backup before changes.",
+        "reference": "Cisco ISE Backup and Restore",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Administration"
+    },
+    {
+        "id": 28,
+        "question": "What is ISE SXP and its purpose?",
+        "answer": "SXP (SGT Exchange Protocol) propagates IP-to-SGT mappings between devices that don't support inline tagging.\\n\\nSXP use cases: 1) Legacy device support, 2) Firewall integration, 3) DC integration, 4) Third-party device support.\\n\\nSXP architecture: 1) Speaker - sends mappings, 2) Listener - receives mappings, 3) Both - bidirectional.\\n\\nSXP in ISE: 1) ISE as SXP speaker, 2) Publishes learned SGT mappings, 3) Connects to enforcement points.\\n\\nConfiguration: 1) Enable SXP service on ISE, 2) Add SXP peers, 3) Configure speaker/listener role, 4) Set SXP password.\\n\\nSXP vs Inline: 1) SXP for non-TrustSec devices, 2) Inline for native TrustSec, 3) SXP requires IP connectivity.",
+        "reference": "Cisco SXP Configuration Guide",
+        "difficulty": "CCIE",
+        "category": "Cisco ISE TrustSec"
+    },
+    {
+        "id": 29,
+        "question": "How does ISE handle wired vs wireless authentication differently?",
+        "answer": "ISE can apply different policies for wired and wireless connections based on network device attributes.\\n\\nDifferentiation methods: 1) RADIUS NAS-Port-Type attribute, 2) Network device type groups, 3) Called-Station-ID (SSID).\\n\\nWired considerations: 1) Single-host vs multi-host modes, 2) Voice VLAN, 3) Critical VLAN, 4) Port security.\\n\\nWireless considerations: 1) SSID-based policies, 2) Controller-specific attributes, 3) Anchor/foreign controller, 4) FlexConnect.\\n\\nPolicy configuration: 1) Separate policy sets, 2) Condition on NAS-Port-Type, 3) Device group-based rules.\\n\\nCommon scenarios: 1) Same user, different access by connection type, 2) BYOD wireless only, 3) Corporate wired-only access.",
+        "reference": "Cisco ISE Wired and Wireless",
+        "difficulty": "CCNP",
+        "category": "Cisco ISE Configuration"
+    },
+    {
+        "id": 30,
+        "question": "Describe ISE deployment best practices.",
+        "answer": "Best practices ensure reliable, secure, and maintainable ISE deployments.\\n\\nArchitecture: 1) Distributed deployment for scale, 2) HA for all personas, 3) Appropriate node sizing, 4) Geographic distribution for DR.\\n\\nSecurity: 1) Certificate-based EAP, 2) Strong admin passwords, 3) RBAC for administrators, 4) Encrypted communications, 5) Regular patching.\\n\\nPolicy design: 1) Start with monitoring mode, 2) Phased enforcement rollout, 3) Default deny policy, 4) Comprehensive logging.\\n\\nOperations: 1) Regular backups, 2) Monitoring and alerting, 3) Documented procedures, 4) Change management.\\n\\nIntegration: 1) pxGrid for ecosystem, 2) SIEM integration, 3) Vulnerability scanner integration.",
+        "reference": "Cisco ISE Design Guide",
+        "difficulty": "CCIE",
+        "category": "Cisco ISE Architecture"
+    }
+]

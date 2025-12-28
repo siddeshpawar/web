@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Pro Interview Prep - CCNA/CCNP/CCIE</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="network-node"></div>
+        <div class="network-node"></div>
+        <div class="network-node"></div>
+        <div class="network-node"></div>
+        <div class="network-node"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-network-wired"></i>
+                <span>NetworkPro Prep</span>
+            </div>
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="../index.html" class="nav-link"><i class="fas fa-arrow-left"></i> Portfolio</a></li>
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#topics" class="nav-link">Topics</a></li>
+                    <li><a href="#search" class="nav-link">Search</a></li>
+                    <li><a href="#practice" class="nav-link">Practice</a></li>
+                    <li><a href="#bookmarks" class="nav-link">Bookmarks</a></li>
+                    <li><a href="#progress" class="nav-link">Progress</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="glitch" data-text="Master Your Network Interview">Master Your Network Interview</h1>
+                <p class="hero-subtitle">700+ Interview Questions for CCNA, CCNP, and CCIE Certification</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="startLearning()">
+                        <i class="fas fa-play"></i> Start Learning
+                    </button>
+                    <button class="btn btn-secondary" onclick="randomQuiz()">
+                        <i class="fas fa-random"></i> Random Quiz
+                    </button>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number" data-target="700">0</span>
+                    <span class="stat-label">Questions</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" data-target="16">0</span>
+                    <span class="stat-label">Topics</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" data-target="100">0</span>
+                    <span class="stat-label">Success Rate</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Section -->
+    <section id="topics" class="topics">
+        <div class="container">
+            <h2 class="section-title">Choose Your Topic</h2>
+            <div class="topics-grid">
+                <div class="topic-card" data-topic="switching">
+                    <div class="topic-icon">
+                        <i class="fas fa-ethernet"></i>
+                    </div>
+                    <h3>Switching</h3>
+                    <p>VLANs, STP, EtherChannel</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/60</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="routing">
+                    <div class="topic-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h3>Routing</h3>
+                    <p>OSPF, EIGRP, BGP, MPLS</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/60</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="security">
+                    <div class="topic-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Security</h3>
+                    <p>Firewall, VPN, ACS, ISE</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/60</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="wireless">
+                    <div class="topic-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3>Wireless</h3>
+                    <p>WLAN, Controllers, Security</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/50</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="ethical-hacking">
+                    <div class="topic-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <h3>Ethical Hacking</h3>
+                    <p>Penetration Testing, Tools</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/50</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="sdwan">
+                    <div class="topic-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>SD-WAN</h3>
+                    <p>vManage, vEdge, vSmart</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/40</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="cloud">
+                    <div class="topic-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3>Cloud</h3>
+                    <p>AWS, Azure, Hybrid Cloud</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/40</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="automation">
+                    <div class="topic-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Automation</h3>
+                    <p>Python, Ansible, APIs</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/50</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="management">
+                    <div class="topic-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>Management</h3>
+                    <p>Monitoring, Troubleshooting</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/50</span>
+                    </div>
+                </div>
+
+                <!-- Skills & Technologies Section -->
+                <div class="section-divider">
+                    <h3 class="divider-title"><i class="fas fa-tools"></i> Skills & Technologies</h3>
+                </div>
+
+                <div class="topic-card" data-topic="clearpass">
+                    <div class="topic-icon">
+                        <i class="fas fa-fingerprint"></i>
+                    </div>
+                    <h3>Aruba ClearPass</h3>
+                    <p>NAC, 802.1X, Policy Manager</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/30</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="cisco-ise">
+                    <div class="topic-icon">
+                        <i class="fas fa-id-badge"></i>
+                    </div>
+                    <h3>Cisco ISE</h3>
+                    <p>Identity Services Engine</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/30</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="firewalls">
+                    <div class="topic-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Firewalls</h3>
+                    <p>Checkpoint, ASA, Palo Alto</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/30</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="f5-loadbalancer">
+                    <div class="topic-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>F5 Load Balancer</h3>
+                    <p>BIG-IP, LTM, GTM, iRules</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/30</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="infoblox">
+                    <div class="topic-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>Infoblox</h3>
+                    <p>DDI, DNS, DHCP, IPAM</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/30</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="python-automation">
+                    <div class="topic-icon">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3>Python Automation</h3>
+                    <p>Netmiko, NAPALM, Ansible</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/30</span>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="pqc">
+                    <div class="topic-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3>Post-Quantum Crypto</h3>
+                    <p>ML-KEM, ML-DSA, Qiskit</p>
+                    <div class="topic-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span class="progress-text">0/30</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section id="search" class="search">
+        <div class="container">
+            <h2 class="section-title">Search Questions</h2>
+            <div class="search-container">
+                <div class="search-filters">
+                    <input type="text" id="searchInput" placeholder="Search questions, answers, or categories...">
+                    <select id="difficultyFilter">
+                        <option value="">All Difficulties</option>
+                        <option value="CCNA">CCNA</option>
+                        <option value="CCNP">CCNP</option>
+                        <option value="CCIE">CCIE</option>
+                    </select>
+                    <select id="topicFilter">
+                        <option value="">All Topics</option>
+                        <option value="switching">Switching</option>
+                        <option value="routing">Routing</option>
+                        <option value="security">Security</option>
+                        <option value="wireless">Wireless</option>
+                        <option value="ethical-hacking">Ethical Hacking</option>
+                        <option value="sdwan">SD-WAN</option>
+                        <option value="cloud">Cloud</option>
+                        <option value="automation">Automation</option>
+                        <option value="management">Management</option>
+                        <option value="clearpass">Aruba ClearPass</option>
+                        <option value="cisco-ise">Cisco ISE</option>
+                        <option value="firewalls">Firewalls</option>
+                        <option value="f5-loadbalancer">F5 Load Balancer</option>
+                        <option value="infoblox">Infoblox</option>
+                        <option value="python-automation">Python Automation</option>
+                        <option value="pqc">Post-Quantum Crypto</option>
+                    </select>
+                    <button class="search-btn" onclick="searchQuestions()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                    <button class="clear-btn" onclick="clearSearch()">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bookmarks Section -->
+    <section id="bookmarks" class="bookmarks">
+        <div class="container">
+            <h2 class="section-title">Your Bookmarks</h2>
+            <div id="bookmarkList" class="bookmark-list">
+                <p class="no-bookmarks">No bookmarks yet!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Practice Section -->
+    <section id="practice" class="practice">
+        <div class="container">
+            <div class="question-container">
+                <div class="question-header">
+                    <span class="question-number">Question 1</span>
+                    <span class="question-topic">Switching / Network Fundamentals</span>
+                    <span class="difficulty-badge ccna">CCNA</span>
+                </div>
+                <div class="question-content">
+                    <div class="question">
+                        <h3>What is a VLAN, and why do enterprises prefer VLAN-based segmentation over using separate physical networks?</h3>
+                    </div>
+                    <div class="answer-toggle">
+                        <button class="toggle-btn" onclick="toggleAnswer()">
+                            <i class="fas fa-eye"></i> Show Answer
+                        </button>
+                    </div>
+                    <div class="answer" id="answer" style="display: none;">
+                        <div class="answer-content">
+                            <h4>Answer (Study & Explanation):</h4>
+                            <p>A VLAN (Virtual Local Area Network) is a logical segmentation of a Layer 2 network that allows devices to be grouped into separate broadcast domains, independent of their physical location. VLANs operate by tagging Ethernet frames using the IEEE 802.1Q standard, enabling multiple logical networks to coexist on the same physical infrastructure.</p>
+                            <p>Enterprises prefer VLANs because they significantly reduce broadcast traffic, improve network performance, and enhance security by isolating sensitive systems such as finance, HR, or production servers. Instead of deploying separate switches and cabling for each department, VLANs allow efficient utilization of hardware while maintaining strict logical separation. This design also simplifies scalability, as new departments or services can be introduced through configuration changes rather than physical rewiring.</p>
+                            <div class="real-world">
+                                <h4><i class="fas fa-building"></i> Real-World / Enterprise Context:</h4>
+                                <p>In large organizations such as airports, service providers, or enterprise campuses, VLANs are used to separate corporate users, guest Wi-Fi, security cameras, and IoT devices. Combined with inter-VLAN routing and firewall policies, VLANs form the foundation of access control, compliance, and secure network architecture.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="question-actions">
+                    <button class="action-btn bookmark" onclick="bookmarkQuestion()">
+                        <i class="far fa-bookmark"></i>
+                    </button>
+                    <button class="action-btn next" onclick="nextQuestion()">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="action-btn previous" onclick="previousQuestion()">
+                        <i class="fas fa-arrow-left"></i> Previous
+                    </button>
+                </div>
+            </div>
+
+            <!-- Study Modes -->
+            <div class="study-modes">
+                <h3>Study Modes</h3>
+                <div class="mode-buttons">
+                    <button class="mode-btn active" data-mode="learn">
+                        <i class="fas fa-graduation-cap"></i> Learn
+                    </button>
+                    <button class="mode-btn" data-mode="flashcard">
+                        <i class="fas fa-clone"></i> Flashcard
+                    </button>
+                    <button class="mode-btn" data-mode="exam">
+                        <i class="fas fa-clipboard-list"></i> Exam Mode
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <section id="progress" class="progress">
+        <div class="container">
+            <h2 class="section-title">Your Progress</h2>
+            <div class="progress-dashboard">
+                <div class="progress-card">
+                    <h3>Overall Progress</h3>
+                    <div class="circular-progress">
+                        <svg>
+                            <circle cx="70" cy="70" r="70"></circle>
+                            <circle cx="70" cy="70" r="70" style="--percent: 0"></circle>
+                        </svg>
+                        <div class="progress-value">0%</div>
+                    </div>
+                </div>
+                <div class="progress-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">0</span>
+                            <span>Questions Completed</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-bookmark"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">0</span>
+                            <span>Bookmarked</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-fire"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">0</span>
+                            <span>Day Streak</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-trophy"></i>
+                        <div class="stat-info">
+                            <span class="stat-value">0</span>
+                            <span>Achievements</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 NetworkPro Prep. Master your networking career.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+[
+    {
+        "id": 1,
+        "question": "What is Netmiko and how is it used for network automation?",
+        "answer": "Netmiko is a Python library that simplifies SSH connections to network devices for automation.\\n\\nKey features: 1) Multi-vendor support, 2) Simplified SSH handling, 3) Command execution, 4) Configuration changes, 5) Output parsing.\\n\\nSupported vendors: 1) Cisco IOS/IOS-XE/NX-OS, 2) Arista EOS, 3) Juniper Junos, 4) HP/Aruba, 5) Palo Alto.\\n\\nBasic usage: from netmiko import ConnectHandler; device = {'device_type': 'cisco_ios', 'host': '192.168.1.1', 'username': 'admin', 'password': 'pass'}; connection = ConnectHandler(**device); output = connection.send_command('show version').\\n\\nAdvantages over Paramiko: 1) Handles login prompts, 2) Vendor-specific handling, 3) Simpler API.",
+        "reference": "Netmiko Documentation - https://github.com/ktbyers/netmiko",
+        "difficulty": "CCNP",
+        "category": "Python Netmiko"
+    },
+    {
+        "id": 2,
+        "question": "Explain Paramiko library for SSH automation.",
+        "answer": "Paramiko is a low-level Python library implementing SSH2 protocol for secure connections.\\n\\nCore features: 1) SSH client/server, 2) SFTP support, 3) Key-based authentication, 4) Channel management.\\n\\nBasic SSH client: import paramiko; client = paramiko.SSHClient(); client.set_missing_host_key_policy(paramiko.AutoAddPolicy()); client.connect('host', username='user', password='pass'); stdin, stdout, stderr = client.exec_command('command').\\n\\nSFTP usage: sftp = client.open_sftp(); sftp.get('remote_file', 'local_file'); sftp.put('local_file', 'remote_file').\\n\\nUse cases: 1) Custom SSH implementations, 2) File transfers, 3) When Netmiko lacks support, 4) Complex session handling.",
+        "reference": "Paramiko Documentation",
+        "difficulty": "CCNP",
+        "category": "Python Paramiko"
+    },
+    {
+        "id": 3,
+        "question": "How do you use Python SNMP for network monitoring?",
+        "answer": "PySNMP and EasySNMP are Python libraries for SNMP-based network monitoring.\\n\\nSNMP operations: 1) GET - retrieve single OID, 2) GETNEXT - walk MIB, 3) GETBULK - bulk retrieval, 4) SET - modify values.\\n\\nPySNMP example: from pysnmp.hlapi import *; iterator = getCmd(SnmpEngine(), CommunityData('public'), UdpTransportTarget(('192.168.1.1', 161)), ContextData(), ObjectType(ObjectIdentity('SNMPv2-MIB', 'sysDescr', 0))).\\n\\nCommon OIDs: 1) sysDescr - device description, 2) ifTable - interfaces, 3) ifInOctets/ifOutOctets - traffic counters.\\n\\nUse cases: 1) Device monitoring, 2) Interface statistics, 3) Health checks, 4) Alerting systems.",
+        "reference": "PySNMP Documentation",
+        "difficulty": "CCNP",
+        "category": "Python SNMP"
+    },
+    {
+        "id": 4,
+        "question": "What is NAPALM for network automation?",
+        "answer": "NAPALM (Network Automation and Programmability Abstraction Layer with Multivendor support) provides vendor-agnostic network device interaction.\\n\\nKey features: 1) Unified API across vendors, 2) Configuration management, 3) Getters for device data, 4) Configuration compare/commit.\\n\\nSupported platforms: 1) Cisco IOS/IOS-XR/NX-OS, 2) Juniper Junos, 3) Arista EOS, 4) Nokia SR OS.\\n\\nCore methods: 1) get_facts() - device info, 2) get_interfaces() - interface data, 3) load_merge_candidate() - stage config, 4) compare_config() - show diff, 5) commit_config() - apply changes.\\n\\nConfiguration workflow: driver.load_merge_candidate(filename='config.txt'); print(driver.compare_config()); driver.commit_config().",
+        "reference": "NAPALM Documentation - https://napalm.readthedocs.io",
+        "difficulty": "CCNP",
+        "category": "Python NAPALM"
+    },
+    {
+        "id": 5,
+        "question": "Explain Python TextFSM for parsing network output.",
+        "answer": "TextFSM is a template-based parsing engine for converting semi-structured text into structured data.\\n\\nHow it works: 1) Define template with Value definitions, 2) Create state machine rules, 3) Parse output against template, 4) Get structured data.\\n\\nTemplate structure: Value INTERFACE (\\S+); Value IP_ADDRESS (\\d+\\.\\d+\\.\\d+\\.\\d+); Start; ^${INTERFACE}\\s+${IP_ADDRESS} -> Record.\\n\\nNTC Templates: Pre-built templates for common show commands across vendors.\\n\\nIntegration: 1) With Netmiko use_textfsm=True, 2) Standalone parsing, 3) Ansible network modules.\\n\\nBenefits: 1) Structured data from CLI, 2) Reusable templates, 3) Consistent parsing, 4) JSON output.",
+        "reference": "TextFSM and NTC Templates",
+        "difficulty": "CCNP",
+        "category": "Python Parsing"
+    },
+    {
+        "id": 6,
+        "question": "How do you automate OSPF configuration with Python?",
+        "answer": "Python can automate OSPF configuration across multiple routers using templates and device libraries.\\n\\nApproach: 1) Define OSPF parameters in data file (YAML/JSON), 2) Create Jinja2 configuration template, 3) Generate device-specific configs, 4) Push using Netmiko/NAPALM.\\n\\nJinja2 template example: router ospf {{ process_id }}; {% for network in networks %} network {{ network.ip }} {{ network.wildcard }} area {{ network.area }}; {% endfor %}.\\n\\nNetmiko push: connection.send_config_set(ospf_commands).\\n\\nVerification: output = connection.send_command('show ip ospf neighbor'); Use TextFSM to parse neighbors.",
+        "reference": "Network Automation with Python",
+        "difficulty": "CCNP",
+        "category": "Python Automation"
+    },
+    {
+        "id": 7,
+        "question": "What is Ansible for network automation?",
+        "answer": "Ansible is an agentless automation platform with strong network device support.\\n\\nNetwork modules: 1) ios_command, 2) ios_config, 3) nxos_*, junos_*, 4) cli_command (multi-vendor).\\n\\nPlaybook structure: - hosts: routers; tasks: - name: Get version; ios_command: commands: show version; register: output.\\n\\nInventory: Define hosts, groups, variables including ansible_network_os.\\n\\nAdvantages: 1) Agentless, 2) YAML-based, 3) Idempotent, 4) Large module library, 5) Roles and collections.",
+        "reference": "Ansible Network Automation Documentation",
+        "difficulty": "CCNP",
+        "category": "Ansible Automation"
+    },
+    {
+        "id": 8,
+        "question": "Explain Python REST API calls for network devices.",
+        "answer": "Modern network devices expose REST APIs for programmatic configuration and monitoring.\\n\\nPython requests library: import requests; response = requests.get(url, auth=(user, pass), verify=False); data = response.json().\\n\\nCommon APIs: 1) Cisco DNA Center, 2) Meraki Dashboard, 3) ACI APIC, 4) Aruba Central, 5) Palo Alto.\\n\\nHTTP methods: 1) GET - retrieve data, 2) POST - create, 3) PUT - update, 4) DELETE - remove.\\n\\nAuthentication: 1) Basic auth, 2) Token-based, 3) OAuth, 4) API keys.\\n\\nBest practices: 1) Handle errors, 2) Use sessions, 3) Implement retries, 4) Secure credentials.",
+        "reference": "Network REST API Automation",
+        "difficulty": "CCNP",
+        "category": "Python REST API"
+    },
+    {
+        "id": 9,
+        "question": "How do you create configuration backups with Python?",
+        "answer": "Python can automate configuration backups from network devices using various methods.\\n\\nNetmiko backup: config = connection.send_command('show running-config'); with open(f'{hostname}_{date}.cfg', 'w') as f: f.write(config).\\n\\nTFTP backup: connection.send_command('copy running-config tftp://server/filename').\\n\\nScheduling: 1) Cron jobs, 2) Windows Task Scheduler, 3) APScheduler library.\\n\\nOrganization: 1) Date-stamped files, 2) Git versioning, 3) Device folders, 4) Diff comparison.\\n\\nBest practices: 1) Parallel execution, 2) Error handling, 3) Logging, 4) Notifications on failure.",
+        "reference": "Network Backup Automation",
+        "difficulty": "CCNP",
+        "category": "Python Automation"
+    },
+    {
+        "id": 10,
+        "question": "What is Nornir for network automation?",
+        "answer": "Nornir is a Python automation framework designed specifically for network automation.\\n\\nKey features: 1) Pure Python (no DSL), 2) Inventory management, 3) Task plugins, 4) Parallel execution, 5) Result handling.\\n\\nComponents: 1) Inventory - hosts, groups, defaults, 2) Tasks - functions to execute, 3) Plugins - connection handlers.\\n\\nExample: from nornir import InitNornir; nr = InitNornir(); result = nr.run(task=netmiko_send_command, command_string='show version').\\n\\nAdvantages over Ansible: 1) Native Python, 2) Better IDE support, 3) Easier debugging, 4) Custom task logic.",
+        "reference": "Nornir Documentation",
+        "difficulty": "CCNP",
+        "category": "Python Nornir"
+    },
+    {
+        "id": 11,
+        "question": "Explain Jinja2 templating for network configs.",
+        "answer": "Jinja2 is a templating engine used to generate dynamic network configurations.\\n\\nTemplate syntax: 1) {{ variable }} - insert value, 2) {% for item in list %} - loop, 3) {% if condition %} - conditional, 4) {# comment #}.\\n\\nNetwork config template: hostname {{ hostname }}; interface {{ interface }}; ip address {{ ip }} {{ mask }}.\\n\\nRendering: from jinja2 import Template; template = Template(template_string); config = template.render(data).\\n\\nAdvanced features: 1) Filters (|upper, |default), 2) Macros (reusable blocks), 3) Template inheritance, 4) Include statements.",
+        "reference": "Jinja2 Documentation",
+        "difficulty": "CCNP",
+        "category": "Python Templating"
+    },
+    {
+        "id": 12,
+        "question": "How do you handle credentials securely in Python automation?",
+        "answer": "Secure credential management is essential for network automation security.\\n\\nMethods: 1) Environment variables - os.environ['PASSWORD'], 2) Vault solutions - HashiCorp Vault, Ansible Vault, 3) Keyring library, 4) AWS Secrets Manager.\\n\\nEnvironment variables: export NET_PASSWORD='secret'; password = os.getenv('NET_PASSWORD').\\n\\nPython keyring: import keyring; keyring.set_password('system', 'user', 'pass'); password = keyring.get_password('system', 'user').\\n\\nBest practices: 1) Never hardcode credentials, 2) Use .gitignore for sensitive files, 3) Rotate credentials, 4) Least privilege accounts.",
+        "reference": "Secure Credential Management",
+        "difficulty": "CCNP",
+        "category": "Python Security"
+    },
+    {
+        "id": 13,
+        "question": "What is pyATS/Genie for network testing?",
+        "answer": "pyATS (Python Automated Test System) and Genie are Cisco's testing frameworks for network automation.\\n\\nCapabilities: 1) Device connectivity, 2) Configuration parsing, 3) Operational state collection, 4) Test automation, 5) Diff comparison.\\n\\nGenie parsers: Parse show commands into structured data across platforms.\\n\\nExample: from genie.testbed import load; testbed = load('testbed.yaml'); device = testbed.devices['router']; device.connect(); output = device.parse('show ip route').\\n\\nUse cases: 1) Pre/post change validation, 2) Network state snapshots, 3) Regression testing, 4) Compliance checks.",
+        "reference": "Cisco pyATS Documentation",
+        "difficulty": "CCNP",
+        "category": "Python Testing"
+    },
+    {
+        "id": 14,
+        "question": "Explain Python logging for network automation scripts.",
+        "answer": "Proper logging is essential for troubleshooting and auditing automation scripts.\\n\\nLogging levels: 1) DEBUG - detailed info, 2) INFO - general events, 3) WARNING - potential issues, 4) ERROR - failures, 5) CRITICAL - serious errors.\\n\\nBasic setup: import logging; logging.basicConfig(filename='automation.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s').\\n\\nBest practices: 1) Log to file and console, 2) Rotate log files, 3) Include timestamps, 4) Log device interactions, 5) Capture exceptions.\\n\\nNetmiko logging: Enable session logging with session_log parameter.",
+        "reference": "Python Logging Documentation",
+        "difficulty": "CCNP",
+        "category": "Python Best Practices"
+    },
+    {
+        "id": 15,
+        "question": "How do you implement parallel execution in network automation?",
+        "answer": "Parallel execution speeds up automation across many devices.\\n\\nPython methods: 1) concurrent.futures - ThreadPoolExecutor, 2) multiprocessing, 3) asyncio, 4) Nornir built-in.\\n\\nThreadPoolExecutor example: from concurrent.futures import ThreadPoolExecutor; with ThreadPoolExecutor(max_workers=10) as executor: results = executor.map(backup_device, device_list).\\n\\nConsiderations: 1) Thread safety, 2) Connection limits, 3) Error handling per thread, 4) Result aggregation.\\n\\nBest practices: 1) Limit concurrent connections, 2) Use queues for rate limiting, 3) Handle exceptions properly, 4) Collect results systematically.",
+        "reference": "Python Concurrent Execution",
+        "difficulty": "CCNP",
+        "category": "Python Performance"
+    },
+    {
+        "id": 16,
+        "question": "What is YANG and NETCONF for network automation?",
+        "answer": "YANG is a data modeling language, and NETCONF is a protocol for network configuration management.\\n\\nYANG features: 1) Data models for config/state, 2) Vendor/standard models, 3) Hierarchical structure, 4) Constraints and validation.\\n\\nNETCONF operations: 1) get-config - retrieve config, 2) edit-config - modify config, 3) copy-config, 4) delete-config, 5) lock/unlock.\\n\\nPython ncclient: from ncclient import manager; with manager.connect(host='device', username='user', password='pass', hostkey_verify=False) as m: config = m.get_config(source='running').\\n\\nBenefits: 1) Structured data, 2) Transaction support, 3) Validation, 4) Standards-based.",
+        "reference": "NETCONF/YANG with Python",
+        "difficulty": "CCIE",
+        "category": "Python NETCONF"
+    },
+    {
+        "id": 17,
+        "question": "Explain Python unit testing for network automation.",
+        "answer": "Unit testing validates automation code reliability and catches regressions.\\n\\nTesting frameworks: 1) unittest - built-in, 2) pytest - popular third-party, 3) nose2.\\n\\nTest structure: def test_parse_interface(): result = parse_interface(sample_output); assert result['status'] == 'up'; assert result['ip'] == '10.0.0.1'.\\n\\nMocking: Use unittest.mock to simulate device responses without actual connections.\\n\\nBest practices: 1) Test edge cases, 2) Use fixtures for test data, 3) Mock external dependencies, 4) CI/CD integration.",
+        "reference": "Python Testing for Network Automation",
+        "difficulty": "CCNP",
+        "category": "Python Testing"
+    },
+    {
+        "id": 18,
+        "question": "How do you use Git for network automation version control?",
+        "answer": "Git enables version control for automation scripts and configurations.\\n\\nBasic workflow: 1) git init - create repo, 2) git add - stage changes, 3) git commit - save changes, 4) git push - upload to remote.\\n\\nBranching: 1) feature branches for development, 2) main/master for production, 3) Pull requests for review.\\n\\nNetwork config versioning: 1) Store device configs, 2) Track changes over time, 3) Diff between versions, 4) Rollback capability.\\n\\nBest practices: 1) Meaningful commit messages, 2) .gitignore for credentials, 3) Branch protection, 4) Code review process.",
+        "reference": "Git for Network Engineers",
+        "difficulty": "CCNP",
+        "category": "Version Control"
+    },
+    {
+        "id": 19,
+        "question": "What is Scrapli for network automation?",
+        "answer": "Scrapli is a modern Python library for screen scraping network devices.\\n\\nFeatures: 1) Async support, 2) Multiple transport options, 3) Community platform support, 4) TextFSM/Genie integration.\\n\\nTransports: 1) system - native SSH, 2) paramiko, 3) ssh2-python, 4) asyncssh, 5) telnet.\\n\\nExample: from scrapli import Scrapli; device = {'host': '10.0.0.1', 'auth_username': 'admin', 'auth_password': 'pass', 'platform': 'cisco_iosxe'}; conn = Scrapli(**device); conn.open(); response = conn.send_command('show version').\\n\\nAdvantages: 1) Fast, 2) Async capable, 3) Well documented, 4) Active development.",
+        "reference": "Scrapli Documentation",
+        "difficulty": "CCNP",
+        "category": "Python Scrapli"
+    },
+    {
+        "id": 20,
+        "question": "Explain Python data structures for network automation.",
+        "answer": "Proper data structures organize network data efficiently for automation.\\n\\nCommon structures: 1) Dictionaries - device configs, 2) Lists - device lists, 3) Named tuples - structured records, 4) Dataclasses - typed objects.\\n\\nDevice data example: device = {'hostname': 'R1', 'ip': '10.0.0.1', 'platform': 'cisco_ios', 'interfaces': [{'name': 'Gi0/0', 'ip': '10.1.1.1'}]}.\\n\\nYAML for inventory: hosts: - hostname: R1; ip: 10.0.0.1; platform: cisco_ios.\\n\\nBest practices: 1) Consistent structure, 2) Validate data, 3) Use type hints, 4) Document schemas.",
+        "reference": "Python Data Structures for Network Automation",
+        "difficulty": "CCNP",
+        "category": "Python Fundamentals"
+    },
+    {
+        "id": 21,
+        "question": "How do you automate network compliance checks with Python?",
+        "answer": "Python can automate compliance verification against security and operational standards.\\n\\nCompliance checks: 1) Configuration standards, 2) Security baselines, 3) Naming conventions, 4) Required features.\\n\\nApproach: 1) Define compliance rules, 2) Collect device configs, 3) Parse and analyze, 4) Generate reports.\\n\\nExample check: def check_ssh_version(config): return 'ip ssh version 2' in config.\\n\\nTools integration: 1) Batfish - config analysis, 2) Custom scripts, 3) NAPALM validation, 4) pyATS health checks.\\n\\nReporting: 1) Pass/fail summary, 2) Remediation commands, 3) Trend tracking, 4) Executive dashboards.",
+        "reference": "Network Compliance Automation",
+        "difficulty": "CCNP",
+        "category": "Python Compliance"
+    },
+    {
+        "id": 22,
+        "question": "What is Batfish for network analysis?",
+        "answer": "Batfish is an open-source network configuration analysis tool.\\n\\nCapabilities: 1) Configuration parsing, 2) Reachability analysis, 3) ACL analysis, 4) What-if scenarios, 5) Compliance checking.\\n\\nPython integration: from pybatfish.client.commands import *; bf_init_snapshot('configs/', name='network'); bf_set_snapshot('network'); result = bfq.ipOwners().answer().\\n\\nUse cases: 1) Pre-change validation, 2) Security analysis, 3) Troubleshooting, 4) Documentation.\\n\\nQuestions available: 1) Routing analysis, 2) ACL testing, 3) Path analysis, 4) Interface properties.",
+        "reference": "Batfish Documentation",
+        "difficulty": "CCIE",
+        "category": "Python Analysis"
+    },
+    {
+        "id": 23,
+        "question": "Explain Python exception handling in network automation.",
+        "answer": "Proper exception handling ensures robust automation scripts.\\n\\nCommon exceptions: 1) NetmikoTimeoutException, 2) NetmikoAuthenticationException, 3) ConnectionRefusedError, 4) socket.timeout.\\n\\nHandling pattern: try: connection = ConnectHandler(**device); output = connection.send_command('show version'); except NetmikoTimeoutException: logging.error(f'Timeout connecting to {device[\"host\"]}'); except Exception as e: logging.error(f'Error: {str(e)}'); finally: connection.disconnect().\\n\\nBest practices: 1) Catch specific exceptions, 2) Log errors, 3) Clean up resources, 4) Provide fallback behavior, 5) Don't silent fail.",
+        "reference": "Python Exception Handling",
+        "difficulty": "CCNP",
+        "category": "Python Best Practices"
+    },
+    {
+        "id": 24,
+        "question": "How do you integrate Python automation with ServiceNow?",
+        "answer": "Python can integrate with ServiceNow for ITSM-driven network automation.\\n\\nIntegration methods: 1) REST API, 2) pysnow library, 3) ServiceNow MID Server.\\n\\nCommon operations: 1) Create incidents/changes, 2) Query tickets, 3) Update records, 4) Trigger workflows.\\n\\nExample: from pysnow import Client; client = Client(instance='your-instance', user='admin', password='pass'); incident = client.resource(api_path='/table/incident'); response = incident.create(payload={'short_description': 'Network issue'}).\\n\\nUse cases: 1) Automated incident creation, 2) Change verification, 3) CMDB updates, 4) Approval workflows.",
+        "reference": "ServiceNow API Integration",
+        "difficulty": "CCNP",
+        "category": "Python Integration"
+    },
+    {
+        "id": 25,
+        "question": "What is Grafana and how to integrate with Python monitoring?",
+        "answer": "Grafana provides visualization for network metrics collected by Python scripts.\\n\\nArchitecture: 1) Python collects metrics, 2) Store in time-series DB (InfluxDB, Prometheus), 3) Grafana visualizes.\\n\\nInfluxDB integration: from influxdb import InfluxDBClient; client = InfluxDBClient('localhost', 8086, database='network'); client.write_points([{'measurement': 'interface', 'tags': {'device': 'R1'}, 'fields': {'in_octets': 1000}}]).\\n\\nMetrics to collect: 1) Interface utilization, 2) CPU/memory, 3) BGP neighbors, 4) Error counts.\\n\\nDashboards: 1) Network overview, 2) Device health, 3) Traffic analysis, 4) Alerting.",
+        "reference": "Grafana Network Monitoring",
+        "difficulty": "CCNP",
+        "category": "Python Monitoring"
+    },
+    {
+        "id": 26,
+        "question": "Explain Docker for network automation environments.",
+        "answer": "Docker containerizes network automation tools for consistent environments.\\n\\nBenefits: 1) Reproducible environments, 2) Dependency isolation, 3) Easy deployment, 4) Version control.\\n\\nNetwork automation Dockerfile: FROM python:3.9; COPY requirements.txt .; RUN pip install -r requirements.txt; COPY scripts/ /app/; CMD ['python', '/app/main.py'].\\n\\nCommon containers: 1) Automation scripts, 2) Ansible AWX, 3) Netbox, 4) Batfish.\\n\\nDocker Compose: Define multi-container setups with databases, web interfaces, automation tools.",
+        "reference": "Docker for Network Automation",
+        "difficulty": "CCNP",
+        "category": "DevOps"
+    },
+    {
+        "id": 27,
+        "question": "How do you implement webhooks for network event automation?",
+        "answer": "Webhooks trigger automation scripts in response to network events.\\n\\nWebhook sources: 1) Monitoring systems (SolarWinds, PRTG), 2) Network controllers, 3) Chat platforms, 4) ServiceNow.\\n\\nFlask webhook receiver: from flask import Flask, request; app = Flask(__name__); @app.route('/webhook', methods=['POST']); def handle_webhook(): data = request.json; process_event(data); return 'OK', 200.\\n\\nUse cases: 1) Auto-remediation, 2) Ticket creation, 3) Notification escalation, 4) Config collection.\\n\\nSecurity: 1) Validate webhook source, 2) Use HTTPS, 3) Implement authentication, 4) Rate limiting.",
+        "reference": "Webhook-Driven Automation",
+        "difficulty": "CCNP",
+        "category": "Python Integration"
+    },
+    {
+        "id": 28,
+        "question": "What is Terraform for network infrastructure?",
+        "answer": "Terraform is an infrastructure-as-code tool with network provider support.\\n\\nNetwork providers: 1) AWS VPC, 2) Azure networking, 3) Cisco ACI, 4) Palo Alto, 5) F5 BIG-IP.\\n\\nTerraform workflow: 1) Write configuration (.tf files), 2) terraform init, 3) terraform plan, 4) terraform apply.\\n\\nExample: resource 'aws_vpc' 'main' { cidr_block = '10.0.0.0/16' }.\\n\\nState management: 1) Local state, 2) Remote state (S3, Terraform Cloud), 3) State locking.\\n\\nBenefits: 1) Declarative syntax, 2) State tracking, 3) Plan before apply, 4) Multi-cloud support.",
+        "reference": "Terraform Network Providers",
+        "difficulty": "CCNP",
+        "category": "Infrastructure as Code"
+    },
+    {
+        "id": 29,
+        "question": "Explain CI/CD pipelines for network automation.",
+        "answer": "CI/CD automates testing and deployment of network configurations.\\n\\nPipeline stages: 1) Code commit, 2) Lint/syntax check, 3) Unit tests, 4) Integration tests, 5) Deployment.\\n\\nTools: 1) GitLab CI, 2) Jenkins, 3) GitHub Actions, 4) Azure DevOps.\\n\\nNetwork testing in pipeline: 1) Syntax validation, 2) Batfish analysis, 3) Lab deployment, 4) Production with approval.\\n\\nGitHub Actions example: on: push; jobs: test: runs-on: ubuntu-latest; steps: - uses: actions/checkout@v2; - run: python -m pytest tests/.",
+        "reference": "CI/CD for Network Automation",
+        "difficulty": "CCNP",
+        "category": "DevOps"
+    },
+    {
+        "id": 30,
+        "question": "What are best practices for network automation projects?",
+        "answer": "Best practices ensure maintainable, secure, and reliable automation.\\n\\nCode organization: 1) Modular functions, 2) Separate data from logic, 3) Configuration files (YAML), 4) Clear naming conventions.\\n\\nSecurity: 1) Secure credentials, 2) Least privilege accounts, 3) Audit logging, 4) Code review.\\n\\nReliability: 1) Error handling, 2) Idempotent operations, 3) Testing, 4) Rollback procedures.\\n\\nDocumentation: 1) README files, 2) Inline comments, 3) API documentation, 4) Runbooks.\\n\\nOperations: 1) Version control, 2) Change management, 3) Monitoring, 4) Regular maintenance.",
+        "reference": "Network Automation Best Practices",
+        "difficulty": "CCNP",
+        "category": "Best Practices"
+    }
+]

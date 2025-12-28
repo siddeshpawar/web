@@ -1,0 +1,242 @@
+[
+    {
+        "id": 1,
+        "question": "What is F5 BIG-IP and its main functions?",
+        "answer": "F5 BIG-IP is an application delivery controller (ADC) providing load balancing, traffic management, and security services.\\n\\nCore functions: 1) Local Traffic Manager (LTM) - load balancing, 2) Global Traffic Manager (GTM) - DNS-based GSLB, 3) Application Security Manager (ASM) - WAF, 4) Access Policy Manager (APM) - authentication.\\n\\nKey features: 1) Server load balancing, 2) SSL offloading, 3) Application acceleration, 4) Health monitoring, 5) iRules scripting.\\n\\nDeployment modes: 1) Inline/routed, 2) One-arm, 3) DSR (Direct Server Return), 4) Reverse proxy.",
+        "reference": "F5 BIG-IP LTM Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Fundamentals"
+    },
+    {
+        "id": 2,
+        "question": "Explain F5 virtual servers, pools, and pool members.",
+        "answer": "Virtual servers, pools, and pool members are fundamental F5 LTM objects for load balancing.\\n\\nVirtual Server: 1) IP:Port combination, 2) Entry point for client traffic, 3) References pools and profiles, 4) Applies traffic policies.\\n\\nPool: 1) Group of backend servers, 2) Load balancing method, 3) Health monitors, 4) Priority groups.\\n\\nPool Members: 1) Individual servers in pool, 2) Node IP and service port, 3) Connection limits, 4) Priority and ratio.\\n\\nTraffic flow: Client -> Virtual Server -> Pool -> Pool Member -> Backend Server.",
+        "reference": "F5 LTM Concepts Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Configuration"
+    },
+    {
+        "id": 3,
+        "question": "What are F5 load balancing methods?",
+        "answer": "F5 provides multiple algorithms to distribute traffic across pool members.\\n\\nStatic methods: 1) Round Robin - sequential distribution, 2) Ratio - weighted distribution, 3) Priority Groups - failover based.\\n\\nDynamic methods: 1) Least Connections - fewest active connections, 2) Fastest - quickest response time, 3) Observed - combined metrics, 4) Predictive - trend analysis.\\n\\nAdvanced methods: 1) Least Sessions, 2) Weighted Least Connections, 3) Ratio Least Connections.\\n\\nSelection criteria: 1) Application type, 2) Session requirements, 3) Server capacity, 4) Response time needs.",
+        "reference": "F5 Load Balancing Methods",
+        "difficulty": "CCNP",
+        "category": "F5 Load Balancing"
+    },
+    {
+        "id": 4,
+        "question": "Explain F5 health monitors and their types.",
+        "answer": "Health monitors verify backend server availability and remove unhealthy servers from rotation.\\n\\nMonitor types: 1) ICMP - basic ping, 2) TCP - port availability, 3) HTTP/HTTPS - application health, 4) Custom - application-specific.\\n\\nHTTP monitor options: 1) Send string - request sent, 2) Receive string - expected response, 3) Receive disable - mark down, 4) Username/password.\\n\\nMonitor parameters: 1) Interval - check frequency, 2) Timeout - response wait time, 3) Up interval - after recovery.\\n\\nBest practices: 1) Use application-aware monitors, 2) Appropriate intervals, 3) Monitor actual service, 4) Multiple monitors for redundancy.",
+        "reference": "F5 Health Monitor Configuration",
+        "difficulty": "CCNP",
+        "category": "F5 Monitoring"
+    },
+    {
+        "id": 5,
+        "question": "What are F5 profiles and their purpose?",
+        "answer": "Profiles define traffic behavior and optimizations applied to virtual servers.\\n\\nProfile categories: 1) Protocol - TCP, UDP, FastL4, 2) Application - HTTP, FTP, DNS, 3) SSL - client/server SSL, 4) Persistence - session affinity, 5) Authentication.\\n\\nTCP profiles: 1) Connection management, 2) Buffer sizes, 3) Timeout values, 4) Optimization settings.\\n\\nHTTP profiles: 1) Request/response modification, 2) Compression, 3) Caching, 4) Cookie handling.\\n\\nSSL profiles: 1) Certificate configuration, 2) Cipher suites, 3) Protocol versions, 4) Client/server SSL termination.",
+        "reference": "F5 Profiles Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Profiles"
+    },
+    {
+        "id": 6,
+        "question": "Explain F5 persistence (session affinity) methods.",
+        "answer": "Persistence ensures client sessions return to the same backend server for session continuity.\\n\\nPersistence types: 1) Source Address - client IP, 2) Cookie - HTTP cookie, 3) SSL Session ID, 4) Universal - iRule based.\\n\\nCookie persistence modes: 1) Cookie Insert - F5 adds cookie, 2) Cookie Rewrite - modify existing, 3) Cookie Passive - use app cookie, 4) Cookie Hash - hash app cookie.\\n\\nParameters: 1) Timeout - persistence duration, 2) Mirror - HA sync, 3) Match across - services/virtuals.\\n\\nConsiderations: 1) Application requirements, 2) Client behavior, 3) NAT environments, 4) Performance impact.",
+        "reference": "F5 Persistence Configuration",
+        "difficulty": "CCNP",
+        "category": "F5 Persistence"
+    },
+    {
+        "id": 7,
+        "question": "What are F5 iRules and common use cases?",
+        "answer": "iRules are TCL-based scripts that provide granular traffic control on F5.\\n\\nCommon events: 1) CLIENT_ACCEPTED - connection start, 2) HTTP_REQUEST - HTTP request received, 3) HTTP_RESPONSE - response from server, 4) LB_SELECTED - pool member chosen.\\n\\nUse cases: 1) Content switching, 2) Header manipulation, 3) URI rewriting, 4) Rate limiting, 5) Custom health checks.\\n\\nExample - redirect: when HTTP_REQUEST { if { [HTTP::uri] starts_with \"/old\" } { HTTP::redirect \"https://[HTTP::host]/new\" } }\\n\\nBest practices: 1) Minimize iRule complexity, 2) Use built-in features first, 3) Test thoroughly, 4) Monitor performance impact.",
+        "reference": "F5 iRules Reference",
+        "difficulty": "CCIE",
+        "category": "F5 iRules"
+    },
+    {
+        "id": 8,
+        "question": "Explain F5 SSL offloading and re-encryption.",
+        "answer": "SSL offloading terminates SSL at F5, optionally re-encrypting to backend servers.\\n\\nSSL offloading: 1) Client SSL profile on virtual, 2) F5 decrypts traffic, 3) Backend receives HTTP, 4) Reduces server load.\\n\\nSSL re-encryption: 1) Both client and server SSL profiles, 2) F5 decrypts from client, 3) Re-encrypts to server, 4) End-to-end encryption.\\n\\nCertificate management: 1) Import certificates, 2) Create SSL profiles, 3) Certificate chains, 4) Key management.\\n\\nConsiderations: 1) Cipher suite selection, 2) Protocol versions, 3) Performance impact, 4) Compliance requirements.",
+        "reference": "F5 SSL Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "F5 SSL"
+    },
+    {
+        "id": 9,
+        "question": "What is F5 SNAT and when is it used?",
+        "answer": "SNAT (Secure NAT) translates source addresses for traffic passing through F5.\\n\\nSNAT types: 1) Automap - use self IP, 2) SNAT Pool - pool of addresses, 3) None - no translation.\\n\\nWhen needed: 1) One-arm deployment, 2) Servers not using F5 as gateway, 3) Asymmetric routing prevention, 4) Source IP hiding.\\n\\nConsiderations: 1) Port exhaustion (64K per IP), 2) Server logging (loses client IP), 3) X-Forwarded-For header, 4) SNAT pool sizing.\\n\\nConfiguration: 1) Create SNAT pool, 2) Assign to virtual server, 3) Or use Automap, 4) Configure XFF for logging.",
+        "reference": "F5 SNAT Configuration",
+        "difficulty": "CCNP",
+        "category": "F5 NAT"
+    },
+    {
+        "id": 10,
+        "question": "Explain F5 high availability configurations.",
+        "answer": "F5 HA ensures continuous availability through device redundancy and failover.\\n\\nHA modes: 1) Active/Standby - one active, 2) Active/Active - both process traffic, 3) Device groups - multiple devices.\\n\\nFailover triggers: 1) Hardware failure, 2) Network failure, 3) Manual failover, 4) Health monitor failure.\\n\\nSync components: 1) Configuration sync, 2) Persistence mirroring, 3) Connection mirroring.\\n\\nNetwork requirements: 1) HA VLAN, 2) Failover addresses, 3) Mirroring addresses, 4) Self IPs.",
+        "reference": "F5 High Availability Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Architecture"
+    },
+    {
+        "id": 11,
+        "question": "What is F5 OneConnect and connection pooling?",
+        "answer": "OneConnect optimizes backend connections by reusing server-side connections for multiple clients.\\n\\nHow it works: 1) Maintains pool of server connections, 2) Reuses connections for new requests, 3) Reduces server TCP overhead, 4) Improves response time.\\n\\nBenefits: 1) Reduced server connections, 2) Lower latency, 3) Better server efficiency, 4) Handles connection surges.\\n\\nConfiguration: 1) OneConnect profile, 2) Source mask settings, 3) Maximum size, 4) Idle timeout.\\n\\nUse cases: 1) HTTP keep-alive environments, 2) High-traffic applications, 3) Limited server connections, 4) API gateways.",
+        "reference": "F5 OneConnect Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Optimization"
+    },
+    {
+        "id": 12,
+        "question": "Explain F5 Global Traffic Manager (GTM/DNS).",
+        "answer": "GTM provides intelligent DNS-based global server load balancing across data centers.\\n\\nKey features: 1) GSLB - global load balancing, 2) DNS resolution, 3) Health monitoring, 4) Disaster recovery.\\n\\nGTM objects: 1) Data centers, 2) Servers (BIG-IPs/hosts), 3) Virtual servers, 4) Wide IPs, 5) Pools.\\n\\nLoad balancing methods: 1) Round Robin, 2) Ratio, 3) Topology - location based, 4) QoS - quality metrics.\\n\\nTopology records: 1) Region-based steering, 2) ISP preference, 3) Continent/country rules.",
+        "reference": "F5 GTM Configuration Guide",
+        "difficulty": "CCIE",
+        "category": "F5 GTM"
+    },
+    {
+        "id": 13,
+        "question": "What is F5 Application Security Manager (ASM)?",
+        "answer": "ASM is F5's web application firewall (WAF) providing Layer 7 security.\\n\\nProtection types: 1) OWASP Top 10, 2) SQL injection, 3) Cross-site scripting, 4) Parameter tampering, 5) Bot protection.\\n\\nPolicy modes: 1) Negative security - block known bad, 2) Positive security - allow known good, 3) Hybrid - combination.\\n\\nLearning modes: 1) Automatic learning, 2) Manual policy building, 3) Guided configuration, 4) Policy import.\\n\\nSignature updates: 1) Automatic updates, 2) Attack signature database, 3) Custom signatures.",
+        "reference": "F5 ASM Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Security"
+    },
+    {
+        "id": 14,
+        "question": "Explain F5 Access Policy Manager (APM).",
+        "answer": "APM provides identity-aware access control and VPN services.\\n\\nKey features: 1) VPN (SSL/IPsec), 2) Single sign-on (SSO), 3) Federation (SAML), 4) Multi-factor authentication, 5) Access control.\\n\\nAccess policy: 1) Visual Policy Editor, 2) Authentication actions, 3) Authorization checks, 4) Resource assignment.\\n\\nVPN types: 1) Network Access - full tunnel, 2) Web Application - portal access, 3) App Tunnel - specific apps.\\n\\nIntegration: 1) Active Directory, 2) LDAP, 3) RADIUS, 4) SAML IdP/SP, 5) OAuth/OIDC.",
+        "reference": "F5 APM Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Security"
+    },
+    {
+        "id": 15,
+        "question": "How do you troubleshoot F5 load balancing issues?",
+        "answer": "Systematic troubleshooting identifies connectivity and traffic distribution problems.\\n\\nTroubleshooting tools: 1) Statistics - virtual/pool stats, 2) Logs - LTM logs, 3) tcpdump - packet capture, 4) TMM logs - traffic manager.\\n\\nCommon issues: 1) Pool members down, 2) Health monitor failures, 3) Persistence issues, 4) SSL errors.\\n\\nVerification commands: 1) tmsh show ltm virtual, 2) tmsh show ltm pool, 3) tmsh show ltm node, 4) tmsh show sys connection.\\n\\nPacket flow analysis: 1) Client to virtual, 2) Virtual to pool member, 3) Member response, 4) Response to client.",
+        "reference": "F5 Troubleshooting Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Troubleshooting"
+    },
+    {
+        "id": 16,
+        "question": "What is F5 traffic policy vs iRules?",
+        "answer": "Traffic policies provide GUI-based traffic manipulation without writing iRules code.\\n\\nLocal Traffic Policy: 1) Conditions and actions, 2) Rule-based logic, 3) GUI configuration, 4) Easier management.\\n\\niRules: 1) TCL scripting, 2) More flexibility, 3) Complex logic, 4) Higher learning curve.\\n\\nWhen to use policies: 1) Simple conditions, 2) Standard actions, 3) Ease of management, 4) Non-programmers.\\n\\nWhen to use iRules: 1) Complex logic, 2) Variable manipulation, 3) Custom functions, 4) Event-driven actions.",
+        "reference": "F5 Traffic Policies Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Traffic Management"
+    },
+    {
+        "id": 17,
+        "question": "Explain F5 device service clustering (DSC).",
+        "answer": "DSC enables multiple F5 devices to work together for HA and scalability.\\n\\nDSC components: 1) Device trust - authentication, 2) Device groups - sync groups, 3) Traffic groups - active/standby.\\n\\nSync-Failover group: 1) Config synchronization, 2) Automatic failover, 3) Connection mirroring.\\n\\nSync-Only group: 1) Configuration sync only, 2) No failover, 3) Multiple data centers.\\n\\nTraffic groups: 1) Floating IPs, 2) Active device ownership, 3) Failover order, 4) HA status.",
+        "reference": "F5 DSC Configuration",
+        "difficulty": "CCNP",
+        "category": "F5 Architecture"
+    },
+    {
+        "id": 18,
+        "question": "What is F5 HTTP compression and caching?",
+        "answer": "Compression and caching optimize content delivery and reduce bandwidth.\\n\\nHTTP compression: 1) Gzip compression, 2) Content-type based, 3) Minimum size threshold, 4) CPU vs bandwidth trade-off.\\n\\nWeb acceleration (caching): 1) Static content caching, 2) Cache policies, 3) Cache invalidation, 4) Memory allocation.\\n\\nConfiguration: 1) HTTP compression profile, 2) Web acceleration profile, 3) Assign to virtual server.\\n\\nConsiderations: 1) CPU utilization, 2) Content types, 3) Cache hit ratio, 4) Memory sizing.",
+        "reference": "F5 Acceleration Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Optimization"
+    },
+    {
+        "id": 19,
+        "question": "Explain F5 TMSH command line interface.",
+        "answer": "TMSH (Traffic Management Shell) is F5's command line interface for configuration and monitoring.\\n\\nTMSH modes: 1) Interactive mode, 2) Single command mode, 3) Script mode.\\n\\nCommon commands: 1) list - show configuration, 2) show - show statistics, 3) create - create objects, 4) modify - change objects, 5) delete - remove objects.\\n\\nExamples: 1) tmsh list ltm virtual, 2) tmsh show ltm pool [name], 3) tmsh create ltm node [name] address [ip], 4) tmsh save sys config.\\n\\nTransaction mode: 1) Begin transaction, 2) Make changes, 3) Commit or rollback.",
+        "reference": "F5 TMSH Reference",
+        "difficulty": "CCNP",
+        "category": "F5 Administration"
+    },
+    {
+        "id": 20,
+        "question": "What is F5 iApps and application templates?",
+        "answer": "iApps are application-centric templates that simplify complex configurations.\\n\\nComponents: 1) Template - defines questions and logic, 2) Application Service - deployed instance, 3) APL - scripting language.\\n\\nBenefits: 1) Simplified deployment, 2) Consistent configuration, 3) Best practices built-in, 4) Self-service portal.\\n\\nBuilt-in templates: 1) f5.http, 2) f5.https, 3) f5.microsoft_exchange, 4) f5.oracle_database.\\n\\nCustom templates: 1) Create custom templates, 2) Define variables, 3) Include configuration, 4) Deploy as service.",
+        "reference": "F5 iApps Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Automation"
+    },
+    {
+        "id": 21,
+        "question": "Explain F5 rate limiting and connection limits.",
+        "answer": "Rate limiting controls request rates to protect backend servers and prevent abuse.\\n\\nRate limiting methods: 1) Connection rate limit, 2) Request rate limit (iRule), 3) Bandwidth rate limit.\\n\\nConnection limits: 1) Virtual server connection limit, 2) Pool member connection limit, 3) Node connection limit.\\n\\nConfiguration: 1) Rate class profiles, 2) Per-virtual limits, 3) iRules for advanced control.\\n\\nUse cases: 1) DoS protection, 2) API rate limiting, 3) Fair usage, 4) Capacity protection.",
+        "reference": "F5 Rate Limiting Configuration",
+        "difficulty": "CCNP",
+        "category": "F5 Security"
+    },
+    {
+        "id": 22,
+        "question": "What is F5 NAT vs SNAT vs Automap?",
+        "answer": "F5 provides different NAT options for various deployment scenarios.\\n\\nNAT: 1) Destination NAT, 2) Virtual server address translation, 3) Client connects to VIP.\\n\\nSNAT: 1) Source NAT, 2) Translates client source IP, 3) Uses SNAT pool addresses.\\n\\nAutomap: 1) Automatic SNAT, 2) Uses self IP of egress VLAN, 3) Simplest configuration.\\n\\nWhen to use: 1) Automap - simple deployments, 2) SNAT pool - high volume, port exhaustion concerns, 3) No SNAT - when F5 is default gateway.",
+        "reference": "F5 NAT Configuration",
+        "difficulty": "CCNP",
+        "category": "F5 NAT"
+    },
+    {
+        "id": 23,
+        "question": "Explain F5 SSL forward proxy.",
+        "answer": "SSL forward proxy enables inspection of outbound SSL/TLS traffic.\\n\\nHow it works: 1) Intercept client SSL requests, 2) Present dynamic certificate to client, 3) Establish SSL to destination, 4) Inspect decrypted traffic.\\n\\nRequirements: 1) CA certificate for signing, 2) Client trust of CA, 3) Forward proxy profile, 4) Destination filtering.\\n\\nUse cases: 1) Outbound security inspection, 2) Data loss prevention, 3) Malware detection, 4) Compliance.\\n\\nBypass options: 1) Category bypass, 2) Destination bypass, 3) Client certificate sites.",
+        "reference": "F5 SSL Forward Proxy Guide",
+        "difficulty": "CCNP",
+        "category": "F5 SSL"
+    },
+    {
+        "id": 24,
+        "question": "What is F5 Analytics and AVR?",
+        "answer": "Application Visibility and Reporting (AVR) provides detailed analytics for applications.\\n\\nAVR capabilities: 1) Real-time dashboards, 2) Historical reporting, 3) Transaction analysis, 4) Performance metrics.\\n\\nMetrics collected: 1) Response times, 2) Throughput, 3) Page load times, 4) Server latency, 5) Client location.\\n\\nConfiguration: 1) Enable analytics profile, 2) Attach to virtual server, 3) Configure collection settings, 4) Set retention period.\\n\\nUse cases: 1) Performance monitoring, 2) Capacity planning, 3) Troubleshooting, 4) SLA compliance.",
+        "reference": "F5 AVR Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Monitoring"
+    },
+    {
+        "id": 25,
+        "question": "Explain F5 AS3 declarative automation.",
+        "answer": "AS3 (Application Services 3) is F5's declarative API for configuration automation.\\n\\nAS3 concepts: 1) Declarative model - describe desired state, 2) JSON schema, 3) Tenant-based, 4) Idempotent operations.\\n\\nDeclaration structure: 1) Class - object type, 2) Tenant - logical partition, 3) Application - service grouping, 4) Properties - configuration.\\n\\nBenefits: 1) Infrastructure as code, 2) Version control, 3) CI/CD integration, 4) Consistent deployments.\\n\\nTools: 1) AS3 extension, 2) REST API, 3) Terraform provider, 4) Ansible modules.",
+        "reference": "F5 AS3 Documentation",
+        "difficulty": "CCIE",
+        "category": "F5 Automation"
+    },
+    {
+        "id": 26,
+        "question": "What is F5 priority group activation?",
+        "answer": "Priority groups control traffic distribution based on pool member availability.\\n\\nHow it works: 1) Members assigned priority (0-65535), 2) Higher priority served first, 3) Lower priority activated when needed.\\n\\nActivation threshold: 1) Minimum available members, 2) When threshold not met, 3) Next priority group activates.\\n\\nUse cases: 1) Primary/backup servers, 2) DR failover, 3) Capacity tiers, 4) Cost optimization.\\n\\nConfiguration: 1) Set member priority, 2) Configure minimum active members, 3) Monitor group health.",
+        "reference": "F5 Priority Groups Guide",
+        "difficulty": "CCNP",
+        "category": "F5 Load Balancing"
+    },
+    {
+        "id": 27,
+        "question": "Explain F5 virtual server types.",
+        "answer": "F5 supports different virtual server types optimized for specific traffic patterns.\\n\\nStandard: 1) Full proxy, 2) Complete traffic management, 3) All profiles available.\\n\\nPerformance (Layer 4): 1) Packet-based forwarding, 2) Limited profiles, 3) High throughput.\\n\\nForwarding (IP): 1) Packet forwarding, 2) No port translation, 3) Simple routing.\\n\\nForwarding (Layer 2): 1) MAC-based forwarding, 2) Transparent mode, 3) Bridge-like behavior.\\n\\nReject: 1) Sends reset/unreachable, 2) Block specific traffic.",
+        "reference": "F5 Virtual Server Types",
+        "difficulty": "CCNP",
+        "category": "F5 Configuration"
+    },
+    {
+        "id": 28,
+        "question": "What is F5 connection mirroring?",
+        "answer": "Connection mirroring replicates connection state to standby device for stateful failover.\\n\\nMirrored data: 1) Connection table, 2) Persistence records, 3) SSL session IDs.\\n\\nConfiguration: 1) Enable mirroring on virtual, 2) Configure mirror addresses, 3) HA VLAN for mirror traffic.\\n\\nConsiderations: 1) Bandwidth overhead, 2) Mirror VLAN sizing, 3) Not all connections mirrored, 4) UDP connections not stateful.\\n\\nWhen to use: 1) Long-lived connections, 2) Critical applications, 3) Zero connection loss required.",
+        "reference": "F5 Connection Mirroring",
+        "difficulty": "CCNP",
+        "category": "F5 Architecture"
+    },
+    {
+        "id": 29,
+        "question": "Explain F5 partitions and route domains.",
+        "answer": "Partitions and route domains provide multi-tenancy on F5 devices.\\n\\nPartitions: 1) Administrative separation, 2) Object isolation, 3) Role-based access, 4) Configuration separation.\\n\\nRoute domains: 1) Network isolation, 2) Overlapping IP support, 3) Separate routing tables, 4) VLAN assignment.\\n\\nUse cases: 1) Multi-tenant hosting, 2) Departmental separation, 3) Development/production, 4) Overlapping IP addresses.\\n\\nConfiguration: 1) Create partition, 2) Create route domain, 3) Assign VLANs, 4) Create objects in partition.",
+        "reference": "F5 Partitions and Route Domains",
+        "difficulty": "CCNP",
+        "category": "F5 Architecture"
+    },
+    {
+        "id": 30,
+        "question": "What are F5 best practices for production deployment?",
+        "answer": "Best practices ensure reliable, secure, and performant F5 deployments.\\n\\nArchitecture: 1) HA pair minimum, 2) Proper sizing, 3) Network redundancy, 4) Separate management network.\\n\\nSecurity: 1) Change default passwords, 2) Use HTTPS management, 3) RBAC configuration, 4) Regular updates.\\n\\nConfiguration: 1) Use profiles appropriately, 2) Application-aware monitors, 3) Appropriate timeouts, 4) Connection limits.\\n\\nOperations: 1) Regular backups, 2) Change management, 3) Monitoring and alerting, 4) Documentation.",
+        "reference": "F5 Deployment Best Practices",
+        "difficulty": "CCNP",
+        "category": "F5 Architecture"
+    }
+]

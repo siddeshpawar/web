@@ -1,0 +1,242 @@
+[
+    {
+        "id": 1,
+        "question": "What is Checkpoint Firewall and its architecture?",
+        "answer": "Check Point is an enterprise firewall platform providing network security through a three-tier architecture.\\n\\nArchitecture components: 1) Security Gateway - enforces security policy, 2) Security Management Server - centralized management, 3) SmartConsole - GUI administration.\\n\\nKey features: 1) Stateful inspection, 2) Application control, 3) IPS/IDS, 4) URL filtering, 5) Anti-bot, 6) Threat emulation.\\n\\nDeployment modes: 1) Gateway mode - inline protection, 2) Bridge mode - transparent, 3) Cluster - HA configuration.\\n\\nLicensing: Blade-based architecture where features are licensed as software blades.",
+        "reference": "Check Point R81 Administration Guide",
+        "difficulty": "CCNP",
+        "category": "Checkpoint Firewall"
+    },
+    {
+        "id": 2,
+        "question": "Explain Checkpoint policy layers and ordered layers.",
+        "answer": "Check Point uses layered policies to organize and manage security rules efficiently.\\n\\nPolicy layers: 1) Network layer - traditional firewall rules, 2) Application layer - app control, URL filtering, 3) Threat Prevention - IPS, anti-bot, antivirus.\\n\\nOrdered layers: 1) Rules processed top to bottom, 2) First match applies, 3) Implicit cleanup rule at bottom.\\n\\nInline layers: 1) Sub-policies within rules, 2) Modular policy design, 3) Delegated administration.\\n\\nBest practices: 1) Specific rules at top, 2) General rules at bottom, 3) Use sections for organization, 4) Regular rule review.",
+        "reference": "Check Point Policy Management",
+        "difficulty": "CCNP",
+        "category": "Checkpoint Firewall"
+    },
+    {
+        "id": 3,
+        "question": "What is Cisco ASA and its main features?",
+        "answer": "Cisco ASA (Adaptive Security Appliance) is a security device combining firewall, VPN, and intrusion prevention capabilities.\\n\\nCore features: 1) Stateful firewall, 2) VPN concentrator (IPsec/SSL), 3) IPS module, 4) Application inspection, 5) NAT/PAT.\\n\\nSecurity levels: 1) 0-100 scale, 2) Higher = more trusted, 3) Traffic flows from high to low by default, 4) ACL required for low to high.\\n\\nDeployment modes: 1) Routed mode - Layer 3, 2) Transparent mode - Layer 2, 3) Multi-context - virtual firewalls.\\n\\nHigh availability: 1) Active/Standby failover, 2) Active/Active with contexts, 3) Stateful failover.",
+        "reference": "Cisco ASA Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "Cisco ASA"
+    },
+    {
+        "id": 4,
+        "question": "Explain Cisco ASA NAT configuration.",
+        "answer": "ASA NAT translates IP addresses between networks, with different NAT types for various scenarios.\\n\\nNAT types: 1) Auto NAT (Object NAT) - defined in object, 2) Manual NAT (Twice NAT) - defined in NAT table, 3) Identity NAT - no translation.\\n\\nNAT operations: 1) Static NAT - one-to-one, 2) Dynamic NAT - many-to-pool, 3) PAT - many-to-one with ports.\\n\\nNAT order of operations: 1) Manual NAT (Section 1), 2) Auto NAT (Section 2), 3) Manual NAT after-auto (Section 3).\\n\\nConfiguration example: object network INSIDE-NET; subnet 10.0.0.0 255.255.255.0; nat (inside,outside) dynamic interface.",
+        "reference": "Cisco ASA NAT Guide",
+        "difficulty": "CCNP",
+        "category": "Cisco ASA"
+    },
+    {
+        "id": 5,
+        "question": "What is Cisco Secure Firewall (FTD)?",
+        "answer": "Cisco Secure Firewall (formerly Firepower Threat Defense) combines ASA firewall with next-gen security features.\\n\\nKey capabilities: 1) NGFW - application visibility, 2) NGIPS - threat detection, 3) AMP - malware protection, 4) URL filtering, 5) SSL decryption.\\n\\nManagement options: 1) FMC - Firepower Management Center, 2) FDM - local device manager, 3) CDO - cloud-based management.\\n\\nDeployment modes: 1) Routed, 2) Transparent, 3) Inline, 4) Passive.\\n\\nLicensing: 1) Base - firewall/VPN, 2) Threat - IPS/malware, 3) URL - web filtering, 4) Malware - AMP.",
+        "reference": "Cisco Secure Firewall Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "Cisco Secure Firewall"
+    },
+    {
+        "id": 6,
+        "question": "Explain Palo Alto firewall architecture.",
+        "answer": "Palo Alto Networks firewalls use single-pass parallel processing architecture for high performance security.\\n\\nArchitecture components: 1) SP3 - Single Pass Parallel Processing, 2) App-ID - application identification, 3) Content-ID - threat prevention, 4) User-ID - user identification.\\n\\nManagement: 1) Panorama - centralized management, 2) Web interface - local management, 3) CLI - command line, 4) API - automation.\\n\\nZone-based security: 1) Security zones group interfaces, 2) Policies between zones, 3) Intra-zone traffic handling.\\n\\nKey features: 1) Application-based policies, 2) User-based policies, 3) SSL decryption, 4) WildFire sandboxing, 5) GlobalProtect VPN.",
+        "reference": "Palo Alto NGFW Administration Guide",
+        "difficulty": "CCNP",
+        "category": "Palo Alto Firewall"
+    },
+    {
+        "id": 7,
+        "question": "What is App-ID in Palo Alto firewalls?",
+        "answer": "App-ID is Palo Alto's application identification technology that classifies traffic regardless of port, protocol, or encryption.\\n\\nIdentification methods: 1) Application signatures, 2) Protocol decoding, 3) Heuristics, 4) SSL decryption.\\n\\nApp-ID process: 1) Initial classification, 2) Continued refinement, 3) Policy enforcement based on final classification.\\n\\nApplication categories: 1) Business applications, 2) General internet, 3) Media, 4) Networking, 5) Unknown.\\n\\nPolicy implications: 1) Application-based rules, 2) Application filters, 3) Application groups, 4) Dependent applications.",
+        "reference": "Palo Alto App-ID Documentation",
+        "difficulty": "CCNP",
+        "category": "Palo Alto Firewall"
+    },
+    {
+        "id": 8,
+        "question": "Explain FortiGate firewall features and architecture.",
+        "answer": "FortiGate is Fortinet's NGFW platform providing unified threat management through custom security processors.\\n\\nArchitecture: 1) FortiASIC - hardware acceleration, 2) FortiOS - operating system, 3) Security Fabric - ecosystem integration.\\n\\nKey features: 1) NGFW, 2) SD-WAN, 3) IPS, 4) Antivirus, 5) Web filtering, 6) SSL inspection.\\n\\nManagement options: 1) FortiManager - centralized, 2) Web GUI, 3) CLI, 4) FortiCloud.\\n\\nSecurity profiles: 1) Antivirus, 2) Web filter, 3) DNS filter, 4) Application control, 5) IPS, 6) File filter.",
+        "reference": "FortiGate Administration Guide",
+        "difficulty": "CCNP",
+        "category": "FortiGate Firewall"
+    },
+    {
+        "id": 9,
+        "question": "What is Cisco ACI and how does it relate to security?",
+        "answer": "Cisco ACI (Application Centric Infrastructure) is a software-defined networking solution with built-in security through micro-segmentation.\\n\\nACI components: 1) APIC - controller, 2) Spine switches, 3) Leaf switches, 4) Endpoints.\\n\\nSecurity model: 1) Whitelist model - deny by default, 2) Contracts - define allowed communication, 3) EPGs - endpoint groups, 4) Micro-segmentation.\\n\\nContracts: 1) Subjects - group of filters, 2) Filters - L3/L4 rules, 3) Labels - scope control, 4) Service graphs - L4-L7 insertion.\\n\\nIntegration: 1) Physical firewall integration, 2) Virtual firewall (ASAv, FTDv), 3) Service graphs for traffic steering.",
+        "reference": "Cisco ACI Security Guide",
+        "difficulty": "CCIE",
+        "category": "Cisco ACI"
+    },
+    {
+        "id": 10,
+        "question": "Explain DMVPN and its phases.",
+        "answer": "DMVPN (Dynamic Multipoint VPN) creates scalable VPN networks using mGRE and NHRP protocols.\\n\\nComponents: 1) Hub - central router, 2) Spokes - branch routers, 3) mGRE - multipoint GRE tunnels, 4) NHRP - address resolution, 5) IPsec - encryption.\\n\\nPhases: 1) Phase 1 - hub-and-spoke only, 2) Phase 2 - spoke-to-spoke via hub, 3) Phase 3 - direct spoke-to-spoke with NHRP shortcuts.\\n\\nNHRP functions: 1) Registration - spoke registers with hub, 2) Resolution - find spoke's NBMA address, 3) Redirect - enable Phase 3 shortcuts.\\n\\nRouting protocols: 1) EIGRP commonly used, 2) OSPF with network type considerations, 3) BGP for large deployments.",
+        "reference": "Cisco DMVPN Design Guide",
+        "difficulty": "CCNP",
+        "category": "VPN Technologies"
+    },
+    {
+        "id": 11,
+        "question": "What is the difference between stateful and stateless firewalls?",
+        "answer": "Stateful firewalls track connection state while stateless firewalls examine packets independently.\\n\\nStateless firewall: 1) Examines each packet individually, 2) No connection tracking, 3) Simple ACL-based filtering, 4) Lower resource usage, 5) Cannot detect session hijacking.\\n\\nStateful firewall: 1) Tracks connection state, 2) Maintains session table, 3) Allows return traffic automatically, 4) Detects out-of-state packets, 5) Higher security.\\n\\nState table entries: 1) Source/destination IP, 2) Ports, 3) Protocol, 4) Sequence numbers, 5) Timeout values.\\n\\nUse cases: 1) Stateless for simple filtering, 2) Stateful for enterprise security, 3) Combined for defense in depth.",
+        "reference": "Firewall Fundamentals",
+        "difficulty": "CCNA",
+        "category": "Firewall Fundamentals"
+    },
+    {
+        "id": 12,
+        "question": "Explain firewall high availability configurations.",
+        "answer": "Firewall HA ensures continuous protection through redundant devices with automatic failover.\\n\\nHA modes: 1) Active/Standby - one active, one backup, 2) Active/Active - both process traffic, 3) Clustering - multiple devices as one.\\n\\nFailover triggers: 1) Hardware failure, 2) Interface failure, 3) Health check failure, 4) Manual failover.\\n\\nState synchronization: 1) Connection table sync, 2) NAT translations, 3) VPN sessions, 4) Configuration sync.\\n\\nConsiderations: 1) Heartbeat network, 2) Failover timing, 3) Asymmetric routing, 4) Session persistence.",
+        "reference": "Firewall HA Design Guide",
+        "difficulty": "CCNP",
+        "category": "Firewall Architecture"
+    },
+    {
+        "id": 13,
+        "question": "What is SSL/TLS inspection and its challenges?",
+        "answer": "SSL inspection decrypts encrypted traffic for security analysis, then re-encrypts for delivery.\\n\\nInspection process: 1) Intercept SSL handshake, 2) Present firewall certificate to client, 3) Establish separate session to server, 4) Decrypt, inspect, re-encrypt.\\n\\nChallenges: 1) Performance impact, 2) Certificate trust issues, 3) Privacy concerns, 4) Certificate pinning, 5) Compliance requirements.\\n\\nBypass scenarios: 1) Financial sites, 2) Healthcare, 3) Certificate pinned apps, 4) Personal privacy.\\n\\nBest practices: 1) Selective decryption, 2) Proper certificate management, 3) Clear policies, 4) Performance sizing.",
+        "reference": "SSL Inspection Guide",
+        "difficulty": "CCNP",
+        "category": "Firewall Security"
+    },
+    {
+        "id": 14,
+        "question": "Explain zone-based firewall concepts.",
+        "answer": "Zone-based firewalls group interfaces into security zones with policies controlling inter-zone traffic.\\n\\nZone concepts: 1) Security zone - logical grouping, 2) Zone pair - source to destination, 3) Policy - rules for zone pair, 4) Class map - traffic classification.\\n\\nDefault behavior: 1) Intra-zone traffic allowed, 2) Inter-zone traffic denied, 3) Self-zone for device traffic.\\n\\nPolicy actions: 1) Inspect - stateful inspection, 2) Pass - allow without inspection, 3) Drop - deny traffic, 4) Log - record activity.\\n\\nAdvantages: 1) Simplified management, 2) Logical organization, 3) Scalable policies, 4) Clearer security model.",
+        "reference": "Zone-Based Firewall Configuration",
+        "difficulty": "CCNP",
+        "category": "Firewall Configuration"
+    },
+    {
+        "id": 15,
+        "question": "What is IPS/IDS and how do firewalls integrate them?",
+        "answer": "IPS (Intrusion Prevention System) and IDS (Intrusion Detection System) detect and prevent network attacks.\\n\\nIDS vs IPS: 1) IDS - passive monitoring, alerts only, 2) IPS - inline, can block threats.\\n\\nDetection methods: 1) Signature-based - known patterns, 2) Anomaly-based - behavioral, 3) Policy-based - rule violations, 4) Heuristic - algorithmic.\\n\\nFirewall integration: 1) NGFW built-in IPS, 2) Module-based (ASA), 3) Cloud-delivered signatures, 4) Custom signatures.\\n\\nTuning: 1) Enable relevant signatures, 2) Set appropriate actions, 3) Reduce false positives, 4) Regular signature updates.",
+        "reference": "IPS/IDS Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "Firewall Security"
+    },
+    {
+        "id": 16,
+        "question": "Explain firewall logging and monitoring best practices.",
+        "answer": "Effective logging and monitoring is essential for security visibility and incident response.\\n\\nLog types: 1) Traffic logs, 2) Threat logs, 3) System logs, 4) Configuration logs, 5) Authentication logs.\\n\\nLogging destinations: 1) Local storage, 2) Syslog server, 3) SIEM platform, 4) Cloud logging.\\n\\nKey metrics: 1) Connection counts, 2) Denied traffic, 3) Threat events, 4) Resource utilization, 5) Policy hits.\\n\\nBest practices: 1) Centralized logging, 2) Log retention policy, 3) Real-time alerting, 4) Regular review, 5) Correlation with other sources.",
+        "reference": "Firewall Logging Guide",
+        "difficulty": "CCNP",
+        "category": "Firewall Operations"
+    },
+    {
+        "id": 17,
+        "question": "What is micro-segmentation in firewall context?",
+        "answer": "Micro-segmentation divides networks into small segments with individual security policies for each workload.\\n\\nImplementation methods: 1) Host-based firewalls, 2) Hypervisor-based (NSX), 3) SDN controllers (ACI), 4) Agent-based solutions.\\n\\nBenefits: 1) Reduced attack surface, 2) Lateral movement prevention, 3) Workload-specific policies, 4) Zero trust implementation.\\n\\nChallenges: 1) Policy complexity, 2) Visibility requirements, 3) Management overhead, 4) Application dependencies.\\n\\nUse cases: 1) Data center security, 2) Cloud workloads, 3) Compliance requirements, 4) Critical application protection.",
+        "reference": "Micro-Segmentation Design Guide",
+        "difficulty": "CCIE",
+        "category": "Firewall Architecture"
+    },
+    {
+        "id": 18,
+        "question": "Explain firewall rule optimization techniques.",
+        "answer": "Rule optimization improves firewall performance and security by organizing policies efficiently.\\n\\nOptimization techniques: 1) Most-hit rules first, 2) Consolidate similar rules, 3) Remove shadowed rules, 4) Use object groups.\\n\\nRule analysis: 1) Hit count review, 2) Unused rule identification, 3) Overlapping rule detection, 4) Redundancy check.\\n\\nPerformance impact: 1) Rule order affects processing, 2) Complex rules slower, 3) Object groups more efficient, 4) Regular cleanup needed.\\n\\nTools: 1) Native firewall reports, 2) Third-party analyzers, 3) Policy modeling tools, 4) Change management systems.",
+        "reference": "Firewall Rule Optimization",
+        "difficulty": "CCNP",
+        "category": "Firewall Operations"
+    },
+    {
+        "id": 19,
+        "question": "What is a web application firewall (WAF) vs network firewall?",
+        "answer": "WAF protects web applications at Layer 7, while network firewalls operate at Layers 3-4.\\n\\nNetwork firewall: 1) IP/port filtering, 2) Protocol inspection, 3) NAT functions, 4) VPN termination.\\n\\nWAF: 1) HTTP/HTTPS inspection, 2) SQL injection prevention, 3) XSS protection, 4) OWASP Top 10, 5) Bot protection.\\n\\nDeployment: 1) WAF inline or reverse proxy, 2) Cloud WAF services, 3) Integrated NGFW WAF, 4) Dedicated appliances.\\n\\nUse together: 1) Network FW for perimeter, 2) WAF for web apps, 3) Defense in depth, 4) Different threat focus.",
+        "reference": "WAF vs Network Firewall",
+        "difficulty": "CCNP",
+        "category": "Firewall Types"
+    },
+    {
+        "id": 20,
+        "question": "Explain VPN termination on firewalls.",
+        "answer": "Firewalls commonly terminate VPN connections for secure remote access and site-to-site connectivity.\\n\\nVPN types: 1) IPsec - site-to-site, remote access, 2) SSL/TLS - clientless, client-based, 3) IKEv1/IKEv2 - key exchange.\\n\\nIPsec phases: 1) Phase 1 (IKE) - authentication, key exchange, 2) Phase 2 (IPsec) - encryption parameters.\\n\\nSSL VPN modes: 1) Clientless - web portal, 2) Thin client - port forwarding, 3) Full tunnel - all traffic.\\n\\nConsiderations: 1) Split tunneling, 2) NAT traversal, 3) Certificate authentication, 4) MFA integration, 5) Scalability.",
+        "reference": "Firewall VPN Configuration",
+        "difficulty": "CCNP",
+        "category": "VPN Technologies"
+    },
+    {
+        "id": 21,
+        "question": "What is Juniper SRX firewall?",
+        "answer": "Juniper SRX is a services gateway platform combining routing, switching, and security functions.\\n\\nKey features: 1) Next-gen firewall, 2) IPS, 3) Application visibility, 4) VPN, 5) Routing (Junos OS).\\n\\nArchitecture: 1) Security zones, 2) Security policies, 3) Screens (DoS protection), 4) ALGs.\\n\\nManagement: 1) Junos CLI, 2) J-Web GUI, 3) Junos Space Security Director, 4) API.\\n\\nUnique features: 1) Full Junos routing stack, 2) Sky ATP cloud sandboxing, 3) AppSecure, 4) Unified policies.",
+        "reference": "Juniper SRX Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "Juniper Firewall"
+    },
+    {
+        "id": 22,
+        "question": "Explain firewall change management process.",
+        "answer": "Firewall change management ensures controlled, documented modifications to security policies.\\n\\nChange process: 1) Request submission, 2) Impact analysis, 3) Approval workflow, 4) Implementation, 5) Verification, 6) Documentation.\\n\\nChange types: 1) Standard - pre-approved, 2) Normal - requires CAB, 3) Emergency - expedited process.\\n\\nBest practices: 1) Change advisory board (CAB), 2) Rollback plan, 3) Testing environment, 4) Change windows, 5) Audit trail.\\n\\nTools: 1) ServiceNow, 2) Tufin, 3) AlgoSec, 4) FireMon.",
+        "reference": "Firewall Change Management",
+        "difficulty": "CCNP",
+        "category": "Firewall Operations"
+    },
+    {
+        "id": 23,
+        "question": "What is application-aware firewalling?",
+        "answer": "Application-aware firewalling identifies and controls applications regardless of port or protocol.\\n\\nIdentification methods: 1) Deep packet inspection, 2) Application signatures, 3) Behavioral analysis, 4) SSL decryption.\\n\\nCapabilities: 1) Application control, 2) User-based policies, 3) Application QoS, 4) Risk-based blocking.\\n\\nPolicy examples: 1) Allow specific apps, 2) Block risky categories, 3) Limit bandwidth per app, 4) Different rules by user.\\n\\nVendor implementations: 1) Palo Alto App-ID, 2) Cisco AVC, 3) Fortinet Application Control, 4) Check Point Application Control.",
+        "reference": "Application-Aware Firewall Guide",
+        "difficulty": "CCNP",
+        "category": "NGFW Features"
+    },
+    {
+        "id": 24,
+        "question": "Explain firewall virtualization (virtual contexts/VSYS).",
+        "answer": "Firewall virtualization creates multiple logical firewalls on single physical hardware.\\n\\nVendor implementations: 1) Cisco - Security Contexts, 2) Palo Alto - VSYS, 3) Check Point - VSX, 4) Fortinet - VDOM.\\n\\nBenefits: 1) Multi-tenancy, 2) Resource efficiency, 3) Policy separation, 4) Administrative delegation.\\n\\nResource allocation: 1) Memory per context, 2) Connection limits, 3) Interface assignment, 4) Routing tables.\\n\\nUse cases: 1) MSP multi-tenant, 2) Department separation, 3) Dev/prod isolation, 4) Merger/acquisition.",
+        "reference": "Firewall Virtualization Guide",
+        "difficulty": "CCNP",
+        "category": "Firewall Architecture"
+    },
+    {
+        "id": 25,
+        "question": "What is threat intelligence integration in firewalls?",
+        "answer": "Threat intelligence enhances firewall protection with external threat data feeds.\\n\\nIntelligence sources: 1) Vendor feeds, 2) Commercial feeds, 3) Open source (OSINT), 4) Industry ISACs, 5) Government feeds.\\n\\nIntegration methods: 1) Automatic updates, 2) STIX/TAXII protocols, 3) API integration, 4) Manual import.\\n\\nUse cases: 1) IP reputation blocking, 2) Domain blocking, 3) Malware hash blocking, 4) C2 detection.\\n\\nVendor examples: 1) Palo Alto AutoFocus, 2) Cisco Talos, 3) Check Point ThreatCloud, 4) Fortinet FortiGuard.",
+        "reference": "Threat Intelligence Integration",
+        "difficulty": "CCNP",
+        "category": "Firewall Security"
+    },
+    {
+        "id": 26,
+        "question": "Explain firewall migration strategies.",
+        "answer": "Firewall migration requires careful planning to minimize disruption while improving security.\\n\\nMigration approaches: 1) Big bang - full cutover, 2) Phased - gradual migration, 3) Parallel - run both temporarily.\\n\\nPlanning steps: 1) Inventory current rules, 2) Clean up unused rules, 3) Map to new platform, 4) Test in lab, 5) Document procedures.\\n\\nTools: 1) Vendor migration tools, 2) Third-party converters, 3) Manual conversion.\\n\\nCommon challenges: 1) Rule translation, 2) Object conversion, 3) NAT differences, 4) Feature gaps, 5) Testing coverage.",
+        "reference": "Firewall Migration Guide",
+        "difficulty": "CCNP",
+        "category": "Firewall Operations"
+    },
+    {
+        "id": 27,
+        "question": "What is GeoIP filtering in firewalls?",
+        "answer": "GeoIP filtering blocks or allows traffic based on geographic location of IP addresses.\\n\\nUse cases: 1) Block high-risk countries, 2) Compliance requirements, 3) Reduce attack surface, 4) Regional access control.\\n\\nImplementation: 1) Built-in GeoIP database, 2) Policy conditions, 3) Regular database updates, 4) Exception handling.\\n\\nLimitations: 1) VPN/proxy bypass, 2) Database accuracy, 3) CDN considerations, 4) Legitimate traffic blocking.\\n\\nBest practices: 1) Start with logging, 2) Whitelist exceptions, 3) Regular review, 4) Combine with other controls.",
+        "reference": "GeoIP Filtering Configuration",
+        "difficulty": "CCNP",
+        "category": "Firewall Features"
+    },
+    {
+        "id": 28,
+        "question": "Explain firewall sandwich or service insertion.",
+        "answer": "Service insertion steers traffic through security services like firewalls in data center architectures.\\n\\nArchitectures: 1) One-arm mode, 2) Two-arm (routed), 3) Transparent/bridge, 4) Service chain.\\n\\nData center integration: 1) ACI service graphs, 2) NSX service insertion, 3) PBR-based steering, 4) VXLAN integration.\\n\\nConsiderations: 1) Traffic symmetry, 2) Failover handling, 3) Performance impact, 4) Scalability.\\n\\nUse cases: 1) East-west traffic inspection, 2) Multi-tier applications, 3) Compliance zones, 4) Micro-segmentation.",
+        "reference": "Service Insertion Design Guide",
+        "difficulty": "CCIE",
+        "category": "Firewall Architecture"
+    },
+    {
+        "id": 29,
+        "question": "What is User-ID and how do firewalls use it?",
+        "answer": "User-ID maps IP addresses to usernames enabling user-based firewall policies.\\n\\nIdentity sources: 1) Active Directory, 2) Captive portal, 3) Syslog parsing, 4) API, 5) GlobalProtect.\\n\\nCollection methods: 1) AD agent polling, 2) WMI queries, 3) Syslog from domain controllers, 4) User authentication.\\n\\nPolicy usage: 1) User-based rules, 2) Group-based access, 3) Per-user bandwidth, 4) User reporting.\\n\\nBest practices: 1) Multiple identity sources, 2) Timeout configuration, 3) Include/exclude networks, 4) Unknown user handling.",
+        "reference": "User-ID Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "NGFW Features"
+    },
+    {
+        "id": 30,
+        "question": "Explain firewall troubleshooting methodology.",
+        "answer": "Systematic troubleshooting identifies and resolves firewall connectivity and security issues.\\n\\nTroubleshooting steps: 1) Define problem, 2) Gather information, 3) Analyze data, 4) Test hypothesis, 5) Implement fix, 6) Verify resolution.\\n\\nCommon tools: 1) Packet capture, 2) Session table, 3) Log analysis, 4) Debug commands, 5) Policy trace.\\n\\nCommon issues: 1) Rule not matching, 2) NAT problems, 3) Routing issues, 4) VPN failures, 5) Performance problems.\\n\\nBest practices: 1) Check basics first, 2) Isolate the problem, 3) One change at a time, 4) Document findings.",
+        "reference": "Firewall Troubleshooting Guide",
+        "difficulty": "CCNP",
+        "category": "Firewall Troubleshooting"
+    }
+]

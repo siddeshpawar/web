@@ -1,0 +1,482 @@
+[
+    {
+        "id": 1,
+        "question": "What is the difference between distance vector and link-state routing protocols?",
+        "answer": "Distance vector protocols make routing decisions based on distance metrics (hop count, bandwidth) and direction (vector) advertised by neighboring routers. They have limited view of the network topology, relying on secondhand information from neighbors. Examples include RIP and EIGRP (though EIGRP has advanced features).\n\nLink-state protocols maintain a complete database of the network topology by flooding link-state information throughout the network. Each router independently calculates the best path to all destinations using Dijkstra's algorithm. Examples include OSPF and IS-IS.\n\nKey differences: 1) Distance vector uses rumor-based routing, link-state uses complete topology knowledge, 2) Distance vector has slower convergence, link-state converges faster, 3) Distance vector is prone to routing loops, link-state is loop-free, 4) Distance vector uses less CPU/memory, link-state requires more resources, 5) Link-state scales better for large networks.",
+        "realWorld": "Large enterprise networks typically use OSPF (link-state) for fast convergence and loop-free operation, while small networks might use RIP (distance vector) for simplicity. Service providers often use IS-IS for its scalability and efficiency.",
+        "difficulty": "CCNA",
+        "category": "Routing Fundamentals"
+    },
+    {
+        "id": 2,
+        "question": "Explain the operation of OSPF areas and their purpose in network design.",
+        "answer": "OSPF areas divide a large OSPF network into smaller, more manageable segments. Each area maintains its own link-state database, reducing routing table size and protocol overhead. Area 0 (backbone area) connects all other areas and must be present for proper OSPF operation.\n\nArea types: 1) Standard area - normal OSPF operation, 2) Backbone area (Area 0) - central transit area, 3) Stub area - no external routes, uses default route, 4) Totally stubby area - no external or inter-area routes, 5) NSSA - can have external routes as Type 7 LSAs.\n\nArea benefits: 1) Reduced routing table size, 2) Faster convergence within areas, 3) Less protocol traffic, 4) Better scalability, 5) Isolated routing problems, 6) Flexible network design.\n\nLSA types in multi-area OSPF: Type 1 (Router LSAs), Type 2 (Network LSAs), Type 3 (Summary LSAs), Type 4 (ASBR Summary LSAs), Type 5 (External LSAs), Type 7 (NSSA External LSAs).",
+        "realWorld": "A university campus uses OSPF areas to separate academic departments (Area 1), administrative departments (Area 2), and dormitories (Area 3), all connected through the core backbone (Area 0).",
+        "difficulty": "CCNP",
+        "category": "OSPF"
+    },
+    {
+        "id": 3,
+        "question": "What is BGP and why is it used on the Internet?",
+        "answer": "BGP (Border Gateway Protocol) is the exterior gateway protocol that makes the Internet work by exchanging routing information between autonomous systems (AS). It's a path vector protocol that considers network policies, not just shortest paths, making routing decisions based on AS paths and attributes.\n\nBGP characteristics: 1) Exterior gateway protocol for inter-AS routing, 2) Path vector protocol with policy control, 3) Uses TCP for reliable delivery (port 179), 4) Supports CIDR for efficient address allocation, 5) Loop prevention through AS_PATH attribute, 6) Highly scalable with 900,000+ Internet routes.\n\nBGP is necessary because: 1) Interior protocols don't scale to Internet size, 2) Different organizations need independent policies, 3) Political and business considerations affect routing, 4) Administrative boundaries require separation, 5) The Internet is a network of networks, not a single entity.\n\nBGP path attributes include AS_PATH, NEXT_HOP, LOCAL_PREF, MED, COMMUNITY, and others that influence route selection and policy implementation.",
+        "realWorld": "When you access a website, BGP has determined the best path across multiple service providers based on their policies, peering relationships, and performance characteristics.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 4,
+        "question": "Describe the concept of route redistribution and its potential issues.",
+        "answer": "Route redistribution allows different routing protocols to share routing information, enabling networks with multiple protocols to communicate. Common when migrating between protocols or connecting different network segments using different protocols.\n\nPotential issues: 1) Routing loops - inconsistent metrics or administrative distances, 2) Suboptimal routing - incorrect path selection, 3) Routing black holes - missing return paths, 4) Route flapping - unstable redistributed routes, 5) Administrative distance conflicts, 6) Metric translation problems.\n\nMitigation techniques: 1) Route maps to filter and modify routes, 2) Metric adjustment for consistent behavior, 3) Administrative distance tuning, 4) Route tagging to track redistributed routes, 5) Distribute lists for filtering, 6) Careful network design.\n\nRedistribution considerations: 1) Minimize redistribution points, 2) Use consistent metrics, 3) Filter unnecessary routes, 4) Document all redistribution points, 5) Monitor for routing issues, 6) Consider one-way redistribution when possible.",
+        "realWorld": "During a network migration from EIGRP to OSPF, an enterprise used redistribution with route maps to gradually transition, carefully controlling which routes were shared to prevent routing loops.",
+        "difficulty": "CCNP",
+        "category": "Route Redistribution"
+    },
+    {
+        "id": 5,
+        "question": "What is the difference between OSPFv2 and OSPFv3?",
+        "answer": "OSPFv2 is designed for IPv4 networks, while OSPFv3 supports both IPv6 and IPv4 (with address families). OSPFv3 represents a significant architectural change beyond just supporting IPv6 addresses.\n\nKey differences: 1) OSPFv2 carries IPv4 addresses in LSAs, OSPFv3 removes addresses from LSAs, 2) OSPFv3 uses link-local addresses for neighbor relationships, 3) OSPFv3 supports multiple address families on same interface, 4) OSPFv3 has improved authentication (IPsec), 5) OSPFv3 separates protocol from addressing, 6) OSPFv3 supports instance IDs for multiple OSPF processes.\n\nOSPFv3 advantages: 1) Protocol-agnostic design, 2) Better extensibility, 3) Enhanced security with IPsec, 4) Support for IPv6-specific features, 5) More efficient LSA flooding, 6) Simpler configuration for dual-stack networks.\n\nMigration considerations: 1) OSPFv2 and v3 run independently, 2) Different process IDs and configurations, 3) Redistribution may be needed during transition, 4) Both can run simultaneously during migration.",
+        "realWorld": "Service providers deploying IPv6 use OSPFv3 to support both IPv4 and IPv6 routing with a single protocol, simplifying operations and reducing protocol overhead.",
+        "difficulty": "CCNP",
+        "category": "OSPF"
+    },
+    {
+        "id": 6,
+        "question": "Explain the BGP path selection process in order.",
+        "answer": "BGP selects the best path through a step-by-step process, evaluating attributes in a specific order until only one route remains.\n\nPath selection criteria (in order): 1) Highest weight (Cisco proprietary), 2) Highest local preference, 3) Locally originated routes, 4) Shortest AS path, 5) Lowest origin type (IGP < EGP < incomplete), 6) Lowest MED (Multi-Exit Discriminator), 7) Prefer eBGP over iBGP, 8) Lowest IGP metric to BGP next-hop, 9) Oldest route (for stability), 10) Lowest router ID, 11) Lowest neighbor address.\n\nKey attributes: 1) Weight - local to router, 2) Local preference - shared within AS, 3) AS_PATH - prevents loops and influences path, 4) MED - influences inbound traffic, 5) Next-hop - must be reachable, 6) Community - route tagging for policy.\n\nTie-breaking considerations: 1) Maximum-paths for load balancing, 2) BGP bestpath commands for customization, 3) Route maps for attribute manipulation, 4) Policy lists for complex decisions.",
+        "realWorld": "An enterprise with dual ISP connections uses local preference to prefer ISP A for outbound traffic while MED values influence which ISP is chosen for inbound traffic.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 7,
+        "question": "What is the purpose of route maps in BGP?",
+        "answer": "Route maps are powerful tools in BGP for implementing routing policies, controlling which routes are advertised, accepted, or modified. They provide granular control over BGP decision-making and attribute manipulation.\n\nRoute map applications: 1) Filtering routes in/out, 2) Modifying BGP attributes, 3) Implementing routing policies, 4) Controlling redistribution, 5) Setting metrics and preferences, 6) Route tagging for identification.\n\nCommon BGP route map operations: 1) Set local preference, 2) Set MED values, 3) Set next-hop self, 4) Prepend AS_PATH, 5) Set community attributes, 6) Filter based on prefixes or attributes.\n\nRoute map structure: 1) Sequence numbers for order, 2) Match conditions (prefix-list, community, AS_PATH), 3) Set statements (actions), 4) Permit/deny behavior, 5) Implicit deny at end.\n\nBest practices: 1) Use prefix-lists for efficient matching, 2) Document all route map policies, 3) Test changes in maintenance windows, 4) Use route maps sparingly to avoid complexity, 5) Monitor BGP after applying changes.",
+        "realWorld": "A content provider uses route maps to prepend their AS path for specific prefixes, making those paths less attractive to inbound traffic and balancing load across their upstream providers.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 8,
+        "question": "Describe the operation of EIGRP and its components.",
+        "answer": "EIGRP (Enhanced Interior Gateway Routing Protocol) is an advanced distance-vector protocol with link-state features. It uses DUAL (Diffusing Update Algorithm) for loop-free path calculation and maintains comprehensive topology information.\n\nEIGRP components: 1) Neighbor table - list of directly connected EIGRP neighbors, 2) Topology table - all learned routes with metrics, 3) Routing table - best routes (successors), 4) Feasible successors - backup paths meeting feasibility condition.\n\nEIGRP metrics (K values): 1) Bandwidth (K1), 2) Load (K2), 3) Delay (K3), 4) Reliability (K5), 5) MTU (K4). Default uses only bandwidth and delay.\n\nDUAL operation: 1) Successor fails, 2) Check for feasible successors, 3) If found, immediately promote, 4) If none, send queries, 5) Calculate new paths from replies, 6) Update routing table.\n\nEIGRP features: 1) Rapid convergence, 2) Loop-free operation, 3) Unequal cost load balancing, 4) Protocol-independent (supports IP, IPX, AppleTalk), 5) Efficient bandwidth usage, 6) Support for VLSM and CIDR.",
+        "realWorld": "A financial services company uses EIGRP's unequal cost load balancing to utilize both primary and backup links, improving bandwidth utilization without complex configuration.",
+        "difficulty": "CCNP",
+        "category": "EIGRP"
+    },
+    {
+        "id": 9,
+        "question": "What is the difference between iBGP and eBGP?",
+        "answer": "iBGP (internal BGP) runs within a single AS, while eBGP (external BGP) runs between different ASes. They have different operational characteristics and requirements.\n\niBGP characteristics: 1) Runs within same AS, 2) AS_PATH not modified for iBGP peers, 3) Requires full mesh or route reflectors, 4) Uses local preference for path selection, 5) Synchronization (legacy), 6) MED not considered between iBGP peers.\n\neBGP characteristics: 1) Runs between different ASes, 2) AS_PATH modified (adds own AS), 3) No full mesh requirement, 4) Uses weight and local preference, 5) TTL of 1 (direct connections), 6) MED influences inbound traffic.\n\nKey differences: 1) iBGP doesn't prepend AS_PATH, eBGP does, 2) iBGP requires full mesh or alternatives, eBGP doesn't, 3) iBGP uses local preference, eBGP uses weight first, 4) eBGP has administrative distance 20, iBGP has 200, 5) eBGP checks for AS_PATH loops, iBGP uses other mechanisms.\n\nImplementation considerations: 1) Route reflectors or confederations for iBGP scaling, 2) Loopback interfaces for iBGP stability, 3) BGP timers differ between iBGP/eBGP, 4) Different authentication requirements.",
+        "realWorld": "Service providers use iBGP internally with route reflectors for scalability, while eBGP connects them to other providers and customers at Internet exchange points.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 10,
+        "question": "Explain the concept of MPLS and its benefits.",
+        "answer": "MPLS (Multi-Protocol Label Switching) is a high-performance telecommunications technology that directs data from one network node to the next based on short path labels rather than long network addresses. It operates between Layer 2 and Layer 3, often called Layer 2.5.\n\nMPLS operation: 1) Label Switch Router (LSR) adds label to incoming packets, 2) LSRs forward based on labels only, 3) Egress LSR removes label before final delivery, 4) Label Switched Paths (LSPs) define end-to-end paths, 5) Label Distribution Protocol (LDP) or RSVP-TE distributes labels.\n\nBenefits: 1) Fast forwarding - simple label lookups, 2) Traffic engineering - explicit path control, 3) VPN services - Layer 2/3 VPNs, 4) Quality of Service - class-based forwarding, 5) Scalability - separates forwarding from routing, 6) Any transport over MPLS - ATM, Frame Relay, Ethernet.\n\nMPLS applications: 1) VPN services (L3VPN, L2VPN), 2) Traffic engineering, 3) Quality of Service, 4) Multicast VPNs, 5) Pseudowire emulation, 6) Carrier Ethernet services.",
+        "realWorld": "Service providers use MPLS to offer VPN services to enterprise customers, providing secure connectivity between sites over shared infrastructure with guaranteed performance.",
+        "difficulty": "CCNP",
+        "category": "MPLS"
+    },
+    {
+        "id": 11,
+        "question": "What is route aggregation and why is it important?",
+        "answer": "Route aggregation (summarization) combines multiple contiguous networks into a single summary route, reducing routing table size and minimizing routing updates. It's essential for Internet routing scalability and network stability.\n\nBenefits of aggregation: 1) Smaller routing tables, 2) Less routing protocol traffic, 3) Faster convergence, 4) Improved stability, 5) Better resource utilization, 6) Simplified management.\n\nAggregation methods: 1) Auto-summarization (classful) - at classful boundaries, 2) Manual summarization (classless) - precise control, 3) Conditional aggregation - based on presence of specific routes, 4) BGP aggregation - with atomic-aggregate and as-set options.\n\nAggregation rules: 1) Networks must be contiguous, 2) Summary must cover all networks, 3) Binary boundaries must align, 4) Consider future growth, 5) Ensure all components are reachable.\n\nImplementation: 1) OSPF - area range command, 2) EIGRP - summary routes, 3) BGP - aggregate-address command, 4) Static - summary static routes, 5) Consider filtering more specific routes.",
+        "realWorld": "The Internet's BGP routing table would be millions of routes without aggregation. Service providers summarize customer blocks into larger aggregates, keeping the global routing table manageable.",
+        "difficulty": "CCNP",
+        "category": "Routing"
+    },
+    {
+        "id": 12,
+        "question": "Describe the operation of IS-IS routing protocol.",
+        "answer": "IS-IS (Intermediate System to Intermediate System) is a link-state routing protocol originally designed for CLNS but adapted for IP. It's similar to OSPF but with architectural differences that make it preferred by some service providers.\n\nIS-IS characteristics: 1) Runs directly over Layer 2, not IP, 2) TLV-based design (extensible), 3) Level 1 (intra-area) and Level 2 (inter-area) hierarchy, 4) No DR/BDR election needed, 5) More efficient than OSPF, 6) Better scaling for large networks.\n\nIS-IS operation: 1) Routers establish adjacencies, 2) Exchange LSPs (Link State PDUs), 3) Build link-state database, 4) Run Dijkstra's SPF algorithm, 5) Calculate shortest paths, 6) Install routes in routing table.\n\nIS-IS vs OSPF: 1) IS-IS is simpler and more robust, 2) OSPF has wider enterprise adoption, 3) IS-IS scales better for very large networks, 4) OSPF has more granular authentication, 5) IS-IS separates routing from reachability, 6) OSPF has more area types.\n\nModern IS-IS supports IPv6, traffic engineering, and multi-topology routing, making it suitable for modern service provider networks.",
+        "realWorld": "Many tier-1 service providers use IS-IS in their backbone due to its scalability and efficiency, particularly for networks with thousands of routers.",
+        "difficulty": "CCNP",
+        "category": "IS-IS"
+    },
+    {
+        "id": 13,
+        "question": "What is the purpose of BGP communities and how are they used?",
+        "answer": "BGP communities are attributes used to tag routes for policy implementation, route filtering, and administrative purposes. They provide a way to apply common policies to groups of routes without complex individual configurations.\n\nCommunity types: 1) Well-known communities (no-export, no-advertise, local-AS), 2) Internet communities (public standards), 3) Private communities (AS-specific), 4) Extended communities (larger value space).",
+        "realWorld": "A service provider uses community 100:100 to mark customer routes that shouldn't be exported to peers, and 100:200 for routes that should receive preferential treatment.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 14,
+        "question": "Explain the concept of virtual routing and forwarding (VRF).",
+        "answer": "VRF allows multiple instances of routing tables to coexist on the same router, enabling network segmentation without multiple physical routers. Each VRF maintains its own separate routing table, forwarding table, and routing protocols.",
+        "realWorld": "A service provider uses VRFs to provide VPN services to hundreds of customers on the same PE routers, each with their own routing tables and policies.",
+        "difficulty": "CCNP",
+        "category": "VPN"
+    },
+    {
+        "id": 15,
+        "question": "What is the difference between static and dynamic routing?",
+        "answer": "Static routing uses manually configured routes that don't change unless modified. Dynamic routing uses protocols to automatically learn and maintain routes, adapting to network changes.",
+        "realWorld": "Branch offices often use static default routes to HQ with floating static backups, while the core network uses dynamic protocols for automatic failover.",
+        "difficulty": "CCNA",
+        "category": "Routing Fundamentals"
+    },
+    {
+        "id": 16,
+        "question": "Describe BGP route reflectors and their purpose.",
+        "answer": "Route reflectors simplify iBGP mesh by acting as concentration points. Instead of full mesh, clients peer only with the RR, which reflects routes to other clients.",
+        "realWorld": "A service provider with 200 iBGP routers uses 4 route reflectors, reducing peerings from 19,900 to 808 sessions.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 17,
+        "question": "What is policy-based routing (PBR)?",
+        "answer": "PBR makes routing decisions based on criteria other than destination, such as source address, protocol, or application ports, overriding normal routing table decisions.",
+        "realWorld": "A university routes research traffic over high-performance links while administrative traffic uses standard connections, optimizing costs and performance.",
+        "difficulty": "CCNP",
+        "category": "Routing"
+    },
+    {
+        "id": 18,
+        "question": "Explain OSPF neighbor relationship and DR/BDR election.",
+        "answer": "OSPF routers form neighbor relationships on shared networks. On multi-access networks, DR and BDR are elected to reduce LSA flooding and improve efficiency.",
+        "realWorld": "In a broadcast network with 10 routers, only DR and BDR maintain full adjacencies with all routers, reducing LSA traffic by 80%.",
+        "difficulty": "CCNA",
+        "category": "OSPF"
+    },
+    {
+        "id": 19,
+        "question": "What is MPLS VPN and how does it work?",
+        "answer": "MPLS VPN uses route distinguishers and route targets to create isolated routing tables for customers over shared provider infrastructure, enabling secure multi-tenancy.",
+        "realWorld": "Enterprise customers connect to provider edge routers which maintain separate VRFs for each customer, ensuring complete traffic isolation.",
+        "difficulty": "CCNP",
+        "category": "MPLS"
+    },
+    {
+        "id": 20,
+        "question": "Describe administrative distance in routing.",
+        "answer": "Administrative distance rates the trustworthiness of routing sources. Lower values are preferred when multiple protocols offer routes to the same destination.",
+        "realWorld": "Floating static routes with AD 200 provide backup to OSPF routes (AD 110), ensuring automatic failover when dynamic routing fails.",
+        "difficulty": "CCNA",
+        "category": "Routing Fundamentals"
+    },
+    {
+        "id": 21,
+        "question": "What is BGP MED and how does it influence traffic?",
+        "answer": "MED (Multi-Exit Discriminator) influences inbound traffic from neighboring ASes by indicating preference for entry points into your AS.",
+        "realWorld": "An enterprise sets lower MED on routes advertised from their west coast data center to attract US traffic, while higher MED on east coast attracts European traffic.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 22,
+        "question": "Explain OSPF LSA types and their purposes.",
+        "answer": "OSPF uses different LSA types to distribute different types of routing information throughout the network.",
+        "realWorld": "Type 1 and 2 LSAs contain intra-area topology, Type 3 LSAs summarize between areas, and Type 5 LSAs advertise external routes like static or redistributed routes.",
+        "difficulty": "CCNP",
+        "category": "OSPF"
+    },
+    {
+        "id": 23,
+        "question": "What is the difference between classful and classless routing?",
+        "answer": "Classful routing doesn't include subnet mask in updates (RIP v1), while classless routing includes mask (RIP v2, OSPF, EIGRP), enabling VLSM and CIDR.",
+        "realWorld": "Modern networks require classless routing for efficient IP address utilization and discontiguous network support.",
+        "difficulty": "CCNA",
+        "category": "Routing Fundamentals"
+    },
+    {
+        "id": 24,
+        "question": "Describe BGP confederations.",
+        "answer": "BGP confederations divide an AS into sub-ASs, reducing iBGP mesh complexity while appearing as single AS externally.",
+        "realWorld": "A tier-1 carrier divides their network into regional sub-ASs, each with independent policies, while presenting unified AS to the Internet.",
+        "difficulty": "CCIE",
+        "category": "BGP"
+    },
+    {
+        "id": 25,
+        "question": "What is MPLS traffic engineering?",
+        "answer": "MPLS TE establishes explicit paths through the network, optimizing resource utilization and ensuring performance for critical applications.",
+        "realWorld": "Service providers use MPLS TE to route VoIP traffic over low-latency paths while bulk data uses higher-capacity routes.",
+        "difficulty": "CCIE",
+        "category": "MPLS"
+    },
+    {
+        "id": 26,
+        "question": "Explain EIGRP feasible condition.",
+        "answer": "A route is feasible if its reported distance is less than the feasible distance of current successor, ensuring loop-free backup paths.",
+        "realWorld": "EIGRP maintains backup routes that meet feasible condition, enabling sub-second failover without recomputation.",
+        "difficulty": "CCNP",
+        "category": "EIGRP"
+    },
+    {
+        "id": 27,
+        "question": "What is BGP local preference?",
+        "answer": "Local preference is a well-known discretionary attribute that influences outbound traffic from an AS, shared among all iBGP routers.",
+        "realWorld": "An enterprise sets local preference 200 for routes via ISP A and 100 for ISP B, preferring ISP A for all outbound traffic.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 28,
+        "question": "Describe OSPF stub areas.",
+        "answer": "Stub areas reduce routing table size by not accepting external routes, using default routes instead.",
+        "realWorld": "Branch offices configured as stub areas need minimal routing information while maintaining connectivity to the corporate network.",
+        "difficulty": "CCNP",
+        "category": "OSPF"
+    },
+    {
+        "id": 29,
+        "question": "What is route flapping and how is it controlled?",
+        "answer": "Route flapping is rapid changes in route availability, controlled by route dampening which penalizes unstable routes.",
+        "realWorld": "BGP route dampening prevents unstable customer routes from affecting the entire Internet routing table.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 30,
+        "question": "Explain the concept of routing loops and prevention.",
+        "answer": "Routing loops occur when packets circulate endlessly. Prevention mechanisms include split horizon, route poisoning, hold-down timers, and SPF algorithm.",
+        "realWorld": "Distance vector protocols use multiple mechanisms to prevent loops, while link-state protocols are inherently loop-free.",
+        "difficulty": "CCNA",
+        "category": "Routing Fundamentals"
+    },
+    {
+        "id": 31,
+        "question": "What is the difference between OSPF and EIGRP metrics?",
+        "answer": "OSPF uses cost (based on bandwidth) while EIGRP uses composite metrics (bandwidth, delay, reliability, load).",
+        "realWorld": "EIGRP's composite metrics provide more granular control over path selection compared to OSPF's simple cost calculation.",
+        "difficulty": "CCNP",
+        "category": "Routing Protocols"
+    },
+    {
+        "id": 32,
+        "question": "Describe BGP next-hop self.",
+        "answer": "Next-hop self modifies the next-hop attribute to the local router's address when advertising routes to iBGP peers.",
+        "realWorld": "Enterprise networks use next-hop self on route reflectors to ensure iBGP peers have reachable next-hop addresses.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 33,
+        "question": "What is MPLS label distribution?",
+        "answer": "Labels are distributed using LDP, RSVP-TE, or BGP to establish label-switched paths through the network.",
+        "realWorld": "LDP automatically establishes labels for all IGP routes, while RSVP-TE reserves resources for traffic-engineered paths.",
+        "difficulty": "CCNP",
+        "category": "MPLS"
+    },
+    {
+        "id": 34,
+        "question": "Explain OSPF network types.",
+        "answer": "OSPF supports different network types: broadcast, non-broadcast, point-to-point, point-to-multipoint, each with different neighbor behaviors.",
+        "realWorld": "Frame Relay networks typically use non-broadcast or point-to-multipoint types with manual neighbor configuration.",
+        "difficulty": "CCNP",
+        "category": "OSPF"
+    },
+    {
+        "id": 35,
+        "question": "What is BGP AS_PATH prepending?",
+        "answer": "AS_PATH prepending adds duplicate AS numbers to influence inbound traffic by making paths appear longer.",
+        "realWorld": "Content providers prepend their AS path for certain prefixes to balance inbound traffic across multiple upstream providers.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 36,
+        "question": "Describe EIGRP stub routing.",
+        "answer": "EIGRP stub routers advertise limited routes, reducing query scope and improving convergence in hub-and-spoke topologies.",
+        "realWorld": "Branch office routers configured as EIGRP stubs only advertise connected and summary routes, not received routes.",
+        "difficulty": "CCNP",
+        "category": "EIGRP"
+    },
+    {
+        "id": 37,
+        "question": "What is the difference between RIP v1 and v2?",
+        "answer": "RIP v1 is classful with broadcast updates, while RIP v2 is classless with multicast updates and supports VLSM and authentication.",
+        "realWorld": "RIP v2 is still used in some small networks for simplicity, though most have migrated to OSPF or EIGRP.",
+        "difficulty": "CCNA",
+        "category": "RIP"
+    },
+    {
+        "id": 38,
+        "question": "Explain BGP route refresh.",
+        "answer": "Route refresh allows routers to request re-advertisement of routes without soft reset, enabling policy changes without session reset.",
+        "realWorld": "Network operators use route refresh to apply new route maps without disrupting BGP sessions.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 39,
+        "question": "What is OSPF virtual link?",
+        "answer": "Virtual links connect non-backbone areas to backbone through other areas, maintaining connectivity when direct backbone connection isn't possible.",
+        "realWorld": "Temporary virtual links are used during network migrations or when adding new areas that can't directly connect to backbone.",
+        "difficulty": "CCNP",
+        "category": "OSPF"
+    },
+    {
+        "id": 40,
+        "question": "Describe MPLS QoS.",
+        "answer": "MPLS supports QoS through EXP bits in label header, enabling class-based forwarding and service differentiation.",
+        "realWorld": "Voice traffic marked with EXP 5 receives priority treatment throughout the MPLS network.",
+        "difficulty": "CCNP",
+        "category": "MPLS"
+    },
+    {
+        "id": 41,
+        "question": "What is BGP multipath?",
+        "answer": "BGP multipath allows installation of multiple equal-cost BGP routes in the routing table for load balancing.",
+        "realWorld": "Enterprise networks use BGP multipath to load balance traffic across multiple ISP connections simultaneously.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 42,
+        "question": "Explain EIGRP variance.",
+        "answer": "Variance allows unequal-cost load balancing by accepting routes within specified multiplier of best route metric.",
+        "realWorld": "Variance of 2 enables load balancing across paths with metric up to twice the best path's metric.",
+        "difficulty": "CCNP",
+        "category": "EIGRP"
+    },
+    {
+        "id": 43,
+        "question": "What is OSPF cost calculation?",
+        "answer": "OSPF cost is calculated as reference bandwidth divided by interface bandwidth, defaulting to 100 Mbps reference.",
+        "realWorld": "10Gbps interfaces have cost 1 with default reference bandwidth, requiring adjustment for 10Gbps+ networks.",
+        "difficulty": "CCNA",
+        "category": "OSPF"
+    },
+    {
+        "id": 44,
+        "question": "Describe BGP route dampening parameters.",
+        "answer": "Route dampening uses suppress limit, reuse limit, half-life, and max suppress time to control unstable routes.",
+        "realWorld": "Typical values: suppress 2000, reuse 750, half-life 15 minutes, max suppress 60 minutes.",
+        "difficulty": "CCIE",
+        "category": "BGP"
+    },
+    {
+        "id": 45,
+        "question": "What is MPLS pseudowire?",
+        "answer": "Pseudowire emulates Layer 2 services over MPLS, transporting Ethernet, ATM, or other Layer 2 protocols across IP/MPLS networks.",
+        "realWorld": "Service providers use pseudowires to provide point-to-point Ethernet services over their MPLS backbone.",
+        "difficulty": "CCNP",
+        "category": "MPLS"
+    },
+    {
+        "id": 46,
+        "question": "Explain OSPF authentication.",
+        "answer": "OSPF supports simple password and MD5 authentication to ensure only authorized routers participate in the OSPF domain.",
+        "realWorld": "Financial institutions enable OSPF authentication on all interfaces to prevent unauthorized routers from affecting routing.",
+        "difficulty": "CCNP",
+        "category": "OSPF"
+    },
+    {
+        "id": 47,
+        "question": "What is BGP TTL security check?",
+        "answer": "TTL security mechanism checks TTL value of BGP packets (must be 255) to prevent spoofed BGP packets from distant sources.",
+        "realWorld": "Service providers enable GTSM on all eBGP sessions to protect against BGP session hijacking attacks.",
+        "difficulty": "CCNP",
+        "category": "BGP"
+    },
+    {
+        "id": 48,
+        "question": "Describe EIGRP authentication.",
+        "answer": "EIGRP supports MD5 authentication on a per-interface basis to secure routing updates.",
+        "realWorld": "Enterprise networks enable EIGRP authentication on all router interfaces to prevent routing information tampering.",
+        "difficulty": "CCNP",
+        "category": "EIGRP"
+    },
+    {
+        "id": 49,
+        "question": "What is OSPF graceful restart?",
+        "answer": "Graceful restart allows OSPF routers to restart without disrupting traffic, preserving forwarding during control plane restarts.",
+        "realWorld": "Data centers use graceful restart during software upgrades to maintain traffic flow while OSPF restarts.",
+        "difficulty": "CCIE",
+        "category": "OSPF"
+    },
+    {
+        "id": 50,
+        "question": "Explain BGP PIC (Prefix Independent Convergence).",
+        "answer": "PIC enables fast convergence by pre-installing backup next-hops, achieving sub-50ms failover for BGP routes.",
+        "realWorld": "Financial trading firms use BGP PIC to ensure minimal disruption during network failures.",
+        "difficulty": "CCIE",
+        "category": "BGP"
+    },
+    {
+        "id": 51,
+        "question": "What is MPLS fast reroute?",
+        "answer": "Fast reroute provides sub-50ms protection for MPLS tunnels using pre-established backup paths and local repair.",
+        "realWorld": "Carrier networks implement FRR to protect voice and video services from disruption during fiber cuts.",
+        "difficulty": "CCIE",
+        "category": "MPLS"
+    },
+    {
+        "id": 52,
+        "question": "Describe OSPF multi-topology routing.",
+        "answer": "MTR supports multiple topologies for different traffic types, enabling separate routing for IPv4, IPv6, or traffic-engineered paths.",
+        "realWorld": "Service providers use MTR to route IPv4 and IPv6 traffic over different paths within the same OSPF domain.",
+        "difficulty": "CCIE",
+        "category": "OSPF"
+    },
+    {
+        "id": 53,
+        "question": "What is BGP add-paths?",
+        "answer": "Add-paths allows advertising multiple paths for same prefix, enabling better load balancing and path diversity.",
+        "realWorld": "Content providers use add-paths to advertise multiple entry points, improving traffic engineering capabilities.",
+        "difficulty": "CCIE",
+        "category": "BGP"
+    },
+    {
+        "id": 54,
+        "question": "Explain EIGRP named mode.",
+        "answer": "Named mode provides hierarchical configuration with address-families, enabling IPv4 and IPv6 in single process with enhanced features.",
+        "realWorld": "Modern networks use EIGRP named mode for simplified dual-stack configuration and better management.",
+        "difficulty": "CCNP",
+        "category": "EIGRP"
+    },
+    {
+        "id": 55,
+        "question": "What is OSPF opaque LSAs?",
+        "answer": "Opaque LSAs (types 9, 10, 11) provide extensibility for OSPF, used for traffic engineering and other applications.",
+        "realWorld": "MPLS traffic engineering uses opaque LSAs to distribute link bandwidth and TE attributes throughout the OSPF domain.",
+        "difficulty": "CCIE",
+        "category": "OSPF"
+    },
+    {
+        "id": 56,
+        "question": "Describe BGP large communities.",
+        "answer": "Large communities provide 32-bit values (4 octets) instead of regular communities' 16-bit values, offering more granular policy control.",
+        "realWorld": "Cloud providers use large communities to implement complex routing policies with fine-grained control.",
+        "difficulty": "CCIE",
+        "category": "BGP"
+    },
+    {
+        "id": 57,
+        "question": "What is MPLS segment routing?",
+        "answer": "Segment routing extends MPLS with source-based routing, encoding paths as segment lists in packet headers.",
+        "realWorld": "Service providers use segment routing to simplify network operations and provide traffic engineering without LDP/RSVP.",
+        "difficulty": "CCIE",
+        "category": "MPLS"
+    },
+    {
+        "id": 58,
+        "question": "Explain OSPFv3 address families.",
+        "answer": "OSPFv3 address families support multiple protocols (IPv4, IPv6) in single process with separate topology databases.",
+        "realWorld": "Service providers deploy OSPFv3 with both IPv4 and IPv6 address families for streamlined dual-stack operations.",
+        "difficulty": "CCIE",
+        "category": "OSPF"
+    },
+    {
+        "id": 59,
+        "question": "What is BGP flow spec?",
+        "answer": "Flow specification allows distributing traffic flow specifications via BGP for automated DDoS mitigation and traffic filtering.",
+        "realWorld": "Service providers use BGP flow spec to automatically block DDoS attack traffic at network edge.",
+        "difficulty": "CCIE",
+        "category": "BGP"
+    },
+    {
+        "id": 60,
+        "question": "Describe EIGRP stub routing with leak map.",
+        "answer": "Leak maps allow stub routers to selectively leak specific routes while maintaining stub benefits.",
+        "realWorld": "Branch offices use leak maps to advertise local server routes while remaining stub for other routes.",
+        "difficulty": "CCNP",
+        "category": "EIGRP"
+    }
+]

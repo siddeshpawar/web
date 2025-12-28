@@ -1,0 +1,242 @@
+[
+    {
+        "id": 1,
+        "question": "What is Aruba ClearPass Policy Manager (CPPM)?",
+        "answer": "Aruba ClearPass Policy Manager is a comprehensive Network Access Control (NAC) solution that provides secure network access through authentication, authorization, and accounting (AAA) services.\\n\\nKey features: 1) Role-based access control, 2) Device profiling, 3) Guest access management, 4) BYOD onboarding, 5) Posture assessment.\\n\\nDeployment options: 1) On-premises hardware appliance, 2) Virtual appliance (VMware/Hyper-V), 3) Cloud deployment.\\n\\nIntegration capabilities: 1) RADIUS/TACACS+, 2) Active Directory/LDAP, 3) MDM solutions (Intune, AirWatch), 4) SIEM platforms, 5) Third-party network devices.",
+        "reference": "Aruba ClearPass Policy Manager Documentation - https://www.arubanetworks.com/techdocs/ClearPass/",
+        "difficulty": "CCNA",
+        "category": "ClearPass Fundamentals"
+    },
+    {
+        "id": 2,
+        "question": "Explain the ClearPass authentication flow for 802.1X.",
+        "answer": "The 802.1X authentication flow in ClearPass involves multiple components working together to authenticate users and devices.\\n\\nFlow steps: 1) Supplicant initiates connection, 2) Authenticator (switch/WLC) sends RADIUS Access-Request to ClearPass, 3) ClearPass validates credentials against authentication source, 4) ClearPass applies enforcement policy, 5) RADIUS Access-Accept/Reject sent to authenticator.\\n\\nComponents: 1) Supplicant - end device with 802.1X client, 2) Authenticator - network device (NAS), 3) Authentication Server - ClearPass.\\n\\nEAP methods supported: 1) PEAP-MSCHAPv2, 2) EAP-TLS, 3) EAP-TTLS, 4) EAP-FAST.",
+        "reference": "ClearPass 802.1X Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "ClearPass Authentication"
+    },
+    {
+        "id": 3,
+        "question": "What are ClearPass Services and how do you configure them?",
+        "answer": "ClearPass Services define how authentication requests are processed, including which authentication sources to use and what policies to apply.\\n\\nService components: 1) Service Rules - match conditions for incoming requests, 2) Authentication - define auth sources and methods, 3) Authorization - role mapping and attributes, 4) Enforcement - policies and profiles to apply.\\n\\nService types: 1) 802.1X Wireless, 2) 802.1X Wired, 3) MAC Authentication, 4) Web Authentication, 5) TACACS+.\\n\\nConfiguration steps: 1) Define service rules, 2) Select authentication source, 3) Configure role mapping, 4) Create enforcement policy, 5) Set service order priority.",
+        "reference": "ClearPass Services Configuration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Configuration"
+    },
+    {
+        "id": 4,
+        "question": "How does ClearPass device profiling work?",
+        "answer": "ClearPass device profiling automatically identifies and classifies devices connecting to the network using various fingerprinting techniques.\\n\\nProfiling methods: 1) DHCP fingerprinting, 2) HTTP User-Agent, 3) MAC OUI lookup, 4) SNMP queries, 5) Active scanning (Nmap), 6) OnGuard agent.\\n\\nProfile categories: 1) Device Type, 2) Device Family, 3) Device Name, 4) OS Type, 5) OS Version.\\n\\nUse cases: 1) IoT device identification, 2) BYOD classification, 3) Policy enforcement based on device type, 4) Network visibility, 5) Compliance reporting.",
+        "reference": "ClearPass Profiling and Visibility",
+        "difficulty": "CCNP",
+        "category": "ClearPass Profiling"
+    },
+    {
+        "id": 5,
+        "question": "Explain ClearPass Enforcement Profiles and Policies.",
+        "answer": "Enforcement profiles define the actions to take when a device/user is authenticated, while enforcement policies determine which profile to apply.\\n\\nEnforcement Profile types: 1) RADIUS - returns RADIUS attributes, 2) TACACS+ - command authorization, 3) Agent - OnGuard actions, 4) Application - API calls.\\n\\nCommon RADIUS attributes: 1) VLAN assignment, 2) Downloadable ACL, 3) Role assignment, 4) Session timeout, 5) URL redirect.\\n\\nPolicy components: 1) Rules - conditions to match, 2) Conditions - attributes to evaluate, 3) Actions - profiles to apply.\\n\\nBest practices: 1) Use role-based policies, 2) Implement least privilege, 3) Layer policies for flexibility.",
+        "reference": "ClearPass Enforcement Configuration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Policies"
+    },
+    {
+        "id": 6,
+        "question": "How do you integrate ClearPass with Active Directory?",
+        "answer": "ClearPass integrates with Active Directory for user authentication and to retrieve user/group information for policy decisions.\\n\\nIntegration methods: 1) LDAP bind, 2) Kerberos, 3) NTLM.\\n\\nConfiguration steps: 1) Add AD as Authentication Source, 2) Configure server IP/hostname, 3) Set bind DN and password, 4) Define base DN for searches, 5) Configure attribute mappings.\\n\\nAD attributes used: 1) sAMAccountName, 2) memberOf (group membership), 3) userPrincipalName, 4) department, 5) Custom attributes.\\n\\nBest practices: 1) Use service account with minimal permissions, 2) Configure multiple DCs for redundancy, 3) Use secure LDAP (LDAPS) on port 636.",
+        "reference": "ClearPass Active Directory Integration Guide",
+        "difficulty": "CCNP",
+        "category": "ClearPass Integration"
+    },
+    {
+        "id": 7,
+        "question": "What is ClearPass OnGuard and its capabilities?",
+        "answer": "ClearPass OnGuard is an endpoint compliance agent that performs health checks and posture assessment on connecting devices.\\n\\nCapabilities: 1) Antivirus status check, 2) Firewall status, 3) Patch level verification, 4) Required software check, 5) Prohibited software detection, 6) Disk encryption status.\\n\\nDeployment modes: 1) Persistent agent - installed on endpoint, 2) Dissolvable agent - web-based temporary check, 3) Native supplicant - built-in OS capabilities.\\n\\nHealth classes: 1) Healthy - passes all checks, 2) Quarantine - fails checks, needs remediation, 3) Transition - check in progress.\\n\\nRemediation: Auto-remediation can install updates, enable firewall, or redirect to help portal.",
+        "reference": "ClearPass OnGuard Administration Guide",
+        "difficulty": "CCNP",
+        "category": "ClearPass OnGuard"
+    },
+    {
+        "id": 8,
+        "question": "How do you configure ClearPass Guest for visitor access?",
+        "answer": "ClearPass Guest provides self-registration and sponsored guest access portals for temporary network access.\\n\\nGuest access methods: 1) Self-registration, 2) Sponsor approval, 3) Pre-created accounts, 4) Social login (Facebook, Google).\\n\\nConfiguration components: 1) Guest Portal - web interface customization, 2) Guest Operator - sponsor login interface, 3) Guest accounts - temporary credentials, 4) NAS devices - captive portal redirect.\\n\\nWorkflow: 1) Guest connects to SSID, 2) Redirected to captive portal, 3) Self-registers or requests sponsor, 4) Sponsor approves (if required), 5) Guest receives credentials, 6) Guest authenticates for access.\\n\\nSecurity features: 1) Account expiration, 2) Bandwidth limits, 3) Access schedules, 4) AUP acceptance.",
+        "reference": "ClearPass Guest Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "ClearPass Guest"
+    },
+    {
+        "id": 9,
+        "question": "Explain ClearPass high availability and clustering.",
+        "answer": "ClearPass supports clustering for high availability and load distribution across multiple nodes.\\n\\nCluster components: 1) Publisher - primary node, configuration source, 2) Subscribers - secondary nodes, replicate from publisher.\\n\\nHA features: 1) Database replication, 2) Configuration sync, 3) Session failover, 4) Load balancing across nodes.\\n\\nDeployment considerations: 1) Minimum 2 nodes for HA, 2) Geographic distribution for DR, 3) L2 adjacency not required, 4) Latency requirements between nodes.\\n\\nFailover behavior: 1) Automatic failover for RADIUS, 2) Manual promotion for publisher failure, 3) Session cache sharing between nodes.",
+        "reference": "ClearPass Cluster Configuration",
+        "difficulty": "CCIE",
+        "category": "ClearPass Architecture"
+    },
+    {
+        "id": 10,
+        "question": "How do you troubleshoot ClearPass authentication failures?",
+        "answer": "ClearPass provides multiple tools for troubleshooting authentication issues.\\n\\nTroubleshooting tools: 1) Access Tracker - real-time auth logs, 2) Event Viewer - system events, 3) Live Monitoring - active sessions, 4) Packet capture - RADIUS traffic.\\n\\nCommon failure reasons: 1) Invalid credentials, 2) Certificate issues, 3) Policy mismatch, 4) Timeout, 5) Source unavailable.\\n\\nAccess Tracker analysis: 1) Check authentication source result, 2) Verify service match, 3) Review role mapping, 4) Examine enforcement policy, 5) Check RADIUS attributes sent.\\n\\nDebug steps: 1) Enable debug logging, 2) Check NAS configuration, 3) Verify shared secret, 4) Test auth source connectivity, 5) Review certificate chain.",
+        "reference": "ClearPass Troubleshooting Guide",
+        "difficulty": "CCNP",
+        "category": "ClearPass Troubleshooting"
+    },
+    {
+        "id": 11,
+        "question": "What is ClearPass Insight and how is it used?",
+        "answer": "ClearPass Insight provides reporting and analytics capabilities for network access data.\\n\\nCapabilities: 1) Real-time dashboards, 2) Historical reporting, 3) Trend analysis, 4) Compliance reporting, 5) Custom report builder.\\n\\nBuilt-in reports: 1) Authentication summary, 2) Failed authentications, 3) Guest usage, 4) Device inventory, 5) Endpoint health.\\n\\nData retention: 1) Configurable retention periods, 2) Database archival, 3) External syslog integration.\\n\\nUse cases: 1) Compliance audits, 2) Capacity planning, 3) Security incident investigation, 4) Usage trending, 5) Executive dashboards.",
+        "reference": "ClearPass Insight Analytics",
+        "difficulty": "CCNP",
+        "category": "ClearPass Reporting"
+    },
+    {
+        "id": 12,
+        "question": "How do you configure ClearPass for TACACS+ device administration?",
+        "answer": "ClearPass can serve as a TACACS+ server for network device administration and command authorization.\\n\\nTACACS+ features: 1) Device authentication, 2) Command authorization, 3) Accounting/logging, 4) Privilege level assignment.\\n\\nConfiguration steps: 1) Enable TACACS+ service, 2) Add network devices, 3) Configure admin users/groups, 4) Create command sets, 5) Define authorization policies.\\n\\nCommand authorization: 1) Permit/deny specific commands, 2) Regex matching, 3) Privilege level based, 4) Role-based access.\\n\\nBest practices: 1) Use AD groups for admin roles, 2) Implement least privilege, 3) Log all commands, 4) Regular access reviews.",
+        "reference": "ClearPass TACACS+ Configuration",
+        "difficulty": "CCNP",
+        "category": "ClearPass TACACS+"
+    },
+    {
+        "id": 13,
+        "question": "Explain ClearPass integration with Azure Intune.",
+        "answer": "ClearPass integrates with Microsoft Intune for mobile device management (MDM) compliance checking.\\n\\nIntegration capabilities: 1) Device compliance status, 2) Enrollment verification, 3) Policy compliance check, 4) Device inventory sync.\\n\\nConfiguration steps: 1) Register ClearPass as Azure AD application, 2) Configure API permissions, 3) Add Intune as external context server, 4) Create policy conditions using Intune data.\\n\\nCompliance attributes: 1) isCompliant, 2) isManaged, 3) deviceOwnership, 4) operatingSystem, 5) lastSyncDateTime.\\n\\nUse cases: 1) Allow only compliant devices, 2) Different policies for managed vs unmanaged, 3) BYOD vs corporate device differentiation.",
+        "reference": "ClearPass Microsoft Intune Integration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Integration"
+    },
+    {
+        "id": 14,
+        "question": "What certificates are required for ClearPass 802.1X deployment?",
+        "answer": "Certificate requirements for ClearPass depend on the EAP methods and security requirements.\\n\\nServer certificates: 1) RADIUS server certificate - presented to clients during EAP, 2) HTTPS certificate - for web interfaces, 3) Cluster certificate - for inter-node communication.\\n\\nClient certificates: 1) Required for EAP-TLS, 2) Machine certificates for computer auth, 3) User certificates for user auth.\\n\\nCA certificates: 1) Root CA - trust anchor, 2) Intermediate CAs - certificate chain, 3) Imported to ClearPass trust list.\\n\\nBest practices: 1) Use enterprise PKI, 2) Proper certificate chain, 3) Valid SAN/CN, 4) Adequate key length (2048+ bit), 5) Regular certificate renewal.",
+        "reference": "ClearPass Certificate Configuration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Certificates"
+    },
+    {
+        "id": 15,
+        "question": "How do you upgrade ClearPass Policy Manager?",
+        "answer": "ClearPass upgrades require careful planning to minimize downtime and ensure successful migration.\\n\\nUpgrade methods: 1) In-place upgrade, 2) Patch installation, 3) Fresh install with config restore.\\n\\nPre-upgrade steps: 1) Review release notes, 2) Check compatibility matrix, 3) Backup configuration, 4) Verify disk space, 5) Test in lab environment.\\n\\nCluster upgrade process: 1) Upgrade subscribers first, 2) Upgrade publisher last, 3) Verify replication after each node, 4) Monitor for issues.\\n\\nPost-upgrade validation: 1) Verify services running, 2) Test authentication flows, 3) Check cluster health, 4) Validate integrations, 5) Review logs for errors.",
+        "reference": "ClearPass Upgrade Guide",
+        "difficulty": "CCNP",
+        "category": "ClearPass Administration"
+    },
+    {
+        "id": 16,
+        "question": "What is MAC Authentication Bypass (MAB) in ClearPass?",
+        "answer": "MAB allows network access for devices that cannot perform 802.1X authentication, using MAC address as identity.\\n\\nUse cases: 1) Printers, 2) IP phones, 3) IoT devices, 4) Legacy systems, 5) Network equipment.\\n\\nMAB flow: 1) Device connects, 2) 802.1X times out, 3) Switch sends MAC as username/password, 4) ClearPass validates against endpoint database, 5) Access granted based on device profile.\\n\\nSecurity considerations: 1) MAC spoofing risk, 2) Should be combined with profiling, 3) Limit to specific VLANs, 4) Monitor for anomalies.\\n\\nClearPass configuration: 1) Enable MAB service, 2) Configure MAC format, 3) Add known MACs to endpoint database, 4) Create profiling rules.",
+        "reference": "ClearPass MAB Configuration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Authentication"
+    },
+    {
+        "id": 17,
+        "question": "Explain ClearPass Change of Authorization (CoA).",
+        "answer": "CoA allows ClearPass to dynamically change session attributes after initial authentication, such as reassigning VLAN or disconnecting users.\\n\\nCoA messages: 1) Disconnect-Request - terminate session, 2) CoA-Request - change session attributes, 3) CoA-ACK/NAK - response from NAS.\\n\\nUse cases: 1) Post-authentication posture change, 2) Quarantine non-compliant devices, 3) Session timeout enforcement, 4) Administrative disconnect, 5) Dynamic policy update.\\n\\nConfiguration: 1) Enable CoA on NAS device, 2) Configure CoA port (default 3799), 3) Set shared secret, 4) Create enforcement profiles with CoA actions.\\n\\nBest practices: 1) Use bounce-host-port for wired, 2) Test CoA before production, 3) Monitor CoA success/failure.",
+        "reference": "ClearPass CoA Configuration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Advanced"
+    },
+    {
+        "id": 18,
+        "question": "How do you configure ClearPass for Aruba wireless controller integration?",
+        "answer": "ClearPass integrates with Aruba wireless controllers for centralized authentication and policy enforcement.\\n\\nIntegration points: 1) RADIUS authentication, 2) RADIUS accounting, 3) CoA/disconnect, 4) Role derivation, 5) Downloadable user roles.\\n\\nController configuration: 1) Add ClearPass as RADIUS server, 2) Configure shared secret, 3) Enable dynamic authorization, 4) Configure user roles.\\n\\nClearPass configuration: 1) Add controller as network device, 2) Select Aruba vendor dictionary, 3) Configure enforcement profiles with Aruba attributes, 4) Map roles to Aruba-User-Role.\\n\\nAdvanced features: 1) Server derivation rules, 2) Role-based access control, 3) Downloadable roles, 4) Per-user ACLs.",
+        "reference": "ClearPass Aruba Controller Integration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Integration"
+    },
+    {
+        "id": 19,
+        "question": "What is ClearPass Extensions and how are they used?",
+        "answer": "ClearPass Extensions add functionality through installable modules from the Aruba marketplace.\\n\\nPopular extensions: 1) Azure AD integration, 2) Intune connector, 3) Palo Alto firewall integration, 4) ServiceNow connector, 5) Splunk integration.\\n\\nExtension types: 1) Context servers - external data sources, 2) Enforcement - action integrations, 3) Authentication - additional auth methods.\\n\\nInstallation process: 1) Download from marketplace, 2) Import to ClearPass, 3) Configure connection parameters, 4) Create policies using extension data.\\n\\nManagement: 1) Update extensions regularly, 2) Monitor extension health, 3) Review logs for issues, 4) Test after ClearPass upgrades.",
+        "reference": "ClearPass Extensions Marketplace",
+        "difficulty": "CCNP",
+        "category": "ClearPass Extensions"
+    },
+    {
+        "id": 20,
+        "question": "Describe ClearPass deployment best practices.",
+        "answer": "Best practices ensure reliable, scalable, and secure ClearPass deployments.\\n\\nArchitecture: 1) Minimum 2 nodes for HA, 2) Separate publisher and subscribers, 3) Geographic distribution for DR, 4) Appropriate sizing based on endpoints.\\n\\nSecurity: 1) Use certificates from enterprise CA, 2) Enable HTTPS everywhere, 3) Restrict admin access, 4) Regular password rotation, 5) Enable audit logging.\\n\\nPerformance: 1) Tune session cache, 2) Optimize authentication sources, 3) Use local user repositories for speed, 4) Monitor resource utilization.\\n\\nOperations: 1) Regular backups, 2) Documented change procedures, 3) Test upgrades in lab, 4) Monitor with Insight/SNMP, 5) Maintain runbooks.",
+        "reference": "ClearPass Deployment Guide",
+        "difficulty": "CCIE",
+        "category": "ClearPass Architecture"
+    },
+    {
+        "id": 21,
+        "question": "How does ClearPass handle EAP-TLS authentication?",
+        "answer": "EAP-TLS provides mutual certificate-based authentication between client and server, offering the strongest security.\\n\\nAuthentication flow: 1) Client presents certificate, 2) ClearPass validates certificate chain, 3) ClearPass presents server certificate, 4) Client validates server, 5) TLS tunnel established, 6) Authentication complete.\\n\\nCertificate validation: 1) Trust chain verification, 2) Expiration check, 3) Revocation check (CRL/OCSP), 4) SAN/CN validation.\\n\\nClearPass configuration: 1) Import CA certificates, 2) Configure EAP-TLS method, 3) Set certificate validation options, 4) Define user extraction from certificate.\\n\\nClient requirements: 1) Client certificate installed, 2) Private key accessible, 3) CA chain trusted, 4) Proper EAP supplicant configuration.",
+        "reference": "ClearPass EAP-TLS Configuration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Authentication"
+    },
+    {
+        "id": 22,
+        "question": "What is ClearPass Onboard and its purpose?",
+        "answer": "ClearPass Onboard automates device provisioning for BYOD scenarios, configuring devices for secure network access.\\n\\nOnboard capabilities: 1) Certificate enrollment, 2) Wi-Fi profile provisioning, 3) Device configuration, 4) Platform-specific settings.\\n\\nSupported platforms: 1) Windows, 2) macOS, 3) iOS, 4) Android, 5) Chromebook.\\n\\nOnboarding workflow: 1) User connects to onboarding SSID, 2) Redirected to onboard portal, 3) Authenticates with credentials, 4) Onboard installs profile/certificate, 5) Device connects to secure SSID.\\n\\nConfiguration: 1) Create provisioning settings, 2) Configure CA for certificates, 3) Define network profiles, 4) Set enrollment workflow.",
+        "reference": "ClearPass Onboard Administration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Onboard"
+    },
+    {
+        "id": 23,
+        "question": "Explain ClearPass API capabilities.",
+        "answer": "ClearPass provides REST APIs for automation and integration with external systems.\\n\\nAPI categories: 1) Guest APIs - manage guest accounts, 2) Enforcement APIs - manage endpoints, 3) Configuration APIs - system configuration, 4) Monitoring APIs - status and health.\\n\\nAuthentication: 1) OAuth2 client credentials, 2) API client creation in ClearPass, 3) Grant type selection, 4) Token-based access.\\n\\nCommon use cases: 1) Automated guest provisioning, 2) Endpoint database updates, 3) Custom portals, 4) SIEM integration, 5) Orchestration workflows.\\n\\nAPI tools: 1) Swagger documentation, 2) Postman collections, 3) Python SDK, 4) PowerShell modules.",
+        "reference": "ClearPass REST API Documentation",
+        "difficulty": "CCNP",
+        "category": "ClearPass API"
+    },
+    {
+        "id": 24,
+        "question": "How do you implement role-based access control in ClearPass?",
+        "answer": "Role-based access control (RBAC) in ClearPass assigns network access based on user roles derived from authentication attributes.\\n\\nRole mapping process: 1) User authenticates, 2) ClearPass retrieves attributes, 3) Role mapping rules evaluated, 4) Role assigned to session, 5) Enforcement policy applied.\\n\\nRole sources: 1) AD group membership, 2) LDAP attributes, 3) Certificate fields, 4) Device type, 5) Custom conditions.\\n\\nEnforcement by role: 1) VLAN assignment, 2) Downloadable ACL, 3) QoS policy, 4) Bandwidth limits, 5) Access schedules.\\n\\nBest practices: 1) Map AD groups to network roles, 2) Use hierarchical roles, 3) Default deny policy, 4) Regular role audits.",
+        "reference": "ClearPass RBAC Configuration",
+        "difficulty": "CCNP",
+        "category": "ClearPass Policies"
+    },
+    {
+        "id": 25,
+        "question": "What monitoring and alerting options are available in ClearPass?",
+        "answer": "ClearPass provides multiple monitoring options for operational visibility and alerting.\\n\\nBuilt-in monitoring: 1) Dashboard widgets, 2) Live monitoring, 3) System health, 4) Cluster status, 5) Service status.\\n\\nExternal monitoring: 1) SNMP traps/polling, 2) Syslog forwarding, 3) REST API polling, 4) SMTP alerts.\\n\\nKey metrics: 1) Authentication rate, 2) Failure rate, 3) CPU/memory utilization, 4) Disk usage, 5) Database size.\\n\\nAlerting options: 1) Email notifications, 2) SNMP traps, 3) Syslog alerts, 4) Webhook integrations.\\n\\nThird-party integration: 1) SolarWinds, 2) Splunk, 3) ServiceNow, 4) Nagios, 5) PRTG.",
+        "reference": "ClearPass Monitoring Guide",
+        "difficulty": "CCNP",
+        "category": "ClearPass Administration"
+    },
+    {
+        "id": 26,
+        "question": "How do you configure ClearPass for wired 802.1X?",
+        "answer": "Wired 802.1X configuration requires coordination between ClearPass and network switches.\\n\\nSwitch configuration: 1) Enable 802.1X globally, 2) Configure per-port 802.1X, 3) Add RADIUS servers, 4) Configure dynamic VLAN, 5) Enable MAB fallback.\\n\\nClearPass configuration: 1) Add switches as network devices, 2) Create wired 802.1X service, 3) Configure authentication sources, 4) Define enforcement profiles, 5) Set VLAN attributes.\\n\\nHost modes: 1) Single-host - one device per port, 2) Multi-host - one auth for all, 3) Multi-domain - separate voice/data, 4) Multi-auth - each device authenticates.\\n\\nFailure scenarios: 1) RADIUS timeout - critical VLAN, 2) Auth failure - guest VLAN, 3) Server unreachable - dead VLAN.",
+        "reference": "ClearPass Wired 802.1X Deployment",
+        "difficulty": "CCNP",
+        "category": "ClearPass Wired"
+    },
+    {
+        "id": 27,
+        "question": "Explain ClearPass endpoint context servers.",
+        "answer": "Context servers allow ClearPass to query external systems for additional endpoint information during policy decisions.\\n\\nContext server types: 1) HTTP - REST API queries, 2) LDAP - directory queries, 3) SQL - database queries, 4) Generic - custom protocols.\\n\\nCommon integrations: 1) MDM systems (Intune, AirWatch), 2) Asset databases, 3) HR systems, 4) Vulnerability scanners, 5) CMDB.\\n\\nConfiguration: 1) Define server connection, 2) Configure authentication, 3) Set query parameters, 4) Map response attributes.\\n\\nPolicy usage: 1) Add context server to service, 2) Use attributes in role mapping, 3) Create enforcement conditions, 4) Cache responses for performance.",
+        "reference": "ClearPass Context Servers",
+        "difficulty": "CCNP",
+        "category": "ClearPass Integration"
+    },
+    {
+        "id": 28,
+        "question": "What is ClearPass Policy Simulation and how do you use it?",
+        "answer": "Policy Simulation allows testing authentication policies without actual device connections.\\n\\nSimulation capabilities: 1) Test service matching, 2) Verify role mapping, 3) Check enforcement policies, 4) Validate attribute processing.\\n\\nInput parameters: 1) Authentication method, 2) User/device identity, 3) NAS information, 4) Custom attributes.\\n\\nOutput analysis: 1) Matched service, 2) Authentication result, 3) Assigned role, 4) Applied enforcement, 5) RADIUS attributes.\\n\\nUse cases: 1) Pre-deployment validation, 2) Troubleshooting policy issues, 3) Change impact analysis, 4) Training and documentation.",
+        "reference": "ClearPass Policy Simulation",
+        "difficulty": "CCNP",
+        "category": "ClearPass Testing"
+    },
+    {
+        "id": 29,
+        "question": "How do you backup and restore ClearPass configuration?",
+        "answer": "Regular backups are essential for disaster recovery and migration scenarios.\\n\\nBackup types: 1) Configuration backup - policies, services, settings, 2) Database backup - full data including logs, 3) Scheduled backups - automated regular backups.\\n\\nBackup methods: 1) Web interface - Administration > Backup, 2) CLI commands, 3) API automation.\\n\\nBackup contents: 1) Services and policies, 2) Network devices, 3) Endpoint database, 4) Certificates, 5) System settings.\\n\\nRestore process: 1) Upload backup file, 2) Select restore options, 3) Confirm restore, 4) Restart services, 5) Validate functionality.\\n\\nBest practices: 1) Daily automated backups, 2) Off-site storage, 3) Test restores regularly, 4) Backup before changes.",
+        "reference": "ClearPass Backup and Recovery",
+        "difficulty": "CCNP",
+        "category": "ClearPass Administration"
+    },
+    {
+        "id": 30,
+        "question": "Describe ClearPass licensing model.",
+        "answer": "ClearPass uses a subscription-based licensing model based on concurrent endpoints.\\n\\nLicense types: 1) Access - basic NAC features, 2) Onboard - BYOD provisioning, 3) OnGuard - posture assessment, 4) Guest - visitor management.\\n\\nLicense parameters: 1) Concurrent endpoints, 2) Feature set, 3) Subscription term, 4) Support level.\\n\\nLicense management: 1) Activation in ClearPass, 2) License pooling in cluster, 3) Usage monitoring, 4) Renewal process.\\n\\nCapacity planning: 1) Peak concurrent users, 2) Growth projections, 3) Feature requirements, 4) High availability needs.",
+        "reference": "ClearPass Licensing Guide",
+        "difficulty": "CCNA",
+        "category": "ClearPass Administration"
+    }
+]

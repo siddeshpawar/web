@@ -1,0 +1,242 @@
+[
+    {
+        "id": 1,
+        "question": "What is Infoblox and its core functions?",
+        "answer": "Infoblox is a DDI (DNS, DHCP, IPAM) solution providing centralized network services management.\\n\\nCore functions: 1) DNS - authoritative and recursive, 2) DHCP - IP address assignment, 3) IPAM - IP address management, 4) Network Insight - discovery and visibility.\\n\\nKey features: 1) Centralized management, 2) High availability, 3) API automation, 4) Reporting and analytics, 5) Security integration.\\n\\nDeployment options: 1) Physical appliances, 2) Virtual appliances, 3) Cloud (BloxOne), 4) Hybrid deployments.",
+        "reference": "Infoblox NIOS Administrator Guide",
+        "difficulty": "CCNA",
+        "category": "Infoblox Fundamentals"
+    },
+    {
+        "id": 2,
+        "question": "Explain Infoblox Grid architecture.",
+        "answer": "The Infoblox Grid provides distributed DDI services with centralized management.\\n\\nGrid components: 1) Grid Master - central management, 2) Grid Members - service delivery, 3) Grid Master Candidate - HA backup.\\n\\nGrid types: 1) Single Grid Master, 2) HA Grid Master pair, 3) Multi-Grid with Cloud Network Automation.\\n\\nCommunication: 1) Encrypted grid communication, 2) VPN for remote members, 3) Port 2114 for grid traffic.\\n\\nBenefits: 1) Single pane of glass, 2) Automatic synchronization, 3) Distributed services, 4) Centralized reporting.",
+        "reference": "Infoblox Grid Configuration",
+        "difficulty": "CCNP",
+        "category": "Infoblox Architecture"
+    },
+    {
+        "id": 3,
+        "question": "What is IPAM and how does Infoblox implement it?",
+        "answer": "IPAM (IP Address Management) tracks and manages IP address allocation across the network.\\n\\nIPAM features: 1) Network discovery, 2) IP allocation tracking, 3) Conflict detection, 4) Utilization reporting, 5) Historical data.\\n\\nInfoblox IPAM objects: 1) Network containers, 2) Networks, 3) IP ranges, 4) Fixed addresses, 5) Host records.\\n\\nAutomation: 1) Next available IP, 2) Next available network, 3) DHCP integration, 4) API provisioning.\\n\\nReporting: 1) Utilization reports, 2) Audit trails, 3) Conflict detection, 4) Capacity planning.",
+        "reference": "Infoblox IPAM Administration",
+        "difficulty": "CCNP",
+        "category": "Infoblox IPAM"
+    },
+    {
+        "id": 4,
+        "question": "Explain Infoblox DNS configuration.",
+        "answer": "Infoblox provides both authoritative and recursive DNS services.\\n\\nDNS types: 1) Authoritative - hosts zone data, 2) Recursive - resolves queries, 3) Forwarders - delegates queries.\\n\\nDNS objects: 1) DNS views - namespace separation, 2) Zones - domain containers, 3) Resource records - A, AAAA, CNAME, MX, etc.\\n\\nDNS views: 1) Internal view, 2) External view, 3) Match clients - IP-based selection, 4) Split-brain DNS.\\n\\nAdvanced features: 1) DNSSEC, 2) Response Policy Zones (RPZ), 3) DNS traffic control, 4) Anycast.",
+        "reference": "Infoblox DNS Configuration Guide",
+        "difficulty": "CCNP",
+        "category": "Infoblox DNS"
+    },
+    {
+        "id": 5,
+        "question": "What are DNS record types supported by Infoblox?",
+        "answer": "Infoblox supports all standard DNS record types plus custom extensions.\\n\\nCommon records: 1) A - IPv4 address, 2) AAAA - IPv6 address, 3) CNAME - canonical name, 4) MX - mail exchange, 5) NS - name server.\\n\\nService records: 1) SRV - service location, 2) TXT - text data, 3) PTR - reverse lookup.\\n\\nAdvanced records: 1) CAA - certificate authority, 2) NAPTR - naming authority, 3) TLSA - TLS authentication.\\n\\nInfoblox specific: 1) Host record - A + PTR combined, 2) Shared record groups, 3) Extensible attributes.",
+        "reference": "Infoblox DNS Records",
+        "difficulty": "CCNP",
+        "category": "Infoblox DNS"
+    },
+    {
+        "id": 6,
+        "question": "Explain Infoblox DHCP configuration.",
+        "answer": "Infoblox DHCP provides centralized IP address assignment and management.\\n\\nDHCP objects: 1) Networks, 2) Ranges, 3) Fixed addresses, 4) Reservations, 5) Options.\\n\\nDHCP options: 1) Option 3 - default gateway, 2) Option 6 - DNS servers, 3) Option 15 - domain name, 4) Option 66/67 - TFTP boot.\\n\\nAdvanced features: 1) Failover - HA between members, 2) Option 82 - relay agent info, 3) Filters - MAC-based policies, 4) Lease times.\\n\\nIntegration: 1) Automatic DNS updates, 2) IPAM synchronization, 3) Fixed address from host record.",
+        "reference": "Infoblox DHCP Configuration",
+        "difficulty": "CCNP",
+        "category": "Infoblox DHCP"
+    },
+    {
+        "id": 7,
+        "question": "What is DHCP Option 82 and how does Infoblox use it?",
+        "answer": "Option 82 (Relay Agent Information) provides additional context about DHCP requests.\\n\\nOption 82 sub-options: 1) Circuit ID - port/VLAN info, 2) Remote ID - switch identifier, 3) Vendor-specific info.\\n\\nUse cases: 1) IP assignment based on switch port, 2) VLAN-based addressing, 3) Location tracking, 4) Security policies.\\n\\nInfoblox configuration: 1) Enable Option 82 processing, 2) Create filters matching Option 82, 3) Assign ranges or fixed IPs, 4) Logging and reporting.\\n\\nSecurity benefits: 1) Prevent rogue DHCP, 2) Port-based access control, 3) Audit trail, 4) Network access compliance.",
+        "reference": "Infoblox DHCP Option 82",
+        "difficulty": "CCNP",
+        "category": "Infoblox DHCP"
+    },
+    {
+        "id": 8,
+        "question": "Explain Infoblox extensible attributes.",
+        "answer": "Extensible attributes add custom metadata to Infoblox objects for organization and automation.\\n\\nAttribute types: 1) String, 2) Integer, 3) List, 4) Email, 5) Date.\\n\\nUse cases: 1) Asset tagging, 2) Location tracking, 3) Owner assignment, 4) Automation triggers.\\n\\nInheritance: 1) Network to IP inheritance, 2) Zone to record inheritance, 3) Override at any level.\\n\\nReporting: 1) Filter by attributes, 2) Search across objects, 3) API queries, 4) Custom reports.",
+        "reference": "Infoblox Extensible Attributes",
+        "difficulty": "CCNP",
+        "category": "Infoblox Administration"
+    },
+    {
+        "id": 9,
+        "question": "What is Infoblox Network Insight?",
+        "answer": "Network Insight provides network discovery and device tracking capabilities.\\n\\nDiscovery methods: 1) SNMP discovery, 2) CLI discovery, 3) NetBIOS, 4) DNS-based.\\n\\nDiscovered data: 1) Network devices, 2) Switch ports, 3) MAC addresses, 4) IP addresses, 5) VLANs.\\n\\nUse cases: 1) Rogue device detection, 2) Asset inventory, 3) Port utilization, 4) IP reconciliation.\\n\\nIntegration: 1) IPAM correlation, 2) Automatic updates, 3) Conflict detection, 4) Historical tracking.",
+        "reference": "Infoblox Network Insight Guide",
+        "difficulty": "CCNP",
+        "category": "Infoblox Discovery"
+    },
+    {
+        "id": 10,
+        "question": "Explain Infoblox high availability configurations.",
+        "answer": "Infoblox HA ensures continuous DDI services through redundancy.\\n\\nHA options: 1) Grid Master HA pair, 2) DHCP failover, 3) DNS secondary, 4) Anycast.\\n\\nGrid Master HA: 1) Active/passive pair, 2) Automatic failover, 3) Virtual IP (VIP), 4) Database replication.\\n\\nDHCP failover: 1) Load balancing mode, 2) Failover mode, 3) State synchronization, 4) Split scope.\\n\\nDNS HA: 1) Primary/secondary zones, 2) Zone transfers, 3) Anycast for recursive, 4) Geographic distribution.",
+        "reference": "Infoblox HA Configuration",
+        "difficulty": "CCNP",
+        "category": "Infoblox Architecture"
+    },
+    {
+        "id": 11,
+        "question": "What is Infoblox API (WAPI)?",
+        "answer": "WAPI (Web API) enables programmatic access to Infoblox for automation.\\n\\nAPI features: 1) RESTful interface, 2) JSON/XML responses, 3) CRUD operations, 4) Bulk operations.\\n\\nCommon operations: 1) Create records, 2) Search objects, 3) Modify attributes, 4) Delete objects.\\n\\nAuthentication: 1) Basic auth, 2) Certificate auth, 3) API user accounts.\\n\\nUse cases: 1) Provisioning automation, 2) CI/CD integration, 3) Self-service portals, 4) CMDB sync.",
+        "reference": "Infoblox WAPI Documentation",
+        "difficulty": "CCNP",
+        "category": "Infoblox Automation"
+    },
+    {
+        "id": 12,
+        "question": "Explain Infoblox DNS Security (Threat Intelligence).",
+        "answer": "Infoblox provides DNS-based security through threat intelligence integration.\\n\\nSecurity features: 1) Response Policy Zones (RPZ), 2) Threat feeds, 3) DNS tunneling detection, 4) Data exfiltration prevention.\\n\\nRPZ actions: 1) NXDOMAIN - block, 2) NODATA - empty response, 3) Redirect - safe page, 4) Passthru - allow.\\n\\nThreat intelligence: 1) Infoblox threat feeds, 2) Third-party feeds, 3) Custom blacklists, 4) Real-time updates.\\n\\nReporting: 1) Blocked query logs, 2) Threat reports, 3) Trend analysis, 4) Security dashboards.",
+        "reference": "Infoblox DNS Security",
+        "difficulty": "CCNP",
+        "category": "Infoblox Security"
+    },
+    {
+        "id": 13,
+        "question": "What is Infoblox DNSSEC?",
+        "answer": "DNSSEC provides DNS response authentication and integrity verification.\\n\\nDNSSEC components: 1) Zone signing - adds signatures, 2) Key management - KSK/ZSK, 3) Chain of trust - DS records, 4) Validation - verify signatures.\\n\\nKey types: 1) KSK - Key Signing Key, 2) ZSK - Zone Signing Key, 3) DS - Delegation Signer.\\n\\nInfoblox DNSSEC: 1) Automatic signing, 2) Key rollover, 3) HSM integration, 4) Validation.\\n\\nDeployment: 1) Sign authoritative zones, 2) Enable validation on recursive, 3) DS record at parent, 4) Monitor key lifecycle.",
+        "reference": "Infoblox DNSSEC Configuration",
+        "difficulty": "CCIE",
+        "category": "Infoblox DNS"
+    },
+    {
+        "id": 14,
+        "question": "Explain Infoblox smart folders and saved searches.",
+        "answer": "Smart folders and saved searches organize and filter Infoblox data.\\n\\nSmart folders: 1) Dynamic grouping, 2) Based on criteria, 3) Auto-updating, 4) Hierarchical organization.\\n\\nSaved searches: 1) Store search criteria, 2) Quick access, 3) Share with users, 4) Export results.\\n\\nSearch capabilities: 1) Global search, 2) Object-specific, 3) Extensible attributes, 4) Regular expressions.\\n\\nUse cases: 1) Network organization, 2) Quick reporting, 3) Audit assistance, 4) Team workflows.",
+        "reference": "Infoblox Search and Organization",
+        "difficulty": "CCNA",
+        "category": "Infoblox Administration"
+    },
+    {
+        "id": 15,
+        "question": "What is Infoblox reporting and how to use it?",
+        "answer": "Infoblox provides comprehensive reporting for DDI operations and analytics.\\n\\nReport types: 1) DNS reports, 2) DHCP reports, 3) IPAM reports, 4) Audit reports, 5) Security reports.\\n\\nCommon reports: 1) DHCP utilization, 2) DNS query volume, 3) Top talkers, 4) Lease history, 5) Configuration changes.\\n\\nScheduling: 1) On-demand, 2) Scheduled, 3) Email delivery, 4) Multiple formats.\\n\\nCustomization: 1) Filter criteria, 2) Time ranges, 3) Object scope, 4) Custom columns.",
+        "reference": "Infoblox Reporting Guide",
+        "difficulty": "CCNP",
+        "category": "Infoblox Reporting"
+    },
+    {
+        "id": 16,
+        "question": "Explain Infoblox admin roles and permissions.",
+        "answer": "Role-based access control restricts Infoblox operations based on user roles.\\n\\nBuilt-in roles: 1) Superuser - full access, 2) Admin Group - administrative, 3) Read-only - view only, 4) Custom roles.\\n\\nPermission types: 1) Object permissions, 2) Function permissions, 3) Network permissions, 4) Global permissions.\\n\\nRole assignment: 1) Local users, 2) LDAP/AD groups, 3) RADIUS authentication, 4) Admin groups.\\n\\nBest practices: 1) Least privilege, 2) Group-based assignment, 3) Audit permissions, 4) Separate duties.",
+        "reference": "Infoblox Admin Roles",
+        "difficulty": "CCNP",
+        "category": "Infoblox Administration"
+    },
+    {
+        "id": 17,
+        "question": "What is Infoblox backup and recovery?",
+        "answer": "Backup and recovery procedures protect Infoblox configuration and data.\\n\\nBackup types: 1) Database backup, 2) Full backup (with logs), 3) Scheduled backups, 4) One-click backup.\\n\\nBackup destinations: 1) TFTP, 2) FTP, 3) SCP, 4) Grid file distribution.\\n\\nRecovery scenarios: 1) Member recovery, 2) Grid Master recovery, 3) Database restore, 4) Disaster recovery.\\n\\nBest practices: 1) Regular scheduled backups, 2) Off-site storage, 3) Test restores, 4) Document procedures.",
+        "reference": "Infoblox Backup and Recovery",
+        "difficulty": "CCNP",
+        "category": "Infoblox Administration"
+    },
+    {
+        "id": 18,
+        "question": "Explain Infoblox DHCP fingerprinting.",
+        "answer": "DHCP fingerprinting identifies device types based on DHCP request characteristics.\\n\\nFingerprint data: 1) Option ordering, 2) Requested options, 3) Vendor class, 4) Parameter request list.\\n\\nUse cases: 1) Device identification, 2) Policy enforcement, 3) Network visibility, 4) Security compliance.\\n\\nInfoblox features: 1) Built-in fingerprint database, 2) Automatic updates, 3) Custom fingerprints, 4) API access.\\n\\nIntegration: 1) IPAM device tracking, 2) Reporting, 3) Filters and policies, 4) Security events.",
+        "reference": "Infoblox DHCP Fingerprinting",
+        "difficulty": "CCNP",
+        "category": "Infoblox DHCP"
+    },
+    {
+        "id": 19,
+        "question": "What is Infoblox cloud integration (BloxOne)?",
+        "answer": "BloxOne extends Infoblox DDI and security services to cloud and hybrid environments.\\n\\nBloxOne services: 1) DDI - cloud DNS/DHCP/IPAM, 2) Threat Defense - DNS security, 3) Cloud Network Automation.\\n\\nDeployment: 1) SaaS platform, 2) On-premises connectors, 3) Cloud connectors (AWS, Azure, GCP).\\n\\nFeatures: 1) Hybrid DNS, 2) Cloud IPAM, 3) DNS security, 4) Centralized management.\\n\\nIntegration: 1) On-prem Grid sync, 2) Cloud provider APIs, 3) Automation platforms, 4) Security ecosystem.",
+        "reference": "Infoblox BloxOne Documentation",
+        "difficulty": "CCNP",
+        "category": "Infoblox Cloud"
+    },
+    {
+        "id": 20,
+        "question": "Explain Infoblox troubleshooting tools.",
+        "answer": "Infoblox provides tools for diagnosing DNS, DHCP, and network issues.\\n\\nDiagnostic tools: 1) DNS lookup, 2) Dig utility, 3) Ping, 4) Traceroute, 5) Port test.\\n\\nLog analysis: 1) Syslog, 2) DNS query logs, 3) DHCP lease logs, 4) Audit logs.\\n\\nDebug options: 1) DNS debug, 2) DHCP debug, 3) Grid communication, 4) Capture traffic.\\n\\nCommon issues: 1) DNS resolution failures, 2) DHCP not assigning IPs, 3) Grid sync problems, 4) Performance issues.",
+        "reference": "Infoblox Troubleshooting Guide",
+        "difficulty": "CCNP",
+        "category": "Infoblox Troubleshooting"
+    },
+    {
+        "id": 21,
+        "question": "What is Infoblox DNS traffic control?",
+        "answer": "DNS traffic control provides intelligent DNS responses for global load balancing.\\n\\nTraffic control features: 1) GSLB - global load balancing, 2) Health monitoring, 3) Topology-based steering, 4) Ratio-based distribution.\\n\\nPool types: 1) A record pool, 2) CNAME pool, 3) NAPTR pool.\\n\\nLoad balancing methods: 1) Round robin, 2) Ratio, 3) Topology, 4) Source IP hash.\\n\\nMonitoring: 1) HTTP/HTTPS monitors, 2) TCP monitors, 3) ICMP monitors, 4) Custom monitors.",
+        "reference": "Infoblox Traffic Control",
+        "difficulty": "CCNP",
+        "category": "Infoblox DNS"
+    },
+    {
+        "id": 22,
+        "question": "Explain Infoblox IPv6 support.",
+        "answer": "Infoblox provides comprehensive IPv6 DDI capabilities.\\n\\nIPv6 features: 1) DHCPv6, 2) AAAA records, 3) IPv6 networks in IPAM, 4) Dual-stack support.\\n\\nDHCPv6 modes: 1) Stateful - full address assignment, 2) Stateless - options only (SLAAC), 3) Prefix delegation.\\n\\nIPAM considerations: 1) /64 standard allocation, 2) Subnet hierarchy, 3) Address planning, 4) Utilization tracking.\\n\\nTransition: 1) Dual-stack management, 2) DNS64/NAT64 support, 3) IPv4/IPv6 correlation.",
+        "reference": "Infoblox IPv6 Guide",
+        "difficulty": "CCNP",
+        "category": "Infoblox IPAM"
+    },
+    {
+        "id": 23,
+        "question": "What is Infoblox upgrade process?",
+        "answer": "Infoblox upgrades require careful planning and execution.\\n\\nUpgrade planning: 1) Review release notes, 2) Check compatibility, 3) Backup configuration, 4) Schedule maintenance window.\\n\\nUpgrade order: 1) Grid Master Candidate first, 2) Then Grid Master, 3) Finally members.\\n\\nUpgrade methods: 1) GUI upgrade, 2) CLI upgrade, 3) Scheduled upgrade.\\n\\nPost-upgrade: 1) Verify services, 2) Check grid status, 3) Test functionality, 4) Monitor performance.",
+        "reference": "Infoblox Upgrade Guide",
+        "difficulty": "CCNP",
+        "category": "Infoblox Administration"
+    },
+    {
+        "id": 24,
+        "question": "Explain Infoblox SNMP monitoring.",
+        "answer": "SNMP enables external monitoring of Infoblox appliances.\\n\\nSNMP versions: 1) SNMPv1, 2) SNMPv2c, 3) SNMPv3 (recommended).\\n\\nMonitored metrics: 1) System health, 2) Service status, 3) Query rates, 4) DHCP utilization.\\n\\nTrap notifications: 1) Service state changes, 2) HA events, 3) Resource alerts, 4) Security events.\\n\\nIntegration: 1) SolarWinds, 2) Nagios, 3) PRTG, 4) Custom NMS.",
+        "reference": "Infoblox SNMP Configuration",
+        "difficulty": "CCNP",
+        "category": "Infoblox Monitoring"
+    },
+    {
+        "id": 25,
+        "question": "What is Infoblox CSV import/export?",
+        "answer": "CSV import/export enables bulk data management in Infoblox.\\n\\nSupported operations: 1) Import new objects, 2) Export existing data, 3) Bulk updates, 4) Data migration.\\n\\nCommon imports: 1) Networks, 2) Host records, 3) Fixed addresses, 4) Zones.\\n\\nImport process: 1) Download template, 2) Populate data, 3) Validate file, 4) Import and verify.\\n\\nBest practices: 1) Start with export template, 2) Validate before import, 3) Test in lab, 4) Backup before bulk changes.",
+        "reference": "Infoblox CSV Import Guide",
+        "difficulty": "CCNP",
+        "category": "Infoblox Administration"
+    },
+    {
+        "id": 26,
+        "question": "Explain Infoblox DNS views and split-brain DNS.",
+        "answer": "DNS views provide different responses based on client source.\\n\\nView configuration: 1) Create multiple views, 2) Define match clients, 3) Add zones to views, 4) Order views properly.\\n\\nSplit-brain DNS: 1) Internal view - private IPs, 2) External view - public IPs, 3) Same zone name, different data.\\n\\nMatch criteria: 1) Source IP/network, 2) TSIG key, 3) Any combination.\\n\\nUse cases: 1) Internal vs external resolution, 2) Department-specific DNS, 3) Testing environments.",
+        "reference": "Infoblox DNS Views",
+        "difficulty": "CCNP",
+        "category": "Infoblox DNS"
+    },
+    {
+        "id": 27,
+        "question": "What is Infoblox lease scavenging?",
+        "answer": "Lease scavenging removes stale DHCP and DNS records automatically.\\n\\nScavenging targets: 1) Expired leases, 2) Abandoned records, 3) Orphaned DNS records, 4) Stale fixed addresses.\\n\\nConfiguration: 1) Enable scavenging, 2) Set thresholds, 3) Schedule intervals, 4) Define scope.\\n\\nBenefits: 1) Clean database, 2) Accurate IPAM, 3) Reduced conflicts, 4) Better performance.\\n\\nConsiderations: 1) Don't scavenge too aggressively, 2) Test settings, 3) Monitor results, 4) Exclude critical records.",
+        "reference": "Infoblox Scavenging Guide",
+        "difficulty": "CCNP",
+        "category": "Infoblox Administration"
+    },
+    {
+        "id": 28,
+        "question": "Explain Infoblox Microsoft integration.",
+        "answer": "Infoblox integrates with Microsoft infrastructure for unified DDI management.\\n\\nIntegration options: 1) MS DNS synchronization, 2) AD authentication, 3) Azure DNS, 4) DHCP migration.\\n\\nMS DNS sync: 1) Import zones from MS DNS, 2) Manage in Infoblox, 3) Sync changes back.\\n\\nAD integration: 1) LDAP authentication, 2) Group-based permissions, 3) User provisioning.\\n\\nUse cases: 1) Gradual migration from MS DNS, 2) Centralized management, 3) Enhanced security.",
+        "reference": "Infoblox Microsoft Integration",
+        "difficulty": "CCNP",
+        "category": "Infoblox Integration"
+    },
+    {
+        "id": 29,
+        "question": "What is Infoblox Network Automation?",
+        "answer": "Network Automation enables infrastructure-as-code for DDI management.\\n\\nAutomation tools: 1) Ansible modules, 2) Terraform provider, 3) REST API, 4) Python SDK.\\n\\nCommon workflows: 1) Provision networks, 2) Create DNS records, 3) Assign IPs, 4) Configure DHCP.\\n\\nCI/CD integration: 1) Git-based configs, 2) Pipeline automation, 3) Testing and validation, 4) Rollback capabilities.\\n\\nBenefits: 1) Consistent deployments, 2) Version control, 3) Reduced errors, 4) Self-service.",
+        "reference": "Infoblox Automation Guide",
+        "difficulty": "CCNP",
+        "category": "Infoblox Automation"
+    },
+    {
+        "id": 30,
+        "question": "Explain Infoblox best practices for enterprise deployment.",
+        "answer": "Best practices ensure reliable, scalable Infoblox deployments.\\n\\nArchitecture: 1) HA Grid Master, 2) Distributed members, 3) Anycast for DNS, 4) Regional deployment.\\n\\nSecurity: 1) RBAC configuration, 2) Audit logging, 3) Encrypted communications, 4) Regular updates.\\n\\nOperations: 1) Regular backups, 2) Monitoring and alerting, 3) Capacity planning, 4) Change management.\\n\\nIntegration: 1) CMDB sync, 2) Automation platforms, 3) Security tools, 4) Monitoring systems.",
+        "reference": "Infoblox Deployment Guide",
+        "difficulty": "CCIE",
+        "category": "Infoblox Architecture"
+    }
+]
