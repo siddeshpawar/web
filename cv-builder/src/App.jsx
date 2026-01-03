@@ -296,7 +296,12 @@ function App() {
     <div className="app-container">
       <div className="editor-panel">
         <div className="editor-header">
-          <h1>CV Editor</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <a href="../index.html" className="home-btn" title="Back to Home">
+              🏠
+            </a>
+            <h1>CV Editor</h1>
+          </div>
           <button className="download-btn" onClick={downloadPDF}>
             📄 Download as PDF
           </button>
