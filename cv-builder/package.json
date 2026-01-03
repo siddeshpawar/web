@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "deploy": "npm run build && npx gh-pages -d dist"
   },
-  "homepage": "https://siddeshpawar.github.io/cv-builder/",
+  "homepage": "https://siddeshpawar.github.io/web/cv-builder/",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
