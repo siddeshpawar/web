@@ -1,0 +1,334 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.4;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.editor-panel {
+  width: 50%;
+  padding: 20px;
+  background: #fff;
+  overflow-y: auto;
+  max-height: 100vh;
+  border-right: 2px solid #e0e0e0;
+}
+
+.preview-panel {
+  width: 50%;
+  padding: 20px;
+  background: #e8e8e8;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #0078D4;
+}
+
+.editor-header h1 {
+  color: #0078D4;
+  font-size: 1.5rem;
+}
+
+.download-btn {
+  background: #0078D4;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.download-btn:hover {
+  background: #005a9e;
+}
+
+.section-editor {
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.section-header h3 {
+  color: #0078D4;
+  font-size: 1.1rem;
+  border-bottom: 2px solid #0078D4;
+  padding-bottom: 5px;
+}
+
+.add-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.add-btn:hover {
+  background: #218838;
+}
+
+.field-group {
+  margin-bottom: 12px;
+  padding: 10px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.field-group label {
+  display: block;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.field-group input,
+.field-group textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.field-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.item-card {
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}
+
+.bullet-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: flex-start;
+}
+
+.bullet-item input {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.bullet-item button {
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.add-bullet-btn {
+  background: #17a2b8;
+  color: white;
+  margin-top: 5px;
+}
+
+.remove-bullet-btn {
+  background: #6c757d;
+  color: white;
+}
+
+/* CV Preview Styles */
+.cv-preview {
+  background: white;
+  padding: 40px;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.cv-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.cv-header h1 {
+  color: #0078D4;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.cv-contact {
+  color: #333;
+  font-size: 11px;
+}
+
+.cv-contact a {
+  color: #0078D4;
+  text-decoration: none;
+}
+
+.cv-section {
+  margin-bottom: 12px;
+}
+
+.cv-section-title {
+  color: #0078D4;
+  font-size: 14px;
+  font-weight: bold;
+  border-bottom: 2px solid #0078D4;
+  padding-bottom: 3px;
+  margin-bottom: 8px;
+  text-decoration: underline;
+}
+
+.cv-profile {
+  text-align: justify;
+  margin-bottom: 12px;
+}
+
+.cv-education-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.cv-education-item .institution {
+  color: #0078D4;
+}
+
+.cv-education-item .date {
+  color: #0078D4;
+  white-space: nowrap;
+}
+
+.cv-experience-item {
+  margin-bottom: 10px;
+}
+
+.cv-experience-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.cv-experience-header .company {
+  color: #0078D4;
+  font-weight: bold;
+}
+
+.cv-experience-header .date {
+  color: #0078D4;
+}
+
+.cv-bullets {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.cv-bullets li {
+  margin-bottom: 2px;
+  text-align: justify;
+}
+
+.cv-skills-category {
+  margin-bottom: 4px;
+}
+
+.cv-skills-category strong {
+  color: #0078D4;
+}
+
+.cv-cert-item {
+  margin-bottom: 3px;
+}
+
+.cv-cert-item .cert-name {
+  color: #0078D4;
+}
+
+.cv-publication {
+  margin-bottom: 8px;
+}
+
+.cv-publication .title {
+  font-weight: bold;
+}
+
+.cv-keywords {
+  margin-top: 8px;
+}
+
+.cv-keywords strong {
+  color: #333;
+}
+
+@media print {
+  .editor-panel {
+    display: none;
+  }
+  .preview-panel {
+    width: 100%;
+    padding: 0;
+    background: white;
+  }
+  .cv-preview {
+    box-shadow: none;
+    padding: 20px;
+  }
+}
