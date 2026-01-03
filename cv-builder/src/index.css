@@ -211,23 +211,24 @@ body {
 /* CV Preview Styles */
 .cv-preview {
   background: white;
-  padding: 40px;
-  max-width: 800px;
+  padding: 25px 30px;
+  max-width: 210mm;
   margin: 0 auto;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 10px;
+  line-height: 1.35;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .cv-header {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .cv-header h1 {
   color: #0078D4;
-  font-size: 28px;
-  margin-bottom: 8px;
+  font-size: 24px;
+  margin-bottom: 5px;
 }
 
 .cv-contact {
@@ -241,22 +242,23 @@ body {
 }
 
 .cv-section {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+  page-break-inside: avoid;
 }
 
 .cv-section-title {
   color: #0078D4;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   border-bottom: 2px solid #0078D4;
-  padding-bottom: 3px;
-  margin-bottom: 8px;
+  padding-bottom: 2px;
+  margin-bottom: 5px;
   text-decoration: underline;
 }
 
 .cv-profile {
   text-align: justify;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .cv-education-item {
@@ -275,7 +277,8 @@ body {
 }
 
 .cv-experience-item {
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  page-break-inside: avoid;
 }
 
 .cv-experience-header {
@@ -321,6 +324,7 @@ body {
 
 .cv-publication {
   margin-bottom: 8px;
+  page-break-inside: avoid;
 }
 
 .cv-publication .title {
@@ -328,11 +332,17 @@ body {
 }
 
 .cv-keywords {
-  margin-top: 8px;
+  margin-top: 5px;
 }
 
 .cv-keywords strong {
   color: #333;
+}
+
+/* Ensure last sections don't get cut off */
+.cv-section:last-child {
+  page-break-inside: avoid;
+  margin-bottom: 0;
 }
 
 @media print {
