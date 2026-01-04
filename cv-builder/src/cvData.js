@@ -23,8 +23,8 @@ export const initialCVData = {
       company: "Cybersecurity Engineer (Part-Time) | Londis, UK",
       date: "Feb 2025 – Present",
       bullets: [
-        "Spearheaded the setup of GDPR compliance protocols and security infrastructure for new BP petrol station integrations.",
-        "Developed a custom asset management web application using React and Firebase to calculate asset risk and track inventory.",
+        "Spearheaded GDPR compliance protocols and security infrastructure setup for new BP petrol station integrations.",
+        "Developed custom asset management web application using React and Firebase for asset risk calculation and inventory tracking.",
         "Managed sensitive data protection protocols while overseeing daily operational stock management."
       ]
     },
@@ -32,37 +32,40 @@ export const initialCVData = {
       company: "System Administrator | Tata Consultancy Services (TCS)",
       date: "May 2022 – Jan 2025",
       bullets: [
-        "Managed complex multi-vendor environments (Cisco, Aruba, Meraki), resolving critical latency issues and optimizing network performance.",
-        "Configured and maintained security appliances including Check Point, Cisco ASA, and Cisco ACI. Successfully managed DMVPN connections and firewall rules.",
-        "Specialized in Aruba ClearPass configuration for 802.1X authentication; managed IPAM via Infoblox and DNS records (MX, A, CNAME).",
-        "Deployed firewall networks on GCP via GitLab pipelines. Utilized SolarWinds and ServiceNow for proactive monitoring and incident resolution.",
-        "Explored PQC algorithms using Qiskit SDK to prepare network infrastructure for quantum resilience."
+        "Managed complex multi-vendor network environments (Cisco, Aruba, Meraki), resolving critical latency issues and optimizing performance for 500+ users.",
+        "Configured and maintained security appliances: Check Point, Cisco ASA, Cisco ACI, and Cisco Secure Firewall. Managed DMVPN connections and firewall rules.",
+        "Specialized in Aruba ClearPass configuration for 802.1X authentication; managed IPAM via Infoblox and DNS records (MX, A, CNAME, PTR).",
+        "Deployed firewall networks on GCP via GitLab CI/CD pipelines. Utilized SolarWinds, Watchdog, and ServiceNow for proactive monitoring.",
+        "Performed load balancing and traffic analysis using F5 BIG-IP. Successfully handled CAB meeting approvals for production changes.",
+        "Explored Post-Quantum Cryptography (PQC) algorithms using Qiskit SDK to prepare network infrastructure for quantum resilience."
       ]
     },
     {
       company: "Technical Advance Consultant (Network Engineer) | CSS Corp (Now Movate)",
-      date: "Feb 2021 – April 2022",
+      date: "Feb 2021 – Apr 2022",
       bullets: [
-        "Deployed ClearPass Policy Manager (CPPM) servers on-prem and on-cloud. Integrated NAS devices and configured RADIUS/TACACS+ protocols.",
-        "Managed VMware ESXi and HP server troubleshooting. Performed certificate lifecycle management (AD CS) and CPPM server upgrades.",
-        "Implemented Azure Intune extensions and facilitated seamless integration with Active Directory."
+        "Deployed ClearPass Policy Manager (CPPM) servers on-premises and cloud. Configured RADIUS/TACACS+ protocols for enterprise authentication.",
+        "Integrated NAS devices with on-prem and cloud-based Active Directory. Implemented Azure Intune extensions for MDM.",
+        "Managed VMware ESXi and HP server troubleshooting. Performed certificate lifecycle management (AD CS) and CPPM upgrades.",
+        "Provided network solutions for Aruba ClearPass products; installed extensions and configured IAS services."
       ]
     },
     {
       company: "Network Engineer | Unique Enterprise (Mumbai International Airport Ltd)",
       date: "Aug 2019 – Feb 2021",
       bullets: [
-        "Investigated network-based data for anomalies and conducted spam mail analysis to secure airport infrastructure.",
-        "Collaborated with Cisco, Juniper, Check Point, FortiGate, and Palo Alto vendors for device installation and license management.",
-        "Executed port activations and critical device changes within strict SLA windows."
+        "Conducted daily security monitoring: spam mail analysis, anomaly detection, and network device change management for airport infrastructure.",
+        "Collaborated with multi-vendor teams (Cisco, Juniper, Check Point, FortiGate, Palo Alto) for device installation and license management.",
+        "Executed port activations and critical device changes within strict SLA windows. Received appreciation letter for network automation."
       ]
     },
     {
       company: "Network Engineer | Orient Technology",
       date: "Oct 2018 – Aug 2019",
       bullets: [
-        "Implemented Static IP subnet allocation and VLAN configurations. Deployed DHCP Option 82 for auto-login features.",
-        "Resolved high-latency issues for gaming clients through comparative device analysis and effectively managed complex wireless environments."
+        "Implemented Static IP subnet allocation for SMB services and VLAN configurations on L2 switches.",
+        "Deployed DHCP Option 82 for auto-login features and OTP verification for secure customer logins.",
+        "Resolved high-latency issues for gaming clients through comparative device analysis across wireless environments."
       ]
     }
   ],
@@ -99,7 +102,7 @@ export const initialCVData = {
   certifications: [
     {
       name: "ISC2 Certified in Cybersecurity (CC)",
-      details: "#2699643 (2025–2028)"
+      details: "#2699643 | Jul 2025 – Jun 2028"
     },
     {
       name: "Juniper Networks Certified Associate (JNCIA-Junos)",

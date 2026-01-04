@@ -293,7 +293,8 @@ function App() {
         logging: false
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
+      enableLinks: true
     }
     html2pdf().set(opt).from(element).save()
   }
@@ -682,7 +683,7 @@ function App() {
             <div className="cv-contact">
               {cvData.personalInfo.phone} | {cvData.personalInfo.email} | {cvData.personalInfo.location} |
               <br />
-              <a href={cvData.personalInfo.github}>{cvData.personalInfo.github}</a> | <a href={cvData.personalInfo.linkedin}>{cvData.personalInfo.linkedin}</a>
+              <a href={cvData.personalInfo.github} target="_blank" rel="noopener noreferrer" style={{ color: '#0078D4', textDecoration: 'underline' }}>{cvData.personalInfo.github}</a> | <a href={cvData.personalInfo.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#0078D4', textDecoration: 'underline' }}>{cvData.personalInfo.linkedin}</a>
             </div>
           </div>
 
