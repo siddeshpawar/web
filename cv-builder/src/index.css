@@ -359,3 +359,15 @@ body {
     padding: 20px;
   }
 }
+
+/* High-quality PDF rendering */
+.cv-preview {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+.cv-preview * {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}

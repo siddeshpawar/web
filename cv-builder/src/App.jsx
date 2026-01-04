@@ -283,16 +283,18 @@ function App() {
   const downloadPDF = () => {
     const element = document.getElementById('cv-preview')
     const opt = {
-      margin: [5, 5, 5, 5],
+      margin: [8, 8, 8, 8],
       filename: 'SiddeshVilasPawar_CV.pdf',
-      image: { type: 'png', quality: 1 },
+      image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { 
-        scale: 3,
+        scale: 4,
         useCORS: true,
         letterRendering: true,
-        logging: false
+        logging: false,
+        dpi: 300,
+        windowWidth: 794
       },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
       pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
       enableLinks: true
     }
