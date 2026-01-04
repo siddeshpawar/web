@@ -688,7 +688,7 @@ function App() {
 
           {/* Profile */}
           <div className="cv-section">
-            <div className="cv-section-title">Profile</div>
+            <div className="cv-section-title">Professional Summary</div>
             <p className="cv-profile">{cvData.profile}</p>
           </div>
 
@@ -705,7 +705,7 @@ function App() {
 
           {/* Work Experience */}
           <div className="cv-section">
-            <div className="cv-section-title">Work experience</div>
+            <div className="cv-section-title">Professional Experience</div>
             {cvData.workExperience.map((exp, index) => (
               <div key={index} className="cv-experience-item">
                 <div className="cv-experience-header">
@@ -723,7 +723,7 @@ function App() {
 
           {/* Projects */}
           <div className="cv-section">
-            <div className="cv-section-title">Projects</div>
+            <div className="cv-section-title">Key Projects & Research</div>
             <ul className="cv-bullets">
               {cvData.projects.map((project, index) => (
                 <li key={index}>{project}</li>
@@ -733,8 +733,7 @@ function App() {
 
           {/* Skills */}
           <div className="cv-section">
-            <div className="cv-section-title">Skills</div>
-            <p><strong>Technical Skills:</strong></p>
+            <div className="cv-section-title">Technical Skills</div>
             {cvData.skills.map((skill, index) => (
               <div key={index} className="cv-skills-category">
                 <strong>{skill.category}:</strong> {skill.items}
@@ -742,54 +741,48 @@ function App() {
             ))}
           </div>
 
-          {/* Appreciations */}
-          <div className="cv-section">
-            <div className="cv-section-title">Appreciations</div>
-            <ul className="cv-bullets">
-              {cvData.appreciations.map((appr, index) => (
-                <li key={index}>{appr}</li>
-              ))}
-            </ul>
-          </div>
+          {/* Appreciations - Only show if not empty */}
+          {cvData.appreciations.length > 0 && (
+            <div className="cv-section">
+              <div className="cv-section-title">Appreciations</div>
+              <ul className="cv-bullets">
+                {cvData.appreciations.map((appr, index) => (
+                  <li key={index}>{appr}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          {/* Achievements */}
-          <div className="cv-section">
-            <div className="cv-section-title">Achievements</div>
-            <ul className="cv-bullets">
-              {cvData.achievements.map((ach, index) => (
-                <li key={index}>{ach}</li>
-              ))}
-            </ul>
-          </div>
+          {/* Achievements - Only show if not empty */}
+          {cvData.achievements.length > 0 && (
+            <div className="cv-section">
+              <div className="cv-section-title">Achievements</div>
+              <ul className="cv-bullets">
+                {cvData.achievements.map((ach, index) => (
+                  <li key={index}>{ach}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          {/* Certification */}
-          <div className="cv-section">
-            <div className="cv-section-title">Certification</div>
-            <ul className="cv-bullets">
-              {cvData.certifications.map((cert, index) => (
-                <li key={index} className="cv-cert-item">
-                  <span className="cert-name">{cert.name}</span> {cert.details}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Extra-Curricular */}
-          <div className="cv-section">
-            <div className="cv-section-title">Extra-Curricular</div>
-            {cvData.extraCurricular.map((extra, index) => (
-              <div key={index} className="cv-experience-item">
-                <div className="cv-experience-header">
-                  <span className="company">{extra.title}</span>
+          {/* Extra-Curricular - Only show if not empty */}
+          {cvData.extraCurricular.length > 0 && (
+            <div className="cv-section">
+              <div className="cv-section-title">Extra-Curricular</div>
+              {cvData.extraCurricular.map((extra, index) => (
+                <div key={index} className="cv-experience-item">
+                  <div className="cv-experience-header">
+                    <span className="company">{extra.title}</span>
+                  </div>
+                  <ul className="cv-bullets">
+                    {extra.bullets.map((bullet, bIndex) => (
+                      <li key={bIndex}>{bullet}</li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="cv-bullets">
-                  {extra.bullets.map((bullet, bIndex) => (
-                    <li key={bIndex}>{bullet}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Dissertation */}
           <div className="cv-section">
@@ -809,11 +802,17 @@ function App() {
 
           {/* Publication */}
           <div className="cv-section">
-            <div className="cv-section-title">Publication</div>
+            <div className="cv-section-title">Publications & Certifications</div>
             <div className="cv-publication">
-              <p>{cvData.publication.authors} <span className="title">{cvData.publication.title}</span> {cvData.publication.journal}</p>
-              <p>{cvData.publication.doi}</p>
-              <p className="cv-keywords"><strong>Keywords:</strong> {cvData.publication.keywords}</p>
+              <p><strong>Publication:</strong> {cvData.publication.authors} <span className="title">{cvData.publication.title}</span> {cvData.publication.journal} {cvData.publication.doi}</p>
+            </div>
+            <div style={{ marginTop: '8px' }}>
+              <strong>Certifications:</strong>
+              <ul className="cv-bullets">
+                {cvData.certifications.map((cert, index) => (
+                  <li key={index}>{cert.name} {cert.details}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
