@@ -1,12 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CV Builder - Siddesh Vilas Pawar</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CV Builder - Siddesh Vilas Pawar</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <!-- Editor Panel -->
+    <div class="editor-panel">
+      <div class="editor-header">
+        <div style="display:flex;align-items:center;gap:15px">
+          <a href="../index.html" class="home-btn" title="Back to Home">&#127968;</a>
+          <h1>CV Editor</h1>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button id="btn-save" class="save-btn">&#128190; Save</button>
+          <button id="btn-download" class="download-btn">&#128196; Download PDF</button>
+          <button id="btn-reset" class="reset-btn" title="Reset to default">&#128260; Reset</button>
+        </div>
+      </div>
+      <div id="status-bar" class="status-bar hidden"></div>
+      <div id="editor-content"></div>
+    </div>
+
+    <!-- Preview Panel -->
+    <div class="preview-panel">
+      <div id="cv-preview" class="cv-preview"></div>
+    </div>
+
+    <!-- Floating action bar -->
+    <div class="floating-actions">
+      <button id="fab-save" class="fab-btn fab-save" title="Save changes">&#128190; Save</button>
+      <button id="fab-download" class="fab-btn fab-download" title="Download as PDF">&#128196; PDF</button>
+      <span id="fab-indicator" class="fab-indicator" style="display:none">Unsaved</span>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
 </html>
