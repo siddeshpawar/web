@@ -372,7 +372,7 @@ function App() {
       <div className="editor-panel">
         <div className="editor-header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <a href="../index.html" className="home-btn" title="Back to Home">
+            <a href="../../index.html" className="home-btn" title="Back to Home">
               🏠
             </a>
             <h1>CV Editor</h1>
