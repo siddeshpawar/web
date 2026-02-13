@@ -5,102 +5,146 @@ const defaultCVData = {
     name: "Siddesh Vilas Pawar",
     phone: "+44 7554539805",
     email: "siddeshvilaspawar@gmail.com",
-    location: "CC L2/ROOM2, University of Surrey, Guildford, GU2 7JH",
+    location: "Guildford, GU2 7JH",
     github: "https://github.com/siddeshpawar",
     linkedin: "https://www.linkedin.com/in/siddesh-pawar04"
   },
-  profile: "Security-focused Network Engineer with over 6 years of operational experience and a specialized Master's in Cyber Security (Distinction level track). Expert in deploying and securing enterprise networks (Cisco, Aruba, Meraki) and currently pioneering Post-Quantum Cryptography (PQC) integration for VPN architectures. Proven track record in automating network configurations using Python and ensuring GDPR compliance. Seeking to leverage a unique blend of classical network engineering and future-proof cryptographic research.",
+  profile: "Connectivity and Network Infrastructure Engineer with 6+ years of experience in large-scale network operations, data center environments, and vendor management. Proven track record in executing complex project lifecycles, optimizing network performance, and managing multi-vendor hardware deployments. Proven track record of enhancing network performance and securing enterprise environments, with experience in UNIX, TCP/IP, network fundamental accompanied with Python, holding MSc in Cybersecurity with a technical focus on digital forensics, ethical hacking and penetration testing. Working with IETF on post-quantum cryptographic algorithms approved by NIST.",
   education: [
-    { institution: "MSc in Cyber Security | University of Surrey, UK", date: "Feb 2025 – Feb 2026" },
-    { institution: "B.Tech in Electronics & Telecommunications | K.J. Somaiya College of Engineering, India", date: "June 2014 – June 2018" }
+    { institution: "University of Surrey, MSc in Cyber Security", date: "February 2025 - January 2026" },
+    { institution: "K.J. Somaiya College of Engineering, B.Tech in Electronics and Telecommunications", date: "June 2014 - June 2018" }
   ],
   workExperience: [
     {
-      company: "Cybersecurity Engineer (Part-Time) | Londis, UK",
-      date: "Feb 2025 – Present",
+      company: "Cybersecurity Part-Time Engineer (Infrastructure Setup) | Londis, UK",
+      date: "February 2025 – Present",
       bullets: [
-        "Spearheaded GDPR compliance protocols and security infrastructure setup for new BP petrol station integrations.",
-        "Developed custom asset management web application using React and Firebase for asset risk calculation and inventory tracking.",
-        "Managed sensitive data protection protocols while overseeing daily operational stock management."
+        "Developed a custom Asset Risk Management web application using React and Firebase (deployed via GitHub) to automate risk calculations and digitalize asset tracking.",
+        "Managing data protection standards across store operations and digital transaction systems.",
+        "Establishing GDPR compliance frameworks and implementing security protocols for the site's IT infrastructure."
       ]
     },
     {
-      company: "System Administrator | Tata Consultancy Services (TCS)",
-      date: "May 2022 – Jan 2025",
+      company: "System Admin | Tata Consultancy Services",
+      date: "May 2022 – January 2025",
       bullets: [
-        "Managed complex multi-vendor network environments (Cisco, Aruba, Meraki), resolving critical latency issues and optimizing performance for 500+ users.",
-        "Configured and maintained security appliances: Check Point, Cisco ASA, Cisco ACI, and Cisco Secure Firewall. Managed DMVPN connections and firewall rules.",
-        "Specialized in Aruba ClearPass configuration for 802.1X authentication; managed IPAM via Infoblox and DNS records (MX, A, CNAME, PTR).",
-        "Deployed firewall networks on GCP via GitLab CI/CD pipelines. Utilized SolarWinds, Watchdog, and ServiceNow for proactive monitoring.",
-        "Performed load balancing and traffic analysis using F5 BIG-IP. Successfully handled CAB meeting approvals for production changes.",
-        "Explored Post-Quantum Cryptography (PQC) algorithms using Qiskit SDK to prepare network infrastructure for quantum resilience."
+        "Configured and managed multi-vendor network devices (Cisco, Aruba, Meraki), specifically resolving high-latency issues to optimize IPTV streaming performance and overall network throughput.",
+        "Managed IPAM/DNS/DHCP using Infoblox, URL filtering, IP allocation, maintenance of critical DNS records (MX, A, CNAME).",
+        "Monitored, configured, and troubleshot Meraki devices and VMware SD-WAN (VeloCloud) Edge devices.",
+        "Specialized in authentication issues, configuring ClearPass, and planning upgrade and testing activities.",
+        "Managed a complex security estate including Checkpoint, Cisco ASA, Cisco ACI, and Cisco Secure Workload (CSW). Maintained secure DMVPN connections for site-to-site communication.",
+        "Configured F5 Load Balancers to ensure application high availability and performed traffic analysis to identify bottlenecks, carried out Failover activity addressed the TTL configuration issues on domain names.",
+        "Utilized monitoring tools such as SolarWinds, Watchdog and ServiceNow for issue tracking and resolution.",
+        "Implemented Infrastructure as Code (IaC) by utilizing GitLab CI/CD pipelines to deploy and manage firewall rules within Google Cloud Platform (GCP) environments.",
+        "Led technical presentations in Change Advisory Board (CAB) meetings, justifying risk assessments to secure approvals for critical infrastructure changes, and successfully gain highest success rate.",
+        "Conducted research and simulations on Post-Quantum Cryptography (PQC) algorithms using Qiskit SDK (Terra, Aer) to assess future network encryption standards."
       ]
     },
     {
-      company: "Technical Advance Consultant (Network Engineer) | CSS Corp (Now Movate)",
-      date: "Feb 2021 – Apr 2022",
+      company: "Technical Advance Consultant - Network Engineer | CSS Corp Pvt Ltd (Now Movate)",
+      date: "February 2021 – April 2022",
       bullets: [
-        "Deployed ClearPass Policy Manager (CPPM) servers on-premises and cloud. Configured RADIUS/TACACS+ protocols for enterprise authentication.",
-        "Integrated NAS devices with on-prem and cloud-based Active Directory. Implemented Azure Intune extensions for MDM.",
-        "Managed VMware ESXi and HP server troubleshooting. Performed certificate lifecycle management (AD CS) and CPPM upgrades.",
-        "Provided network solutions for Aruba ClearPass products; installed extensions and configured IAS services."
+        "Provided network solutions for users with Aruba ClearPass products on-premises or on-cloud, ClearPass deployment as a cluster.",
+        "Served as the L3 Escalation Point for AAA issues; utilized Access Tracker and Policy Simulation tools to reduce mean-time-to-resolution (MTTR) for complex authentication failures by 40%.",
+        "Designed a self-registration Guest Captive Portal with SMS gateway integration, automating access for 500+ daily visitors while maintaining audit logs for compliance.",
+        "Managed the lifecycle of HP ProLiant servers and VMware ESXi hosts, performing firmware upgrades via iLO, replacing faulty hardware (RAID controllers, memory), and resolving Purple Screen of Death (PSOD) incidents to minimize downtime.",
+        "Integrated Microsoft Intune extensions to enforce endpoint compliance (Posturing) and connected ClearPass with multi-vendor NAS devices (Aruba Controllers, Cisco Switches) and Hybrid Active Directory environments.",
+        "Managed the internal Public Key Infrastructure (PKI) using AD CS, handling the generation, installation, and renewal of EAP-TLS certificates across the ClearPass estate.",
+        "Utilized Jira for tracking bug registrations, incident reporting, and documenting resolution procedures."
       ]
     },
     {
-      company: "Network Engineer | Unique Enterprise (Mumbai International Airport Ltd)",
-      date: "Aug 2019 – Feb 2021",
+      company: "Network Engineer | Unique Enterprise @Mumbai International Airport Ltd",
+      date: "August 2019 – February 2021",
       bullets: [
-        "Conducted daily security monitoring: spam mail analysis, anomaly detection, and network device change management for airport infrastructure.",
-        "Collaborated with multi-vendor teams (Cisco, Juniper, Check Point, FortiGate, Palo Alto) for device installation and license management.",
-        "Executed port activations and critical device changes within strict SLA windows. Received appreciation letter for network automation."
+        "Secured the GVK-MIAL airport network perimeter by configuring and managing next-gen firewalls (Checkpoint, FortiGate, Palo Alto), actively blocking malicious IPs and enforcing strict blacklisting policies to prevent cyber threats.",
+        "Operated as a Layer 1 Security Analyst, conducting daily spam mail analysis, monitoring USB mass-storage access violations, and performing port-blocking audits to ensure compliance with aviation security standards.",
+        "Monitored critical links (ILL/MPLS) and managed Vendor Service Level Agreements (SLAs) with ISPs (Tata, Airtel, MTNL), raising Trouble Tickets (TT) and driving rapid resolution for outages to maintain 24/7 airport operations.",
+        "Managed a complex, heterogeneous network environment comprising Cisco, Juniper (EX/MX), Nortel, Avaya, and Allied Telesis devices. Utilized Juniper Junos Space and Contrail for centralized network management and automation."
       ]
     },
     {
       company: "Network Engineer | Orient Technology",
-      date: "Oct 2018 – Aug 2019",
+      date: "October 2018 – August 2019",
       bullets: [
-        "Implemented Static IP subnet allocation for SMB services and VLAN configurations on L2 switches.",
-        "Deployed DHCP Option 82 for auto-login features and OTP verification for secure customer logins.",
-        "Resolved high-latency issues for gaming clients through comparative device analysis across wireless environments."
+        "Implemented Static IP subnet allocation for SMB services and VLANs on L2 switches.",
+        "Developed troubleshooting skills for resolving issues in complex wireless network environments on IEEE 802.11 standards.",
+        "Implemented OTP verification for customer secured login and DHCP option 82 for auto-login features.",
+        "Resolved high latency issues in gaming through comparative analysis among different devices."
       ]
     }
   ],
   projects: [
-    "Network Automation Framework: Developed Python scripts utilizing Netmiko and Paramiko to automate OSPF configuration and execute TFTP configuration backups across multi-vendor devices.",
-    "Firewall Migration: Successfully migrated legacy Juniper SRX3600 infrastructure to Palo Alto Next-Generation Firewalls.",
-    "SNMP Monitoring Tool: Designed a Python-based monitoring tool to track interface status and trigger automated administrator alerts.",
-    "IoT Startup Co-Founder: Launched a self-sustaining campus company facilitating microcontroller rentals for engineering students, automating inventory tracking."
+    "Automated configuration of OSPF on routers using Netmiko, Paramiko module of Python.",
+    "Designed a Python script to monitor network interfaces using SNMP and send alerts to the administrator.",
+    "Developed Python scripts for taking configuration backups of network devices using TFTP processes.",
+    "Successfully migrated Juniper SRX3600 to Palo Alto as an internal firewall.",
+    "Actively participating in the IETF workgroup on MPLS over IP Data packets, PQC migration for EU.",
+    "Worked on Digital Forensics: Autopsy, Volatility Framework (Memory), Wireshark (Network), FTK Imager, SANS SIFT Workstation, zsteg.",
+    "Developed a Python-based Hybrid Encryption tool integrating FIPS 203 (ML-KEM/Kyber) algorithms via the Open Quantum Safe (liboqs) library to demonstrate quantum-resistant secure file transfer methodologies."
   ],
   skills: [
-    { category: "Network Security", items: "Check Point, Cisco ASA/Firepower, Palo Alto, FortiGate (NSE 1 & 2), Juniper SRX/Sky ATP, QRadar (SIEM), Cisco ISE." },
-    { category: "Networking", items: "BGP, OSPF, MPLS, VRRP, VLANs, STP, TCP/IP, VPN (IPsec, DMVPN), Cisco ACI." },
-    { category: "Post-Quantum & Cloud", items: "Qiskit SDK (Terra, Aer), ML-DSA, ML-KEM, AWS, Microsoft Azure, Google Cloud Platform (GCP)." },
-    { category: "Automation & Code", items: "Python (Netmiko, Paramiko), Ansible, C/C++, Java, Django, Git/GitHub." },
-    { category: "Tools", items: "SolarWinds, ServiceNow, PRTG, Wireshark, GNS3, VMware ESXi, Infoblox (IPAM), F5 Load Balancers." }
+    { category: "Programming Languages", items: "C/C++, Python, JavaScript, CSS, HTML, Django, GIT & GITHUB." },
+    { category: "Networking Technology", items: "CCNA R&S, JNCIA (JUNOS), MPLS, BGP, OSPF, VRRF, VPN, RSTP, ISIS." },
+    { category: "Security Technology", items: "IBM QRadar, Skyatp (Juniper), Fortigate (NSE1, NS2), Juniper Junos, Checkpoint, Cisco CSW (Tetration), Cisco Secure Firewall, Cisco ISE." },
+    { category: "Networking Tools", items: "Amazon SANDBOX, GNS3, VMware Workstation, Pycharm, PRTG Network Monitoring." },
+    { category: "Network Solution", items: "Aruba CPPM, Microsoft AD, Aruba Controller, Azure Intune, LinkProof NG Radware LB." },
+    { category: "Cloud Technology", items: "Amazon AWS, Microsoft Azure." },
+    { category: "Management", items: "Lifecycle Management, Change Advisory Board (CAB), SLA/Vendor Management." },
+    { category: "Infrastructure", items: "Structured Cabling, Data Center Operations, Network Design, Rack/Stack/Power." },
+    { category: "PQC Tools", items: "Qiskit SDK." }
   ],
-  appreciations: [],
-  achievements: [],
+  appreciations: [
+    "Successfully received a letter of appreciation for network automation from GVK-Mumbai International Airport.",
+    "Received a letter of appreciation from Makermela for the \"Engistat AR app\" project.",
+    "Experience investigating network-based data for anomalies at Mumbai Airport."
+  ],
+  achievements: [
+    "Winner of RC Nitro competitions pan India, including IIT Bombay Techfest and IIT Roorkee.",
+    "Successfully organized IIT Bombay Technical event named \"International Full-throttle Event 2019-20\"."
+  ],
   certifications: [
-    { name: "ISC2 Certified in Cybersecurity (CC)", details: "#2699643 | Jul 2025 – Jun 2028" },
-    { name: "Juniper Networks Certified Associate (JNCIA-Junos)", details: "" },
-    { name: "Fortinet Network Security Expert (NSE 1 & 2)", details: "" }
+    { name: "ISC2 Certified in Cybersecurity (CC)", details: "Certificate number: 2699643 | Jul 1, 2025 - Jun 30, 2028" },
+    { name: "Juniper Networks Certified Associate - Junos (JNCIA-Junos)", details: "from Juniper Learnings – (skills: networking)" },
+    { name: "Fortinet: NSE 1, 2.", details: "" },
+    { name: "IBM QRadar SIEM Foundation", details: "issued by IBM - https://www.credly.com/badges/85d585b0-124b-4599-8e94-e977e5e1d00d" }
   ],
-  extraCurricular: [],
+  extraCurricular: [
+    {
+      title: "Deloitte Australia Technology Job Simulation on Forage - October 2023",
+      bullets: [
+        "Completed a job simulation involving data analysis for Deloitte's Technology team, created a data dashboard using Tableau.",
+        "Wrote a proposal for a client project to create a functioning dashboard, used Excel for data classification, and drew business conclusions."
+      ]
+    },
+    {
+      title: "RC Nitro Racing",
+      bullets: [
+        "Travelled to Indian institutes that organized various technical events and have participated and won multiple RC nitro car racing awards, like IIT Bombay Techfest, IIT Chennai."
+      ]
+    }
+  ],
   dissertation: {
     title: "Design and Evaluation of StrongVPN: A Pure Post-Quantum VPN Architecture",
-    submittedTo: "University of Surrey",
+    submittedTo: "Submitted to University of Surrey",
     bullets: [
-      "Designed a full VPN architecture leveraging lattice-based key encapsulation mechanisms (ML-DSA and ML-KEM).",
-      "Benchmarked performance against IPsec and WireGuard.",
-      "Key Modules: Post-Quantum Cryptography, Network Security, Applied Cryptography."
+      "Designed a full VPN architecture leveraging lattice-based key encapsulation mechanisms (ML-DSA and ML-KEM) and reduction optimizations for post-quantum performance.",
+      "Designed and evaluated the StrongVPN protocol stack more focused on resilience against quantum-capable adversaries, cryptographic agility, and performance under constrained environments, also deployed using EC2 multi regional instances (evaluation against VPN standards IPsec/OpenVPN/WireGuard).",
+      "Conducted benchmarking of PQC primitives, network performance analysis, and comparative evaluation against classical VPN protocols."
     ]
   },
   publication: {
     authors: "Siddesh Vilas Pawar, Liqun Chen.",
     title: "\"Design and Evaluation of StrongVPN, a Pure Post-Quantum VPN Architecture.\"",
-    journal: "TechRxiv, Nov 2025.",
+    journal: "TechRxiv, November 18, 2025.",
     doi: "DOI: 10.36227/techrxiv.176127352.21222483/v2",
     keywords: ""
+  },
+  publication2: {
+    authors: "Siddesh Vilas Pawar.",
+    title: "\"The Definitive Cryptanalysis of RSA: 55 Attack Vectors, Complete Mathematical Proofs, Tool Ecosystem, and Security Boundaries.\"",
+    journal: "TechRxiv, January 14, 2026.",
+    doi: "DOI: 10.36227/techrxiv.176836577.74239211/v1"
   }
 };
 
@@ -118,7 +162,8 @@ function loadData() {
         ...parsed,
         personalInfo: { ...defaultCVData.personalInfo, ...(parsed.personalInfo || {}) },
         dissertation: { ...defaultCVData.dissertation, ...(parsed.dissertation || {}) },
-        publication: { ...defaultCVData.publication, ...(parsed.publication || {}) }
+        publication: { ...defaultCVData.publication, ...(parsed.publication || {}) },
+        publication2: { ...defaultCVData.publication2, ...(parsed.publication2 || {}) }
       };
       return;
     }
@@ -613,8 +658,12 @@ function buildDissertationSection() {
 function buildPublicationSection() {
   const sec = document.createElement('div');
   sec.className = 'section-editor';
-  sec.innerHTML = '<div class="section-header"><h3>Publication</h3></div>';
+  sec.innerHTML = '<div class="section-header"><h3>Publications</h3></div>';
 
+  // Publication 1
+  const h1 = document.createElement('div');
+  h1.className = 'item-card';
+  h1.innerHTML = '<div class="item-header"><span>Publication #1</span></div>';
   [['Authors', 'authors'], ['Title', 'title'], ['Journal', 'journal'], ['DOI', 'doi']].forEach(([label, key]) => {
     const fg = document.createElement('div');
     fg.className = 'field-group';
@@ -623,17 +672,33 @@ function buildPublicationSection() {
     input.value = cvData.publication[key];
     input.addEventListener('input', () => { cvData.publication[key] = input.value; markDirty(); renderPreview(); });
     fg.appendChild(input);
-    sec.appendChild(fg);
+    h1.appendChild(fg);
   });
-
-  const fg = document.createElement('div');
-  fg.className = 'field-group';
-  fg.innerHTML = '<label>Keywords</label>';
+  const fg1 = document.createElement('div');
+  fg1.className = 'field-group';
+  fg1.innerHTML = '<label>Keywords</label>';
   const ta = document.createElement('textarea');
   ta.value = cvData.publication.keywords;
   ta.addEventListener('input', () => { cvData.publication.keywords = ta.value; markDirty(); renderPreview(); });
-  fg.appendChild(ta);
-  sec.appendChild(fg);
+  fg1.appendChild(ta);
+  h1.appendChild(fg1);
+  sec.appendChild(h1);
+
+  // Publication 2
+  const h2 = document.createElement('div');
+  h2.className = 'item-card';
+  h2.innerHTML = '<div class="item-header"><span>Publication #2</span></div>';
+  [['Authors', 'authors'], ['Title', 'title'], ['Journal', 'journal'], ['DOI', 'doi']].forEach(([label, key]) => {
+    const fg = document.createElement('div');
+    fg.className = 'field-group';
+    fg.innerHTML = '<label>' + escapeHTML(label) + '</label>';
+    const input = document.createElement('input');
+    input.value = cvData.publication2[key];
+    input.addEventListener('input', () => { cvData.publication2[key] = input.value; markDirty(); renderPreview(); });
+    fg.appendChild(input);
+    h2.appendChild(fg);
+  });
+  sec.appendChild(h2);
   return sec;
 }
 
@@ -729,6 +794,7 @@ function renderPreview() {
   // Publication & Certifications
   html += '<div class="cv-section"><div class="cv-section-title">Publications & Certifications</div>';
   html += '<div class="cv-publication"><p><strong>Publication:</strong> ' + escapeHTML(cvData.publication.authors) + ' <span class="pub-title">' + escapeHTML(cvData.publication.title) + '</span> ' + escapeHTML(cvData.publication.journal) + ' ' + escapeHTML(cvData.publication.doi) + '</p></div>';
+  html += '<div class="cv-publication"><p>' + escapeHTML(cvData.publication2.authors) + ' <span class="pub-title">' + escapeHTML(cvData.publication2.title) + '</span> ' + escapeHTML(cvData.publication2.journal) + ' ' + escapeHTML(cvData.publication2.doi) + '</p></div>';
   html += '<div style="margin-top:8px"><strong>Certifications:</strong><ul class="cv-bullets">';
   cvData.certifications.forEach(c => { html += '<li>' + escapeHTML(c.name) + ' ' + escapeHTML(c.details) + '</li>'; });
   html += '</ul></div></div>';
