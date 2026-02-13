@@ -236,23 +236,260 @@ window.addEventListener('beforeunload', (e) => {
   if (hasUnsavedChanges) { e.preventDefault(); e.returnValue = ''; }
 });
 
-// ── PDF Download ─────────────────────────────────────────────
-function downloadPDF() {
-  const element = document.getElementById('cv-preview');
-  const name = cvData.personalInfo.name.replace(/\s+/g, '') || 'CV';
-  const opt = {
-    margin: [8, 8, 8, 8],
-    filename: name + '_CV.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 4, useCORS: true, letterRendering: true, logging: false, dpi: 300, windowWidth: 794 },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] },
-    enableLinks: true
-  };
-  html2pdf().set(opt).from(element).save().catch(function (err) {
+// ── PDF Download (pdf-lib virtual template) ──────────────────
+async function downloadPDF() {
+  try {
+    const { PDFDocument, rgb, StandardFonts } = PDFLib;
+
+    const doc = await PDFDocument.create();
+    const fontRegular = await doc.embedFont(StandardFonts.Helvetica);
+    const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
+    const fontItalic = await doc.embedFont(StandardFonts.HelveticaOblique);
+
+    // A4 dimensions in points (1pt = 1/72 inch)
+    const W = 595.28;
+    const H = 841.89;
+    const ML = 40;   // margin left
+    const MR = 40;   // margin right
+    const MT = 36;   // margin top
+    const MB = 36;   // margin bottom
+    const CW = W - ML - MR; // content width
+
+    const BLUE = rgb(0, 0.47, 0.83);  // #0078D4
+    const BLACK = rgb(0, 0, 0);
+    const DARK = rgb(0.2, 0.2, 0.2);
+
+    let page = doc.addPage([W, H]);
+    let y = H - MT;
+
+    function checkPage(needed) {
+      if (y - needed < MB) {
+        page = doc.addPage([W, H]);
+        y = H - MT;
+      }
+    }
+
+    function drawText(text, x, yPos, opts) {
+      const font = opts.font || fontRegular;
+      const size = opts.size || 9;
+      const color = opts.color || BLACK;
+      page.drawText(text, { x: x, y: yPos, size: size, font: font, color: color });
+    }
+
+    function textWidth(text, font, size) {
+      return font.widthOfTextAtSize(text, size);
+    }
+
+    function drawCenteredText(text, yPos, opts) {
+      const font = opts.font || fontRegular;
+      const size = opts.size || 9;
+      const w = textWidth(text, font, size);
+      drawText(text, (W - w) / 2, yPos, opts);
+    }
+
+    // Word-wrap text into lines that fit within maxWidth
+    function wrapText(text, font, size, maxWidth) {
+      const words = text.split(' ');
+      const lines = [];
+      let currentLine = '';
+      for (let i = 0; i < words.length; i++) {
+        const testLine = currentLine ? currentLine + ' ' + words[i] : words[i];
+        if (font.widthOfTextAtSize(testLine, size) > maxWidth && currentLine) {
+          lines.push(currentLine);
+          currentLine = words[i];
+        } else {
+          currentLine = testLine;
+        }
+      }
+      if (currentLine) lines.push(currentLine);
+      return lines;
+    }
+
+    function drawWrapped(text, x, font, size, color, maxWidth, lineHeight) {
+      const lines = wrapText(text, font, size, maxWidth);
+      lines.forEach(function(line) {
+        checkPage(lineHeight);
+        drawText(line, x, y, { font: font, size: size, color: color });
+        y -= lineHeight;
+      });
+    }
+
+    function drawSectionTitle(title) {
+      checkPage(20);
+      y -= 4;
+      drawText(title, ML, y, { font: fontBold, size: 10.5, color: BLUE });
+      y -= 2;
+      page.drawLine({ start: { x: ML, y: y }, end: { x: W - MR, y: y }, thickness: 1.2, color: BLUE });
+      y -= 10;
+    }
+
+    function drawBullet(text, indent) {
+      const bulletX = ML + (indent || 0);
+      const textX = bulletX + 8;
+      const maxW = CW - (indent || 0) - 8;
+      const lines = wrapText(text, fontRegular, 8.5, maxW);
+      checkPage(lines.length * 11 + 2);
+      drawText('\u2022', bulletX, y, { font: fontRegular, size: 8.5, color: DARK });
+      lines.forEach(function(line, i) {
+        drawText(line, textX, y, { font: fontRegular, size: 8.5, color: DARK });
+        if (i < lines.length - 1) { y -= 11; checkPage(11); }
+      });
+      y -= 11;
+    }
+
+    // ── HEADER ───────────────────────────────────────────────
+    const p = cvData.personalInfo;
+    drawCenteredText(p.name, y, { font: fontBold, size: 18, color: BLUE });
+    y -= 16;
+
+    const contactLine1 = p.phone + '  |  ' + p.email + '  |  ' + p.location;
+    drawCenteredText(contactLine1, y, { font: fontRegular, size: 8.5, color: DARK });
+    y -= 12;
+
+    const contactLine2 = p.github + '  |  ' + p.linkedin;
+    drawCenteredText(contactLine2, y, { font: fontRegular, size: 8.5, color: BLUE });
+    y -= 16;
+
+    // ── PROFILE ──────────────────────────────────────────────
+    drawSectionTitle('Professional Summary');
+    drawWrapped(cvData.profile, ML, fontRegular, 8.5, DARK, CW, 11);
+    y -= 2;
+
+    // ── EDUCATION ────────────────────────────────────────────
+    drawSectionTitle('Education');
+    cvData.education.forEach(function(edu) {
+      checkPage(14);
+      drawText(edu.institution, ML, y, { font: fontBold, size: 8.5, color: BLUE });
+      const dateW = textWidth(edu.date, fontRegular, 8.5);
+      drawText(edu.date, W - MR - dateW, y, { font: fontRegular, size: 8.5, color: BLUE });
+      y -= 13;
+    });
+    y -= 2;
+
+    // ── WORK EXPERIENCE ──────────────────────────────────────
+    drawSectionTitle('Professional Experience');
+    cvData.workExperience.forEach(function(exp) {
+      // Company + date header
+      checkPage(26);
+      const compLines = wrapText(exp.company, fontBold, 9, CW - 100);
+      compLines.forEach(function(line, i) {
+        drawText(line, ML, y, { font: fontBold, size: 9, color: BLUE });
+        if (i === 0) {
+          const dateW = textWidth(exp.date, fontRegular, 8.5);
+          drawText(exp.date, W - MR - dateW, y, { font: fontRegular, size: 8.5, color: BLUE });
+        }
+        y -= 12;
+      });
+
+      // Bullets
+      exp.bullets.forEach(function(bullet) {
+        drawBullet(bullet, 4);
+      });
+      y -= 3;
+    });
+
+    // ── PROJECTS (force page 2) ────────────────────────────────
+    page = doc.addPage([W, H]);
+    y = H - MT;
+    drawSectionTitle('Key Projects & Research');
+    cvData.projects.forEach(function(proj) {
+      drawBullet(proj, 4);
+    });
+    y -= 2;
+
+    // ── SKILLS ───────────────────────────────────────────────
+    drawSectionTitle('Technical Skills');
+    cvData.skills.forEach(function(skill) {
+      const label = skill.category + ': ';
+      const labelW = textWidth(label, fontBold, 8.5);
+      checkPage(12);
+      drawText(label, ML, y, { font: fontBold, size: 8.5, color: BLUE });
+      const itemLines = wrapText(skill.items, fontRegular, 8.5, CW - labelW);
+      itemLines.forEach(function(line, i) {
+        drawText(line, ML + (i === 0 ? labelW : 0), y, { font: fontRegular, size: 8.5, color: DARK });
+        y -= 11;
+        if (i < itemLines.length - 1) checkPage(11);
+      });
+    });
+    y -= 2;
+
+    // ── APPRECIATIONS ────────────────────────────────────────
+    if (cvData.appreciations.length > 0) {
+      drawSectionTitle('Appreciations');
+      cvData.appreciations.forEach(function(a) { drawBullet(a, 4); });
+      y -= 2;
+    }
+
+    // ── ACHIEVEMENTS ─────────────────────────────────────────
+    if (cvData.achievements.length > 0) {
+      drawSectionTitle('Achievements');
+      cvData.achievements.forEach(function(a) { drawBullet(a, 4); });
+      y -= 2;
+    }
+
+    // ── CERTIFICATIONS ───────────────────────────────────────
+    if (cvData.certifications.length > 0) {
+      drawSectionTitle('Certifications');
+      cvData.certifications.forEach(function(cert) {
+        const text = cert.name + (cert.details ? ' — ' + cert.details : '');
+        drawBullet(text, 4);
+      });
+      y -= 2;
+    }
+
+    // ── EXTRA-CURRICULAR ─────────────────────────────────────
+    if (cvData.extraCurricular.length > 0) {
+      drawSectionTitle('Extra-Curricular');
+      cvData.extraCurricular.forEach(function(ex) {
+        checkPage(16);
+        drawText(ex.title, ML, y, { font: fontBold, size: 9, color: BLUE });
+        y -= 12;
+        ex.bullets.forEach(function(b) { drawBullet(b, 4); });
+        y -= 2;
+      });
+    }
+
+    // ── DISSERTATION ─────────────────────────────────────────
+    drawSectionTitle('Dissertation');
+    checkPage(16);
+    drawText(cvData.dissertation.title, ML, y, { font: fontBold, size: 9, color: BLUE });
+    const dissDateW = textWidth(cvData.dissertation.submittedTo, fontRegular, 8.5);
+    drawText(cvData.dissertation.submittedTo, W - MR - dissDateW, y, { font: fontRegular, size: 8.5, color: BLUE });
+    y -= 12;
+    cvData.dissertation.bullets.forEach(function(b) { drawBullet(b, 4); });
+    y -= 2;
+
+    // ── PUBLICATIONS ─────────────────────────────────────────
+    drawSectionTitle('Publications');
+    // Publication 1
+    checkPage(24);
+    const pub1 = cvData.publication;
+    const pub1Text = pub1.authors + ' ' + pub1.title + ' ' + pub1.journal + ' ' + pub1.doi;
+    drawWrapped(pub1Text, ML, fontRegular, 8.5, DARK, CW, 11);
+    y -= 2;
+
+    // Publication 2
+    if (cvData.publication2) {
+      const pub2 = cvData.publication2;
+      const pub2Text = pub2.authors + ' ' + pub2.title + ' ' + pub2.journal + ' ' + pub2.doi;
+      drawWrapped(pub2Text, ML, fontRegular, 8.5, DARK, CW, 11);
+    }
+
+    // ── SAVE ─────────────────────────────────────────────────
+    const pdfBytes = await doc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (p.name.replace(/\s+/g, '') || 'CV') + '_CV.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (err) {
     console.error('PDF generation failed:', err);
-    alert('PDF download failed. Please try again.');
-  });
+    alert('PDF download failed: ' + err.message);
+  }
 }
 
 // ── Helpers ──────────────────────────────────────────────────
